@@ -1,0 +1,35 @@
+<section id="pricing" class="py-5 bg-white" dir="rtl">
+  <div class="container">
+    <h2 class="display-4 text-center mb-4 text-primary fw-bold">اختر الباقة اللي تناسبك</h2>
+    <p class="text-center lead text-muted mb-5">تجربة مجانية 14 يوم - مفيش التزام - إلغاء في أي وقت</p>
+
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4" *ngFor="let plan of plans">
+        <div class="card border-0 shadow-xl h-100 pricing-card" [class.popular]="plan.popular">
+          <div class="card-header bg-transparent border-0 text-center pt-4">
+            <h3 class="fs-2 fw-bold">{{ plan.name }}</h3>
+            <div class="price my-3">
+              <span class="display-4 fw-bold text-primary">{{ plan.price }}</span>
+              <span class="fs-5 text-muted">{{ plan.period }}</span>
+            </div>
+            <span class="badge bg-success fs-6 px-3 py-2" *ngIf="plan.save">{{ plan.save }}</span>
+            <span class="badge bg-warning text-dark fs-6 px-4 py-2" *ngIf="plan.popular">الأكثر شعبية</span>
+          </div>
+          <div class="card-body">
+            <ul class="list-unstyled space-y-3">
+              <li class="d-flex align-items-center gap-3" *ngFor="let feature of plan.features">
+                <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                <span>{{ feature }}</span>
+              </li>
+            </ul>
+          </div>
+          <div class="card-footer bg-transparent border-0 text-center pb-4">
+            <button class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg" (click)="freeTrial()">
+              جرّب مجاناً 30 يوم
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

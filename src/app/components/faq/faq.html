@@ -1,0 +1,25 @@
+<section id="faq" class="py-5 bg-light" dir="rtl">
+  <div class="container">
+    <h2 class="display-4 text-center mb-5 text-primary fw-bold">أسئلة شائعة</h2>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="accordion" id="faqAccordion">
+          <div class="accordion-item border-0 shadow-sm mb-3 rounded-3" *ngFor="let faq of faqs; let i = index">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#faq' + i" [attr.aria-controls]="'faq' + i">
+                {{ faq.q }}
+              </button>
+            </h2>
+            <div [id]="'faq' + i" class="accordion-collapse collapse" [attr.data-bs-parent]="'#faqAccordion'">
+              <div class="accordion-body fs-5 text-muted">
+                {{ faq.a }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

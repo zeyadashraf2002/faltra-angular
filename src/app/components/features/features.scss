@@ -1,0 +1,35 @@
+// src/app/components/features/features.component.scss
+.group {
+  transition: all 0.5s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-16px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.hover-card:hover .icon-wrapper {
+  transform: scale(1.15);
+}
+
+.icon-wrapper {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+  transition: all 0.4s ease;
+}
+
+.hover-card:hover .icon-wrapper {
+  background: linear-gradient(135deg, #1d4ed8, #0891b2);
+}
+
+// Custom gradients for each card
+.from-blue-500 { background: linear-gradient(to right, #3b82f6, #06b6d4); }
+.from-emerald-500 { background: linear-gradient(to right, #10b981, #14b8a6); }
+.from-purple-500 { background: linear-gradient(to right, #8b5cf6, #ec4899); }
+.from-orange-500 { background: linear-gradient(to right, #f97316, #ef4444); }

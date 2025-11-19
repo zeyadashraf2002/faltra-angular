@@ -1,0 +1,23 @@
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+  <div 
+    *ngFor="let toast of toasts" 
+    class="alert alert-dismissible fade show d-flex align-items-center shadow-lg"
+    [ngClass]="getAlertClass(toast.variant)"
+    role="alert"
+    style="min-width: 300px; animation: slideIn 0.3s ease-out;">
+    
+    <i class="bi fs-4 me-3" [ngClass]="getIconClass(toast.variant)"></i>
+    
+    <div class="flex-grow-1">
+      <strong class="d-block mb-1">{{ toast.title }}</strong>
+      <small>{{ toast.description }}</small>
+    </div>
+    
+    <button 
+      type="button" 
+      class="btn-close" 
+      (click)="dismiss(toast.id)"
+      aria-label="Close">
+    </button>
+  </div>
+</div>

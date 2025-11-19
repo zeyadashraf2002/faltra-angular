@@ -1,0 +1,25 @@
+<!-- src/app/app.component.html -->
+
+<!-- Toast Container (Always Visible) -->
+<app-toast></app-toast>
+
+<!-- Router Outlet for Login/Dashboard -->
+<router-outlet></router-outlet>
+
+<!-- Landing Page Components (Only show on home route) -->
+<div *ngIf="showLandingPage" dir="rtl">
+  <app-navbar></app-navbar>
+
+  <main class="bg-gradient-to-b from-blue-50 to-white">
+    <app-hero></app-hero>
+    <app-features></app-features>
+    <app-screenshots></app-screenshots>
+    <app-pricing></app-pricing>
+    <app-how-it-works></app-how-it-works>
+    <app-testimonials></app-testimonials>
+    <app-contact></app-contact>
+    <app-faq></app-faq>
+  </main>
+
+  <app-footer></app-footer>
+</div>

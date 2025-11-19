@@ -1,0 +1,24 @@
+<!-- src/app/components/how-it-works/how-it-works.component.html -->
+<section id="how-it-works" class="py-5" dir="rtl">
+  <div class="container text-center">
+    <h2 class="display-4 fw-bold mb-5 text-primary">ثلاث خطوات وبس!</h2>
+
+    <div class="row g-4 g-xl-5">
+      <div class="col-md-4" *ngFor="let step of steps; let i = index">
+        <div class="position-relative bg-white shadow-xl rounded-4 p-5 hover-lift transition-all overflow-hidden">
+          <!-- Big Number Background -->
+          <div class="position-absolute top-0 end-0 display-1 fw-bold text-primary opacity-10 pe-4 pt-3">
+            {{ step.stepNumber }}
+          </div>
+
+          <!-- Icon -->
+          <i [class]="step.icon + ' text-primary'" style="font-size: 5rem;"></i>
+
+          <!-- Content -->
+          <h3 class="h3 fw-bold text-dark mt-4 mb-3">{{ step.title }}</h3>
+          <p class="lead text-muted fs-4">{{ step.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

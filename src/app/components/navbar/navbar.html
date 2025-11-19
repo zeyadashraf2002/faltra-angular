@@ -1,0 +1,55 @@
+<nav class="navbar fixed-top w-100 z-50">
+  <div class="navbar-inner">
+    <!-- Left: Logo -->
+    <div class="navbar-left">
+      <div class="logo-icon shadow-lg">
+        <img src="assets/logo.png" alt="Logo" class="logo-img" />
+      </div>
+      <span class="brand-text">فلتره</span>
+    </div>
+
+    <!-- Center: Links -->
+    <div class="navbar-center d-none d-lg-flex">
+      <a href="#home" class="nav-link">الرئيسية</a>
+      <a href="#features" class="nav-link">المميزات</a>
+      <a href="#how-it-works" class="nav-link">كيف يعمل</a>
+      <a href="#screenshots" class="nav-link">صور النظام</a>
+      <a href="#pricing" class="nav-link">الأسعار</a>
+      <a href="#testimonials" class="nav-link">آراء العملاء</a>
+      <a href="#faq" class="nav-link">الأسئلة الشائعة</a>
+      <a href="#contact" class="nav-link">تواصل معنا</a>
+    </div>
+
+    <!-- Right: Buttons -->
+    <div class="navbar-right">
+      <button class="btn btn-outline-primary d-none d-md-block fw-bold px-4" (click)="login()">
+        تسجيل الدخول
+      </button>
+      <button
+        class="btn gradient-btn fw-bold shadow-lg px-4 py-2 rounded-pill d-none d-md-block"
+        (click)="freeTrial()"
+      >
+        جرّب مجاناً <i class="bi bi-chevron-left ms-2"></i>
+      </button>
+      <button
+        class="btn d-lg-none toggle-btn fs-2 text-primary"
+        (click)="mobileMenuOpen = !mobileMenuOpen"
+      >
+        <i class="bi" [class.bi-list]="!mobileMenuOpen" [class.bi-x-lg]="mobileMenuOpen"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div *ngIf="mobileMenuOpen" class="mobile-menu d-lg-none p-4 bg-white rounded-4 shadow-lg">
+    <a href="#home" class="mobile-link">الرئيسية</a>
+    <a href="#features" class="mobile-link">المميزات</a>
+    <a href="#how-it-works" class="mobile-link">كيف يعمل</a>
+    <a href="#screenshots" class="mobile-link">صور النظام</a>
+    <a href="#pricing" class="mobile-link">الأسعار</a>
+    <a href="#testimonials" class="mobile-link">آراء العملاء</a>
+    <a href="#faq" class="mobile-link">الأسئلة الشائعة</a>
+    <a href="#contact" class="mobile-link">تواصل معنا</a>
+    <button class="btn btn-primary w-100 mt-4 py-3 fw-bold" (click)="login()">تسجيل الدخول</button>
+  </div>
+</nav>

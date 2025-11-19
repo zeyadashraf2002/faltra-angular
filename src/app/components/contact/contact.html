@@ -1,0 +1,81 @@
+<section
+  id="contact"
+  class="position-relative py-5 text-dark"
+  dir="rtl"
+  style="background: linear-gradient(135deg, #f8fafc, #e2e8f0)"
+>
+  <div class="container position-relative z-2">
+    <h2 class="text-center display-5 fw-bold mb-5 text-primary">جاهز تبدأ؟</h2>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <form
+          (ngSubmit)="onSubmit()"
+          class="p-5 rounded-4 shadow-sm border bg-white bg-opacity-75"
+          style="backdrop-filter: blur(8px)"
+        >
+          <div class="row g-4">
+            <div class="col-md-6">
+              <label class="form-label fs-6 fw-semibold mb-2">الاسم</label>
+              <input
+                [(ngModel)]="formData.name"
+                name="name"
+                type="text"
+                class="form-control form-control-lg rounded-3 py-3"
+                [class.is-invalid]="errors.name"
+                placeholder="اسمك الكامل"
+              />
+              <div class="invalid-feedback text-danger mt-2">{{ errors.name }}</div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fs-6 fw-semibold mb-2">رقم الهاتف</label>
+              <input
+                [(ngModel)]="formData.phone"
+                name="phone"
+                type="tel"
+                class="form-control form-control-lg rounded-3 py-3"
+                [class.is-invalid]="errors.phone"
+                placeholder="01234567890"
+              />
+              <div class="invalid-feedback text-danger mt-2">{{ errors.phone }}</div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <label class="form-label fs-6 fw-semibold mb-2">رسالتك</label>
+            <textarea
+              [(ngModel)]="formData.message"
+              name="message"
+              rows="5"
+              class="form-control form-control-lg rounded-3"
+              [class.is-invalid]="errors.message"
+              placeholder="اكتب رسالتك هنا..."
+            ></textarea>
+            <div class="invalid-feedback text-danger mt-2">{{ errors.message }}</div>
+          </div>
+
+          <div class="text-center mt-5">
+            <button
+              type="submit"
+              class="btn btn-primary btn-lg fw-bold px-5 py-3 rounded-pill hover-scale"
+            >
+              ابعت الرسالة
+            </button>
+          </div>
+        </form>
+        <div
+          *ngIf="toastVisible"
+          class="position-fixed bottom-0 end-0 m-4 p-3 rounded-3 shadow-lg text-white fw-bold"
+          style="
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            z-index: 1055;
+            transition: all 0.3s ease;
+          "
+        >
+          {{ toastMessage }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

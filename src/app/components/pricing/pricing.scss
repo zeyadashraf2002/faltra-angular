@@ -1,0 +1,18 @@
+.pricing-card {
+  transition: all 0.4s ease;
+  border: 2px solid transparent !important;
+}
+
+.pricing-card:hover {
+  transform: translateY(-20px);
+  border-color: #3b82f6 !important;
+}
+
+.popular {
+  transform: scale(1.05);
+  border: 3px solid #3b82f6 !important;
+  z-index: 10;
+  box-shadow: 0 30px 60px rgba(59, 130, 246, 0.3) !important;
+}
+
+.space-y-3 > * + * { margin-top: 0.75rem; }

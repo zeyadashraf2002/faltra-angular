@@ -1,0 +1,28 @@
+<section id="testimonials" class="py-5 bg-light" dir="rtl">
+  <div class="container">
+    <h2 class="display-5 text-center mb-5 fw-bold text-primary">
+      آراء <span class="text-dark">عملائنا</span>
+    </h2>
+
+    <div class="row g-4 g-lg-5">
+      <div class="col-md-4" *ngFor="let t of testimonials">
+        <div class="card border-0 shadow-sm h-100 bg-white rounded-4 hover-card p-4 text-center">
+          
+          <!-- النجوم -->
+          <div class="mb-3">
+            <i class="bi bi-star-fill text-warning fs-5" *ngFor="let star of [1,2,3,4,5]"></i>
+          </div>
+
+          <!-- النص -->
+          <p class="fs-5 text-secondary mb-4">
+            "{{ t.text }}"
+          </p>
+
+          <!-- الاسم والمدينة -->
+          <h5 class="fw-bold text-primary mb-1">{{ t.name }}</h5>
+          <p class="text-muted mb-0">{{ t.city }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,44 @@
+.hover-scale {
+  transition: all 0.3s ease;
+}
+.hover-scale:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+}
+
+/* الخلفية والحقول */
+.form-control {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #1e293b !important;
+  transition: all 0.2s ease;
+}
+
+.form-control::placeholder {
+  color: #94a3b8 !important;
+}
+
+.form-control:focus {
+  background: white !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+}
+
+/* العناوين */
+label {
+  color: #334155;
+}
+
+.invalid-feedback {
+  display: block !important;
+  font-size: 0.9rem;
+}
+
+/* الزر */
+.btn-primary {
+  background-color: #3b82f6 !important;
+  border: none !important;
+}
+.btn-primary:hover {
+  background-color: #2563eb !important;
+}

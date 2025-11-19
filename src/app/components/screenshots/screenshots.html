@@ -1,0 +1,17 @@
+<section id="screenshots" class="py-5 bg-light" dir="rtl">
+  <div class="container">
+    <h2 class="display-4 text-center mb-5 text-primary fw-bold">شوف النظام بنفسك</h2>
+    <p class="text-center lead text-muted mb-5">واجهة سهلة وحديثة - شغالة على الموبايل والتابلت والكمبيوتر</p>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4" *ngFor="let img of images">
+        <div class="screenshot-card overflow-hidden rounded-3 shadow-lg hover-zoom">
+          <img [src]="img.src" [alt]="img.title" class="w-100">
+          <div class="overlay">
+            <p class="fs-4 fw-bold">{{ img.title }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

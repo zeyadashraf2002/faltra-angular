@@ -1,0 +1,27 @@
+.hover-card {
+  transition: all 0.4s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+.bi-star-fill {
+  transition: transform 0.2s ease;
+}
+
+.hover-card:hover .bi-star-fill {
+  transform: scale(1.2);
+  color: #fbbf24 !important;
+}
+
+/* نصوص هادئة وواضحة */
+p {
+  line-height: 1.8;
+}
+
+/* العناوين */
+h2 span {
+  color: #2563eb; /* أزرق هادئ */
+}

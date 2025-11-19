@@ -1,0 +1,26 @@
+<!-- src/app/components/features/features.component.html -->
+<section id="features" class="py-5 bg-light" dir="rtl">
+  <div class="container">
+    <h2 class="display-4 text-center mb-5 text-primary fw-bold">مميزات فلتره  </h2>
+
+    <div class="row g-4 g-xl-5">
+      <div class="col-md-6 col-lg-3" *ngFor="let f of features">
+        <div class="card border-0 shadow-lg h-100 overflow-hidden group hover-card">
+          <!-- Gradient Bar -->
+          <div class="h-2 bg-gradient-to-r" [class]="f.gradient"></div>
+
+          <div class="card-body text-center pt-5 pb-4">
+            <!-- Icon -->
+            <div class="icon-wrapper mx-auto mb-4">
+              <i [class]="f.icon + ' text-white'" style="font-size: 3rem;"></i>
+            </div>
+
+            <!-- Title & Desc -->
+            <h3 class="h4 fw-bold text-dark mb-3">{{ f.title }}</h3>
+            <p class="text-muted lead px-3">{{ f.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
