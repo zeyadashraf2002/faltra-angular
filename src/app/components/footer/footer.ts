@@ -1,4 +1,6 @@
-// src/app/components/footer/footer.component.ts
+// ============================================
+// 📁 src/app/components/footer/footer.ts
+// ============================================
 import { Component } from '@angular/core';
 
 @Component({

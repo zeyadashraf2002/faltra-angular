@@ -1,4 +1,6 @@
-// src/app/components/features/features.component.ts
+// ============================================
+// 📁 src/app/components/features/features.ts
+// ============================================
 import { Component } from '@angular/core';
 
 interface Feature {

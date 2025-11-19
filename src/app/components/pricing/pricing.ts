@@ -1,3 +1,6 @@
+// ============================================
+// 📁 src/app/components/pricing/pricing.ts
+// ============================================
 import { Component } from '@angular/core';
 import { environment } from '../../../environments/environment';
 

@@ -1,4 +1,7 @@
-// src/app/components/how-it-works/how-it-works.component.ts
+
+// ============================================
+// 📁 src/app/components/how-it-works/how-it-works.ts
+// ============================================
 import { Component } from '@angular/core';
 
 interface Step {

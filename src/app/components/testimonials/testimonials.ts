@@ -1,3 +1,6 @@
+// ============================================
+// 📁 src/app/components/testimonials/testimonials.ts
+// ============================================
 import { Component } from '@angular/core';
 
 interface Testimonial {

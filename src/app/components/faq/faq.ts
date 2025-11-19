@@ -1,8 +1,11 @@
+// ============================================
+// 📁 src/app/components/faq/faq.ts
+// ============================================
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-faq',
-  standalone:false,
+  standalone: false,
   templateUrl: './faq.html',
   styleUrls: ['./faq.scss']
 })

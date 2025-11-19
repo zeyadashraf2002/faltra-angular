@@ -1,3 +1,7 @@
+
+// ============================================
+// 📁 src/app/components/screenshots/screenshots.ts
+// ============================================
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,7 +10,7 @@ import { Component } from '@angular/core';
   templateUrl: './screenshots.html',
   styleUrls: ['./screenshots.scss']
 })
-export class Screenshots{
+export class Screenshots {
   images = [
     { src: 'https://assets.justinmind.com/wp-content/uploads/2024/06/dashboard-examples-vertical.png', title: 'لوحة التحكم الرئيسية' },
     { src: 'https://assets.justinmind.com/wp-content/uploads/2024/06/dashboard-examples-vertical.png', title: 'إدارة العملاء' },

@@ -1,4 +1,6 @@
-// src/app/components/hero/hero.component.ts
+// ============================================
+// 📁 src/app/components/hero/hero.ts
+// ============================================
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -7,14 +9,13 @@ import { environment } from '../../../environments/environment';
   selector: 'app-hero',
   templateUrl: './hero.html',
   standalone: false,
-
   styleUrls: ['./hero.scss'],
 })
 export class Hero {
   constructor(private router: Router) {}
 
   login(): void {
-    window.location.href = `${environment.APP_URL}/login`;
+    this.router.navigate(['/login']);
   }
 
   freeTrial(): void {

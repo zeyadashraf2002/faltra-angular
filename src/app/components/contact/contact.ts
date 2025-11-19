@@ -1,3 +1,6 @@
+// ============================================
+// 📁 src/app/components/contact/contact.ts
+// ============================================
 import { Component } from '@angular/core';
 import emailjs from '@emailjs/browser';
 import { environment } from '../../../environments/environment';
@@ -16,7 +19,6 @@ export class Contact {
 
   onSubmit(): void {
     this.resetErrors();
-
     let hasError = false;
 
     if (!this.formData.name.trim()) {
@@ -56,7 +58,6 @@ export class Contact {
         templateParams,
         environment.emailPublicKey
       )
-
       .then(() => {
         this.showToast('✅ تم إرسال رسالتك بنجاح! سنرد عليك قريبًا 💬');
         this.formData = { name: '', phone: '', message: '' };

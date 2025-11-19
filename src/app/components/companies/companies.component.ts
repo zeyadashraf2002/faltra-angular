@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CompanyService } from '../../services/company.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
-import { Company } from '../../models/company.model';
+import { Company } from '.././../models/company.model';
 
 @Component({
   selector: 'app-companies',
