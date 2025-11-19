@@ -1,3 +1,4 @@
+<!-- 📁 src/app/components/contact/contact.html -->
 <section
   id="contact"
   class="position-relative py-5 text-dark"
@@ -25,7 +26,9 @@
                 [class.is-invalid]="errors.name"
                 placeholder="اسمك الكامل"
               />
-              <div class="invalid-feedback text-danger mt-2">{{ errors.name }}</div>
+              @if (errors.name) {
+                <div class="invalid-feedback text-danger mt-2 d-block">{{ errors.name }}</div>
+              }
             </div>
 
             <div class="col-md-6">
@@ -38,7 +41,9 @@
                 [class.is-invalid]="errors.phone"
                 placeholder="01234567890"
               />
-              <div class="invalid-feedback text-danger mt-2">{{ errors.phone }}</div>
+              @if (errors.phone) {
+                <div class="invalid-feedback text-danger mt-2 d-block">{{ errors.phone }}</div>
+              }
             </div>
           </div>
 
@@ -52,7 +57,9 @@
               [class.is-invalid]="errors.message"
               placeholder="اكتب رسالتك هنا..."
             ></textarea>
-            <div class="invalid-feedback text-danger mt-2">{{ errors.message }}</div>
+            @if (errors.message) {
+              <div class="invalid-feedback text-danger mt-2 d-block">{{ errors.message }}</div>
+            }
           </div>
 
           <div class="text-center mt-5">
@@ -64,17 +71,18 @@
             </button>
           </div>
         </form>
-        <div
-          *ngIf="toastVisible"
-          class="position-fixed bottom-0 end-0 m-4 p-3 rounded-3 shadow-lg text-white fw-bold"
-          style="
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            z-index: 1055;
-            transition: all 0.3s ease;
-          "
-        >
-          {{ toastMessage }}
-        </div>
+        @if (toastVisible) {
+          <div
+            class="position-fixed bottom-0 end-0 m-4 p-3 rounded-3 shadow-lg text-white fw-bold"
+            style="
+              background: linear-gradient(135deg, #3b82f6, #2563eb);
+              z-index: 1055;
+              transition: all 0.3s ease;
+            "
+          >
+            {{ toastMessage }}
+          </div>
+        }
       </div>
     </div>
   </div>

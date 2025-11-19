@@ -9,18 +9,16 @@ import { filter } from 'rxjs/operators';
   standalone: false,
   styleUrl: './app.scss'
 })
-export class App implements OnInit {
+export class AppComponent implements OnInit {
   protected readonly title = 'faltarah-landing';
   showLandingPage = false;
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-    // Show landing page only on specific routes
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      // Hide landing page on /login and /dashboard routes
       const isAuthRoute = event.url.includes('/login') || 
                          event.url.includes('/dashboard') ||
                          event.url.includes('/unauthorized');
