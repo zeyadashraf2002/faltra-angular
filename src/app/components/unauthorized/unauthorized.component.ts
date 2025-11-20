@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-unauthorized',
+  standalone: true,
   template: `
     <div class="unauthorized-container min-vh-100 d-flex align-items-center justify-content-center" dir="rtl">
       <div class="container">

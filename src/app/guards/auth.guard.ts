@@ -1,57 +1,44 @@
-// src/app/guards/auth.guard.ts
-import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+// 📁 src/app/guards/auth.guard.ts
+import { inject } from '@angular/core';
+import { Router, CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+// AuthGuard - Functional Guard
+export const AuthGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
-    if (this.authService.isAuthenticated) {
-      // Check if user has required role
-      const requiredRole = route.data['role'] as string;
-      
-      if (requiredRole && this.authService.currentUser?.role !== requiredRole) {
-        this.router.navigate(['/unauthorized']);
-        return false;
-      }
-      
-      return true;
-    }
-
-    // Not logged in, redirect to login
-    this.router.navigate(['/login'], {
-      queryParams: { returnUrl: state.url }
-    });
-    return false;
-  }
-}
-
-// src/app/guards/developer.guard.ts
-@Injectable({
-  providedIn: 'root'
-})
-export class DeveloperGuard implements CanActivate {
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
-
-  canActivate(): boolean {
-    if (this.authService.isDeveloper) {
-      return true;
+  if (authService.isAuthenticated) {
+    // Check if user has required role
+    const requiredRole = route.data['role'] as string;
+    
+    if (requiredRole && authService.currentUser?.role !== requiredRole) {
+      router.navigate(['/unauthorized']);
+      return false;
     }
     
-    this.router.navigate(['/unauthorized']);
-    return false;
+    return true;
   }
-}
+
+  // Not logged in, redirect to login
+  router.navigate(['/login'], {
+    queryParams: { returnUrl: state.url }
+  });
+  return false;
+};
+
+// DeveloperGuard - Functional Guard
+export const DeveloperGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (authService.isDeveloper) {
+    return true;
+  }
+  
+  router.navigate(['/unauthorized']);
+  return false;
+};

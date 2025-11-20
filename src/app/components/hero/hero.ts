@@ -1,14 +1,12 @@
-// ============================================
 // 📁 src/app/components/hero/hero.ts
-// ============================================
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-hero',
+  standalone: true,
   templateUrl: './hero.html',
-  standalone: false,
   styleUrls: ['./hero.scss'],
 })
 export class Hero {

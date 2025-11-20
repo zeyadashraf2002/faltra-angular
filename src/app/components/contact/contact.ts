@@ -1,13 +1,14 @@
-// ============================================
 // 📁 src/app/components/contact/contact.ts
-// ============================================
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import emailjs from '@emailjs/browser';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-contact',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './contact.html',
   styleUrls: ['./contact.scss'],
 })

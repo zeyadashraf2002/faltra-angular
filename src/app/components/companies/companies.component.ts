@@ -1,12 +1,16 @@
-// src/app/components/companies/companies.component.ts
+// 📁 src/app/components/companies/companies.component.ts
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { CompanyService } from '../../services/company.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
-import { Company } from '.././../models/company.model';
+import { Company } from '../../models/company.model';
 
 @Component({
   selector: 'app-companies',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './companies.component.html',
   styleUrls: ['./companies.component.scss']
 })
