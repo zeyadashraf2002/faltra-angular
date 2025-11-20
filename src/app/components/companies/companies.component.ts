@@ -1,4 +1,4 @@
-// 📁 src/app/components/companies/companies.component.ts
+// 📁 src/app/components/companies/companies.component.ts - COMPLETE FIX
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -36,14 +36,6 @@ export class CompaniesComponent implements OnInit {
     private companyService: CompanyService,
     private toastService: ToastService
   ) {}
-fixDate(dateString: string): string {
-  const date = new Date(dateString);
-
-  // تصحيح التاريخ حسب timezone
-  const corrected = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-
-  return corrected.toISOString().split('T')[0];
-}
 
   ngOnInit() {
     this.loadCompanies();
@@ -69,7 +61,6 @@ fixDate(dateString: string): string {
   applyFilters() {
     let filtered = this.companies;
 
-    // Search filter
     if (this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase();
       filtered = filtered.filter(company => 
@@ -108,10 +99,40 @@ fixDate(dateString: string): string {
     return new Date(expiryDate) < new Date();
   }
 
+  /**
+   * ✅ FIX: تصحيح التاريخ حسب timezone
+   */
+  fixDate(dateString: string): string {
+    const date = new Date(dateString);
+    const corrected = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    return corrected.toISOString().split('T')[0];
+  }
+
+  /**
+   * ✅ NEW: الحصول على تاريخ اليوم لـ min attribute
+   */
+  getTodayDate(): string {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  }
+
+  /**
+   * ✅ NEW: معالج الضغط على date input
+   */
+  onDateInputClick(event: Event) {
+    const input = event.target as HTMLInputElement;
+    try {
+      input.showPicker(); // ✅ فتح calendar picker
+    } catch (error) {
+      // Fallback للمتصفحات القديمة
+      input.focus();
+      console.log('showPicker not supported, using focus fallback');
+    }
+  }
+
   openExpiryModal(company: Company) {
     this.selectedCompany = company;
     this.newExpiryDate = this.fixDate(company.subscriptionExpiryDate);
-
     this.showExpiryModal = true;
   }
 
@@ -121,59 +142,85 @@ fixDate(dateString: string): string {
     this.newExpiryDate = '';
   }
 
- updateExpiry() {
-  if (!this.selectedCompany || !this.newExpiryDate) return;
+  /**
+   * ✅ FIX: تحديث الاشتراك
+   */
+  updateExpiry() {
+    if (!this.selectedCompany || !this.newExpiryDate) {
+      this.toastService.error('خطأ', 'يرجى اختيار تاريخ صحيح');
+      return;
+    }
 
-  const currentExpiry = new Date(this.selectedCompany.subscriptionExpiryDate);
-  const newExpiry = new Date(this.newExpiryDate);
+    const currentExpiry = new Date(this.selectedCompany.subscriptionExpiryDate);
+    const newExpiry = new Date(this.newExpiryDate);
+    
+    // ✅ إضافة يوم للتعويض عن timezone
+    newExpiry.setDate(newExpiry.getDate() + 1);
 
-  // 🔥 تحقق من أن التاريخ الجديد لا يقل عن القديم
-  if (newExpiry < currentExpiry) {
-    this.toastService.error(
-      'تاريخ غير صالح',
-      `لا يمكن تقليل مدة الاشتراك. تاريخ الانتهاء الحالي هو: 
-      ${currentExpiry.toLocaleDateString('ar-EG')}`
-    );
-    return; // ❌ توقف قبل الإرسال
+    // التحقق من عدم تقليل المدة
+    if (newExpiry < currentExpiry) {
+      this.toastService.error(
+        'تاريخ غير صالح',
+        `لا يمكن تقليل مدة الاشتراك. التاريخ الحالي: ${currentExpiry.toLocaleDateString('ar-EG')}`
+      );
+      return;
+    }
+
+    this.isUpdating = true;
+
+    this.companyService.updateSubscription(this.selectedCompany.id, {
+      subscriptionExpiryDate: newExpiry.toISOString()
+    }).subscribe({
+      next: () => {
+        this.toastService.success('نجاح', 'تم تحديث تاريخ الاشتراك بنجاح');
+        this.loadCompanies();
+        this.closeExpiryModal();
+        this.isUpdating = false;
+      },
+      error: (error) => {
+        console.error('Error updating expiry:', error);
+        const errorMsg = error?.error?.message || 'فشل تحديث تاريخ الاشتراك';
+        this.toastService.error('خطأ', errorMsg);
+        this.isUpdating = false;
+      }
+    });
   }
 
-  this.isUpdating = true;
-
-  this.companyService.updateSubscription(this.selectedCompany.id, {
-    subscriptionExpiryDate: newExpiry.toISOString()
-  }).subscribe({
-    next: () => {
-      this.toastService.success('نجاح', 'تم تحديث تاريخ الاشتراك بنجاح');
-      this.loadCompanies();
-      this.closeExpiryModal();
-      this.isUpdating = false;
-    },
-    error: (error) => {
-      console.error('Error updating expiry:', error);
-
-      // ✔ لو الباك إند رجع خطأ من نفس النوع
-      if (error?.error?.message) {
-        this.toastService.error('خطأ', error.error.message);
-      } else {
-        this.toastService.error('خطأ', 'فشل تحديث تاريخ الاشتراك');
-      }
-
-      this.isUpdating = false;
-    }
-  });
-}
-
-
+  /**
+   * ✅ FIX: تسجيل الخروج بدون تأكيد
+   * أو إظهار toast للتأكيد
+   */
   logout() {
-    if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+    // ✅ خروج مباشر بدون confirm
+    this.authService.logout().subscribe({
+      next: () => {
+        this.toastService.success('تم تسجيل الخروج', 'وداعاً، نراك قريباً');
+      },
+      error: () => {
+        this.toastService.error('خطأ', 'فشل تسجيل الخروج');
+      }
+    });
+  }
+  
+  /**
+   * OR - إذا أردت Toast للتأكيد بدلاً من confirm:
+   */
+  /*
+  logout() {
+    // عرض Toast للتأكيد
+    this.toastService.warning(
+      'تأكيد تسجيل الخروج',
+      'هل أنت متأكد من تسجيل الخروج؟'
+    );
+    
+    // يمكنك إضافة timeout للخروج التلقائي
+    setTimeout(() => {
       this.authService.logout().subscribe({
         next: () => {
           this.toastService.success('تم', 'تم تسجيل الخروج بنجاح');
-        },
-        error: () => {
-          this.toastService.error('خطأ', 'فشل تسجيل الخروج');
         }
       });
-    }
+    }, 2000);
   }
+  */
 }

@@ -1,33 +1,330 @@
-<!-- src/app/components/hero/hero.component.html -->
-<section id="home" class="position-relative text-white py-5 overflow-hidden" dir="rtl">
-  <!-- Gradient Background + Overlay -->
-  <div class="position-absolute top-0 start-0 end-0 bottom-0" 
-       style="background: linear-gradient(to bottom right, #2563eb, #05105e);"></div>
-  <div class="position-absolute top-0 start-0 end-0 bottom-0 bg-black opacity-25"></div>
+<!-- 📁 hero.html - Clean Professional Design -->
+<section class="hero-section" dir="rtl" id="home">
+  <div class="container">
+    <div class="row align-items-center">
+      
+      <!-- Content Column -->
+      <div class="col-lg-6">
+        <div class="hero-content">
+          <!-- Badge -->
+          <div class="hero-badge">
+            <i class="bi bi-stars"></i>
+            <span>الحل الأمثل لإدارة شركات الفلاتر</span>
+          </div>
 
-  <!-- Content -->
-  <div class="container position-relative z-10 text-center py-5">
-    <h1 class="display-1 display-md-3 fw-bold mb-4 lh-1">
-      نظام <span class="text-warning text-shadow">فلتره</span>
-    </h1>
-    <p class="fs-2 fs-md-4 mb-5 lead opacity-90 px-3">
-      إدارة كاملة لشركات الفلاتر: مبيعات • تركيب • صيانة • أقساط • مخزون
-    </p>
+          <!-- Main Headline -->
+          <h1 class="hero-title">
+            نظام <span class="highlight">فلتره</span> المتكامل
+          </h1>
 
-    <div class="d-flex flex-column flex-sm-row justify-content-center gap-4 px-3">
-      <!-- Free Trial Button -->
-      <button class="btn btn-warning btn-lg fw-bold px-5 py-4 shadow-lg hover-scale rounded-pill d-flex align-items-center justify-content-center gap-3"
-              (click)="freeTrial()">
-        <i class="bi bi-rocket-takeoff fs-3"></i>
-        جرّب مجاناً الآن
-      </button>
+          <!-- Description -->
+          <p class="hero-description">
+            إدارة ذكية وشاملة لجميع عمليات شركتك: المبيعات، التركيب، الصيانة، الأقساط، والمخزون - كل شيء في مكان واحد
+          </p>
 
-      <!-- Login Button -->
-      <button class="btn btn-outline-light btn-lg border-3 fw-bold px-5 py-4 hover-bg-white rounded-pill d-flex align-items-center justify-content-center gap-3"
-              (click)="login()">
-        تسجيل الدخول
-        <i class="bi bi-chevron-left fs-4"></i>
-      </button>
+          <!-- CTA Buttons -->
+          <div class="hero-actions">
+            <button class="btn-hero-primary" (click)="freeTrial()">
+              <i class="bi bi-rocket-takeoff"></i>
+              ابدأ تجربتك المجانية
+            </button>
+            <button class="btn-hero-secondary" (click)="login()">
+              تسجيل الدخول
+              <i class="bi bi-arrow-left"></i>
+            </button>
+          </div>
+
+          <!-- Trust Indicators -->
+          <div class="hero-stats">
+            <div class="stat-item">
+              <i class="bi bi-buildings"></i>
+              <div>
+                <strong>+100</strong>
+                <span>شركة تثق بنا</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="bi bi-star-fill"></i>
+              <div>
+                <strong>4.9/5</strong>
+                <span>تقييم العملاء</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="bi bi-shield-check"></i>
+              <div>
+                <strong>آمن 100%</strong>
+                <span>بياناتك محمية</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Column -->
+      <div class="col-lg-6">
+        <div class="hero-visual">
+          <!-- Modern Illustration Placeholder -->
+          <div class="visual-card">
+            <i class="bi bi-layers-fill"></i>
+            <p>واجهة حديثة وسهلة</p>
+          </div>
+          <div class="visual-card">
+            <i class="bi bi-graph-up-arrow"></i>
+            <p>تقارير ذكية ودقيقة</p>
+          </div>
+          <div class="visual-card">
+            <i class="bi bi-phone"></i>
+            <p>يعمل على جميع الأجهزة</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
+
+<style>
+/* Hero Section */
+.hero-section {
+  padding: 8rem 0 6rem;
+  background: linear-gradient(180deg, #F9FAFB 0%, #FFFFFF 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle Background Pattern */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+}
+
+/* Badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #DBEAFE;
+  color: #1E40AF;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.hero-badge i {
+  font-size: 1rem;
+}
+
+/* Title */
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #111827;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title .highlight {
+  color: #2563EB;
+  position: relative;
+}
+
+/* Description */
+.hero-description {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #6B7280;
+  margin-bottom: 2rem;
+  max-width: 32rem;
+}
+
+/* CTA Buttons */
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.btn-hero-primary,
+.btn-hero-secondary {
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-hero-primary {
+  background-color: #2563EB;
+  color: #FFFFFF;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.btn-hero-primary:hover {
+  background-color: #1E40AF;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+}
+
+.btn-hero-secondary {
+  background-color: #FFFFFF;
+  color: #374151;
+  border: 2px solid #E5E7EB;
+}
+
+.btn-hero-secondary:hover {
+  background-color: #F9FAFB;
+  border-color: #D1D5DB;
+}
+
+/* Stats */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #E5E7EB;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.stat-item i {
+  font-size: 1.5rem;
+  color: #2563EB;
+}
+
+.stat-item strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.stat-item span {
+  display: block;
+  font-size: 0.75rem;
+  color: #6B7280;
+}
+
+/* Visual Section */
+.hero-visual {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.visual-card {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.visual-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border-color: #2563EB;
+}
+
+.visual-card:nth-child(1) {
+  grid-column: 1 / 2;
+}
+
+.visual-card:nth-child(2) {
+  grid-column: 2 / 3;
+}
+
+.visual-card:nth-child(3) {
+  grid-column: 1 / 3;
+}
+
+.visual-card i {
+  font-size: 3rem;
+  color: #2563EB;
+  margin-bottom: 1rem;
+}
+
+.visual-card p {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .hero-section {
+    padding: 6rem 0 4rem;
+  }
+  
+  .hero-title {
+    font-size: 2.25rem;
+  }
+  
+  .hero-visual {
+    margin-top: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .btn-hero-primary,
+  .btn-hero-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .hero-stats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .hero-visual {
+    grid-template-columns: 1fr;
+  }
+  
+  .visual-card:nth-child(3) {
+    grid-column: 1 / 2;
+  }
+}
+</style>

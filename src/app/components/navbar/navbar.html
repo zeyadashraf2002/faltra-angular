@@ -1,58 +1,237 @@
-<!-- 📁 src/app/components/navbar/navbar.html -->
-<nav class="navbar fixed-top w-100 z-50">
-  <div class="navbar-inner">
-    <!-- Left: Logo -->
-    <div class="navbar-left">
-      <div class="logo-icon shadow-lg">
-        <img src="assets/logo.png" alt="Logo" class="logo-img" />
+<!-- 📁 navbar.html - Modern Clean Design -->
+<nav class="navbar-modern" dir="rtl">
+  <div class="container">
+    <div class="navbar-container">
+      
+      <!-- Logo Section -->
+      <div class="navbar-brand">
+        <img src="assets/logo.png" alt="فلتره" class="navbar-logo">
+        <span class="brand-name">فلتره</span>
       </div>
-      <span class="brand-text">فلتره</span>
+
+      <!-- Navigation Links (Desktop) -->
+      <div class="navbar-menu d-none d-lg-flex">
+        <a href="#home" class="nav-link">الرئيسية</a>
+        <a href="#features" class="nav-link">المميزات</a>
+        <a href="#how-it-works" class="nav-link">كيف يعمل</a>
+        <a href="#pricing" class="nav-link">الأسعار</a>
+        <a href="#testimonials" class="nav-link">آراء العملاء</a>
+        <a href="#faq" class="nav-link">الأسئلة</a>
+        <a href="#contact" class="nav-link">تواصل</a>
+      </div>
+
+      <!-- CTA Buttons (Desktop) -->
+      <div class="navbar-actions d-none d-md-flex">
+        <button class="btn-secondary" (click)="login()">
+          تسجيل الدخول
+        </button>
+        <button class="btn-primary" (click)="freeTrial()">
+          ابدأ مجاناً
+          <i class="bi bi-arrow-left"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-toggle d-lg-none" (click)="mobileMenuOpen = !mobileMenuOpen">
+        <i class="bi" [class.bi-list]="!mobileMenuOpen" [class.bi-x]="mobileMenuOpen"></i>
+      </button>
     </div>
 
-    <!-- Center: Links -->
-    <div class="navbar-center d-none d-lg-flex">
-      <a href="#home" class="nav-link">الرئيسية</a>
-      <a href="#features" class="nav-link">المميزات</a>
-      <a href="#how-it-works" class="nav-link">كيف يعمل</a>
-      <a href="#screenshots" class="nav-link">صور النظام</a>
-      <a href="#pricing" class="nav-link">الأسعار</a>
-      <a href="#testimonials" class="nav-link">آراء العملاء</a>
-      <a href="#faq" class="nav-link">الأسئلة الشائعة</a>
-      <a href="#contact" class="nav-link">تواصل معنا</a>
-    </div>
-
-    <!-- Right: Buttons -->
-    <div class="navbar-right">
-      <button class="btn btn-outline-primary d-none d-md-block fw-bold px-4" (click)="login()">
-        تسجيل الدخول
-      </button>
-      <button
-        class="btn gradient-btn fw-bold shadow-lg px-4 py-2 rounded-pill d-none d-md-block"
-        (click)="freeTrial()"
-      >
-        جرّب مجاناً <i class="bi bi-chevron-left ms-2"></i>
-      </button>
-      <button
-        class="btn d-lg-none toggle-btn fs-2 text-primary"
-        (click)="mobileMenuOpen = !mobileMenuOpen"
-      >
-        <i class="bi" [class.bi-list]="!mobileMenuOpen" [class.bi-x-lg]="mobileMenuOpen"></i>
-      </button>
-    </div>
+    <!-- Mobile Menu -->
+    @if (mobileMenuOpen) {
+      <div class="mobile-menu d-lg-none">
+        <a href="#home" class="mobile-link" (click)="mobileMenuOpen = false">الرئيسية</a>
+        <a href="#features" class="mobile-link" (click)="mobileMenuOpen = false">المميزات</a>
+        <a href="#how-it-works" class="mobile-link" (click)="mobileMenuOpen = false">كيف يعمل</a>
+        <a href="#pricing" class="mobile-link" (click)="mobileMenuOpen = false">الأسعار</a>
+        <a href="#testimonials" class="mobile-link" (click)="mobileMenuOpen = false">آراء العملاء</a>
+        <a href="#faq" class="mobile-link" (click)="mobileMenuOpen = false">الأسئلة</a>
+        <a href="#contact" class="mobile-link" (click)="mobileMenuOpen = false">تواصل</a>
+        
+        <div class="mobile-actions">
+          <button class="btn-secondary w-100 mb-2" (click)="login()">تسجيل الدخول</button>
+          <button class="btn-primary w-100" (click)="freeTrial()">
+            ابدأ مجاناً
+            <i class="bi bi-arrow-left"></i>
+          </button>
+        </div>
+      </div>
+    }
   </div>
-
-  <!-- Mobile Menu -->
-  @if (mobileMenuOpen) {
-    <div class="mobile-menu d-lg-none p-4 bg-white rounded-4 shadow-lg">
-      <a href="#home" class="mobile-link">الرئيسية</a>
-      <a href="#features" class="mobile-link">المميزات</a>
-      <a href="#how-it-works" class="mobile-link">كيف يعمل</a>
-      <a href="#screenshots" class="mobile-link">صور النظام</a>
-      <a href="#pricing" class="mobile-link">الأسعار</a>
-      <a href="#testimonials" class="mobile-link">آراء العملاء</a>
-      <a href="#faq" class="mobile-link">الأسئلة الشائعة</a>
-      <a href="#contact" class="mobile-link">تواصل معنا</a>
-      <button class="btn btn-primary w-100 mt-4 py-3 fw-bold" (click)="login()">تسجيل الدخول</button>
-    </div>
-  }
 </nav>
+
+<style>
+/* Modern Navbar Styles */
+.navbar-modern {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #E5E7EB;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  gap: 2rem;
+}
+
+/* Logo */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar-logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2563EB;
+}
+
+/* Navigation Links */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-link {
+  color: #374151;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #2563EB;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background-color: #2563EB;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Action Buttons */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-primary,
+.btn-secondary {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: #2563EB;
+  color: #FFFFFF;
+}
+
+.btn-primary:hover {
+  background-color: #1E40AF;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #374151;
+  border: 1.5px solid #E5E7EB;
+}
+
+.btn-secondary:hover {
+  background-color: #F9FAFB;
+  border-color: #D1D5DB;
+}
+
+/* Mobile Toggle */
+.mobile-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: transparent;
+  border: none;
+  color: #374151;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  padding: 1.5rem 0;
+  border-top: 1px solid #E5E7EB;
+  margin-top: 1rem;
+}
+
+.mobile-link {
+  display: block;
+  padding: 0.75rem 0;
+  color: #374151;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid #F3F4F6;
+  transition: color 0.2s ease;
+}
+
+.mobile-link:hover {
+  color: #2563EB;
+}
+
+.mobile-actions {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #E5E7EB;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .brand-name {
+    font-size: 1.25rem;
+  }
+  
+  .navbar-logo {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+</style>

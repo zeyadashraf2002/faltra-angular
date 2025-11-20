@@ -1,26 +1,142 @@
-<!-- src/app/components/features/features.component.html -->
-<section id="features" class="py-5 bg-light" dir="rtl">
+<!-- 📁 features.html - Clean Grid Design -->
+<section id="features" class="features-section" dir="rtl">
   <div class="container">
-    <h2 class="display-4 text-center mb-5 text-primary fw-bold">مميزات فلتره  </h2>
-
-    <div class="row g-4 g-xl-5">
-      <div class="col-md-6 col-lg-3" *ngFor="let f of features">
-        <div class="card border-0 shadow-lg h-100 overflow-hidden group hover-card">
-          <!-- Gradient Bar -->
-          <div class="h-2 bg-gradient-to-r" [class]="f.gradient"></div>
-
-          <div class="card-body text-center pt-5 pb-4">
-            <!-- Icon -->
-            <div class="icon-wrapper mx-auto mb-4">
-              <i [class]="f.icon + ' text-white'" style="font-size: 3rem;"></i>
-            </div>
-
-            <!-- Title & Desc -->
-            <h3 class="h4 fw-bold text-dark mb-3">{{ f.title }}</h3>
-            <p class="text-muted lead px-3">{{ f.desc }}</p>
-          </div>
-        </div>
-      </div>
+    
+    <!-- Section Header -->
+    <div class="section-header">
+      <h2 class="section-title">مميزات نظام فلتره</h2>
+      <p class="section-subtitle">
+        كل ما تحتاجه لإدارة شركتك بكفاءة وسهولة في منصة واحدة متكاملة
+      </p>
     </div>
+
+    <!-- Features Grid -->
+    <div class="features-grid">
+      
+      <div class="feature-card" *ngFor="let feature of features">
+        <div class="feature-icon">
+          <i [class]="feature.icon"></i>
+        </div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-description">{{ feature.desc }}</p>
+      </div>
+
+    </div>
+
   </div>
 </section>
+
+<style>
+/* Features Section */
+.features-section {
+  padding: 6rem 0;
+  background-color: #FFFFFF;
+}
+
+/* Section Header */
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: #6B7280;
+  max-width: 42rem;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Features Grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+/* Feature Card */
+.feature-card {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border-color: #2563EB;
+}
+
+/* Feature Icon */
+.feature-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+  transform: scale(1.1);
+}
+
+.feature-icon i {
+  font-size: 2rem;
+  color: #2563EB;
+  transition: color 0.3s ease;
+}
+
+.feature-card:hover .feature-icon i {
+  color: #FFFFFF;
+}
+
+/* Feature Title */
+.feature-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+/* Feature Description */
+.feature-description {
+  font-size: 0.9375rem;
+  color: #6B7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .features-section {
+    padding: 4rem 0;
+  }
+  
+  .section-title {
+    font-size: 1.875rem;
+  }
+  
+  .section-header {
+    margin-bottom: 3rem;
+  }
+  
+  .features-grid {
+    gap: 1.5rem;
+  }
+}
+</style>

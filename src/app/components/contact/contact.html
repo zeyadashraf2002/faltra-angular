@@ -1,89 +1,288 @@
-<!-- 📁 src/app/components/contact/contact.html -->
-<section
-  id="contact"
-  class="position-relative py-5 text-dark"
-  dir="rtl"
-  style="background: linear-gradient(135deg, #f8fafc, #e2e8f0)"
->
-  <div class="container position-relative z-2">
-    <h2 class="text-center display-5 fw-bold mb-5 text-primary">جاهز تبدأ؟</h2>
-
+<!-- 📁 contact.html - Clean Professional Form -->
+<section id="contact" class="contact-section" dir="rtl">
+  <div class="container">
+    
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <form
-          (ngSubmit)="onSubmit()"
-          class="p-5 rounded-4 shadow-sm border bg-white bg-opacity-75"
-          style="backdrop-filter: blur(8px)"
-        >
-          <div class="row g-4">
-            <div class="col-md-6">
-              <label class="form-label fs-6 fw-semibold mb-2">الاسم</label>
-              <input
-                [(ngModel)]="formData.name"
-                name="name"
-                type="text"
-                class="form-control form-control-lg rounded-3 py-3"
-                [class.is-invalid]="errors.name"
-                placeholder="اسمك الكامل"
-              />
-              @if (errors.name) {
-                <div class="invalid-feedback text-danger mt-2 d-block">{{ errors.name }}</div>
+        
+        <!-- Section Header -->
+        <div class="contact-header">
+          <h2 class="section-title">تواصل معنا</h2>
+          <p class="section-subtitle">
+            هل لديك استفسار؟ نحن هنا لمساعدتك. أرسل لنا رسالة وسنرد عليك في أقرب وقت
+          </p>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form-wrapper">
+          <form (ngSubmit)="onSubmit()" class="contact-form">
+            
+            <div class="row g-3">
+              <!-- Name Field -->
+              <div class="col-md-6">
+                <label class="form-label" for="name">
+                  <i class="bi bi-person"></i>
+                  الاسم الكامل
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="formData.name"
+                  name="name"
+                  [class.is-invalid]="errors.name"
+                  placeholder="أدخل اسمك الكامل">
+                @if (errors.name) {
+                  <div class="invalid-feedback">{{ errors.name }}</div>
+                }
+              </div>
+
+              <!-- Phone Field -->
+              <div class="col-md-6">
+                <label class="form-label" for="phone">
+                  <i class="bi bi-telephone"></i>
+                  رقم الهاتف
+                </label>
+                <input
+                  id="phone"
+                  type="tel"
+                  class="form-control"
+                  [(ngModel)]="formData.phone"
+                  name="phone"
+                  [class.is-invalid]="errors.phone"
+                  placeholder="01234567890">
+                @if (errors.phone) {
+                  <div class="invalid-feedback">{{ errors.phone }}</div>
+                }
+              </div>
+            </div>
+
+            <!-- Message Field -->
+            <div class="mt-3">
+              <label class="form-label" for="message">
+                <i class="bi bi-chat-text"></i>
+                رسالتك
+              </label>
+              <textarea
+                id="message"
+                rows="5"
+                class="form-control"
+                [(ngModel)]="formData.message"
+                name="message"
+                [class.is-invalid]="errors.message"
+                placeholder="اكتب رسالتك هنا..."></textarea>
+              @if (errors.message) {
+                <div class="invalid-feedback">{{ errors.message }}</div>
               }
             </div>
 
-            <div class="col-md-6">
-              <label class="form-label fs-6 fw-semibold mb-2">رقم الهاتف</label>
-              <input
-                [(ngModel)]="formData.phone"
-                name="phone"
-                type="tel"
-                class="form-control form-control-lg rounded-3 py-3"
-                [class.is-invalid]="errors.phone"
-                placeholder="01234567890"
-              />
-              @if (errors.phone) {
-                <div class="invalid-feedback text-danger mt-2 d-block">{{ errors.phone }}</div>
-              }
+            <!-- Submit Button -->
+            <div class="text-center mt-4">
+              <button type="submit" class="btn-submit">
+                <i class="bi bi-send"></i>
+                إرسال الرسالة
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <div class="info-item">
+            <i class="bi bi-telephone-fill"></i>
+            <div>
+              <strong>اتصل بنا</strong>
+              <span>0123456789</span>
             </div>
           </div>
+          <div class="info-item">
+            <i class="bi bi-envelope-fill"></i>
+            <div>
+              <strong>راسلنا</strong>
+              <span>info@filtera.com</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="bi bi-geo-alt-fill"></i>
+            <div>
+              <strong>موقعنا</strong>
+              <span>القاهرة، مصر</span>
+            </div>
+          </div>
+        </div>
 
-          <div class="mt-4">
-            <label class="form-label fs-6 fw-semibold mb-2">رسالتك</label>
-            <textarea
-              [(ngModel)]="formData.message"
-              name="message"
-              rows="5"
-              class="form-control form-control-lg rounded-3"
-              [class.is-invalid]="errors.message"
-              placeholder="اكتب رسالتك هنا..."
-            ></textarea>
-            @if (errors.message) {
-              <div class="invalid-feedback text-danger mt-2 d-block">{{ errors.message }}</div>
-            }
-          </div>
-
-          <div class="text-center mt-5">
-            <button
-              type="submit"
-              class="btn btn-primary btn-lg fw-bold px-5 py-3 rounded-pill hover-scale"
-            >
-              ابعت الرسالة
-            </button>
-          </div>
-        </form>
-        @if (toastVisible) {
-          <div
-            class="position-fixed bottom-0 end-0 m-4 p-3 rounded-3 shadow-lg text-white fw-bold"
-            style="
-              background: linear-gradient(135deg, #3b82f6, #2563eb);
-              z-index: 1055;
-              transition: all 0.3s ease;
-            "
-          >
-            {{ toastMessage }}
-          </div>
-        }
       </div>
     </div>
   </div>
 </section>
+
+<style>
+/* Contact Section */
+.contact-section {
+  padding: 6rem 0;
+  background-color: #F9FAFB;
+}
+
+/* Header */
+.contact-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: #6B7280;
+  line-height: 1.7;
+}
+
+/* Form Wrapper */
+.contact-form-wrapper {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 1rem;
+  padding: 2.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+/* Form Elements */
+.form-label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.form-label i {
+  color: #2563EB;
+  font-size: 1rem;
+}
+
+.form-control {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #E5E7EB;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-control.is-invalid {
+  border-color: #EF4444;
+}
+
+.form-control::placeholder {
+  color: #9CA3AF;
+}
+
+.invalid-feedback {
+  color: #EF4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* Submit Button */
+.btn-submit {
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #2563EB;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.btn-submit:hover {
+  background-color: #1E40AF;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+}
+
+/* Contact Info */
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.info-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border-color: #2563EB;
+}
+
+.info-item i {
+  font-size: 1.5rem;
+  color: #2563EB;
+  margin-top: 0.25rem;
+}
+
+.info-item strong {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.info-item span {
+  display: block;
+  font-size: 0.9375rem;
+  color: #6B7280;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 4rem 0;
+  }
+  
+  .section-title {
+    font-size: 1.875rem;
+  }
+  
+  .contact-form-wrapper {
+    padding: 1.5rem;
+  }
+  
+  .contact-info {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

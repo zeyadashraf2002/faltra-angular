@@ -1,266 +1,209 @@
-<!-- 📁 src/app/components/companies/companies.component.html -->
-<div class="companies-page min-vh-100 bg-light" dir="rtl">
+<!-- 📁 companies.component.html - Professional Dashboard -->
+<div class="dashboard-container" dir="rtl">
   
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-    <div class="container-fluid px-4">
-      <div class="d-flex align-items-center">
-        <i class="bi bi-buildings fs-3 me-3"></i>
+  <!-- Top Navigation Bar -->
+  <nav class="dashboard-nav">
+    <div class="nav-content">
+      <div class="nav-brand">
+        <i class="bi bi-buildings"></i>
         <div>
-          <h5 class="mb-0 fw-bold">نظام فلتره</h5>
-          <small class="opacity-75">إدارة الشركات</small>
+          <h5>نظام فلتره</h5>
+          <small>إدارة الشركات</small>
         </div>
       </div>
       
-      <div class="d-flex align-items-center gap-3">
-        <div class="text-end d-none d-md-block">
-          <small class="d-block opacity-75">مرحباً</small>
+      <div class="nav-user">
+        <div class="user-info">
           <strong>{{ authService.currentUser?.fullName }}</strong>
+          <span class="user-role">
+            {{ authService.currentUser?.role === 'developer' ? 'مطور' : 'مدير' }}
+          </span>
         </div>
-        <span class="badge bg-warning text-dark px-3 py-2">
-          {{ authService.currentUser?.role === 'developer' ? 'مطور' : 'مدير' }}
-        </span>
-        <button class="btn btn-outline-light" (click)="logout()">
-          <i class="bi bi-box-arrow-left me-2"></i>
+        <button class="btn-logout" (click)="logout()">
+          <i class="bi bi-box-arrow-left"></i>
           خروج
         </button>
       </div>
     </div>
   </nav>
 
-  <div class="container-fluid px-4 py-4">
-    
-    <div class="row mb-4">
-      <div class="col">
-        <h2 class="fw-bold mb-2">
-          <i class="bi bi-building me-2 text-primary"></i>
-          إدارة الشركات
-        </h2>
-        <p class="text-muted mb-0">عرض ومتابعة بيانات الشركات والاشتراكات</p>
+  <!-- Main Content -->
+  <div class="dashboard-main">
+    <div class="container-fluid">
+      
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1>إدارة الشركات</h1>
+          <p>عرض ومتابعة بيانات الشركات والاشتراكات</p>
+        </div>
+        <div class="stats-badge">
+          <i class="bi bi-buildings"></i>
+          <span>{{ filteredCompanies.length }} شركة</span>
+        </div>
       </div>
-    </div>
 
-    <div class="row mb-4">
-      <div class="col-md-6">
-        <div class="input-group input-group-lg">
-          <span class="input-group-text bg-white border-end-0">
-            <i class="bi bi-search text-muted"></i>
-          </span>
+      <!-- Search & Filters -->
+      <div class="toolbar">
+        <div class="search-box">
+          <i class="bi bi-search"></i>
           <input 
             type="text" 
-            class="form-control border-start-0 ps-0"
             placeholder="ابحث عن شركة..."
             [(ngModel)]="searchQuery"
             (input)="onSearchChange()">
         </div>
       </div>
-      <div class="col-md-6 d-flex align-items-center justify-content-end gap-3">
-        <div class="badge bg-primary fs-6 px-4 py-3">
-          <i class="bi bi-buildings me-2"></i>
-          إجمالي الشركات: {{ filteredCompanies.length }}
+
+      <!-- Loading State -->
+      @if (isLoading) {
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>جاري تحميل الشركات...</p>
         </div>
-      </div>
-    </div>
+      }
 
-    @if (isLoading) {
-      <div class="text-center py-5">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
-        <p class="mt-3 text-muted">جاري تحميل الشركات...</p>
-      </div>
-    }
+      <!-- Empty State -->
+      @if (!isLoading && filteredCompanies.length === 0) {
+        <div class="empty-state">
+          <i class="bi bi-inbox"></i>
+          <h3>لا توجد شركات</h3>
+          <p>لم يتم العثور على أي شركات مطابقة</p>
+        </div>
+      }
 
-    @if (!isLoading && filteredCompanies.length === 0) {
-      <div class="text-center py-5">
-        <i class="bi bi-inbox fs-1 text-muted"></i>
-        <p class="mt-3 text-muted fs-5">لا توجد شركات</p>
-      </div>
-    }
-
-    @if (!isLoading && filteredCompanies.length > 0) {
-      <div class="row g-4 mb-4">
-        @for (company of paginatedCompanies; track company.id) {
-          <div class="col-md-6 col-lg-4">
-            <div class="card border-0 shadow-sm h-100 company-card">
+      <!-- Companies Grid -->
+      @if (!isLoading && filteredCompanies.length > 0) {
+        <div class="companies-grid">
+          @for (company of paginatedCompanies; track company.id) {
+            <div class="company-card">
               
-              <div class="card-header bg-gradient-primary text-white py-3">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div class="d-flex align-items-center gap-3">
-                    <div class="company-logo">
-                      @if (company.logo) {
-                        <img 
-                          [src]="company.logo" 
-                          [alt]="company.name"
-                          class="img-fluid rounded-circle">
-                      } @else {
-                        <i class="bi bi-building fs-3"></i>
-                      }
+              <!-- Card Header -->
+              <div class="card-header">
+                <div class="company-identity">
+                  @if (company.logo) {
+                    <img [src]="company.logo" [alt]="company.name" class="company-logo">
+                  } @else {
+                    <div class="company-logo-placeholder">
+                      <i class="bi bi-building"></i>
                     </div>
-                    <div>
-                      <h5 class="mb-0 fw-bold">{{ company.name }}</h5>
-                      <small class="opacity-75">ID: #{{ company.id }}</small>
-                    </div>
+                  }
+                  <div>
+                    <h3>{{ company.name }}</h3>
+                    <span class="company-id">#{{ company.id }}</span>
                   </div>
+                </div>
+                
+                <div class="status-badge"
+                     [class.active]="!isExpired(company.subscriptionExpiryDate)"
+                     [class.expired]="isExpired(company.subscriptionExpiryDate)">
+                  {{ isExpired(company.subscriptionExpiryDate) ? 'منتهي' : 'ساري' }}
                 </div>
               </div>
 
+              <!-- Card Body -->
               <div class="card-body">
-                <div class="company-info">
+                <div class="info-grid">
                   
-                  <div class="info-item">
-                    <i class="bi bi-geo-alt-fill text-primary"></i>
+                  <div class="info-row">
+                    <i class="bi bi-geo-alt"></i>
                     <div>
-                      <small class="text-muted d-block">العنوان</small>
+                      <label>العنوان</label>
                       <span>{{ company.address || 'غير محدد' }}</span>
                     </div>
                   </div>
 
-                  <div class="info-item">
-                    <i class="bi bi-envelope-fill text-primary"></i>
+                  <div class="info-row">
+                    <i class="bi bi-envelope"></i>
                     <div>
-                      <small class="text-muted d-block">البريد</small>
-                      <span class="font-monospace">{{ company.email || 'غير محدد' }}</span>
+                      <label>البريد</label>
+                      <span>{{ company.email || 'غير محدد' }}</span>
                     </div>
                   </div>
 
-                  <div class="info-item">
-                    <i class="bi bi-telephone-fill text-primary"></i>
+                  <div class="info-row">
+                    <i class="bi bi-telephone"></i>
                     <div>
-                      <small class="text-muted d-block">الهاتف</small>
-                      <span class="font-monospace">{{ company.phone || 'غير محدد' }}</span>
+                      <label>الهاتف</label>
+                      <span>{{ company.phone || 'غير محدد' }}</span>
                     </div>
                   </div>
 
-                  <div class="info-item">
-                    <i class="bi bi-calendar-check-fill text-primary"></i>
+                  <div class="info-row">
+                    <i class="bi bi-calendar-check"></i>
                     <div>
-                      <small class="text-muted d-block">تاريخ الإنشاء</small>
+                      <label>تاريخ الإنشاء</label>
                       <span>{{ company.createdAt | date: 'dd/MM/yyyy' }}</span>
                     </div>
                   </div>
 
-                  <div class="info-item">
-                    <i class="bi bi-calendar-x-fill" 
+                  <div class="info-row highlight">
+                    <i class="bi bi-calendar-x" 
                        [class.text-danger]="isExpired(company.subscriptionExpiryDate)"
                        [class.text-success]="!isExpired(company.subscriptionExpiryDate)">
                     </i>
                     <div>
-                      <small class="text-muted d-block">انتهاء الاشتراك</small>
+                      <label>انتهاء الاشتراك</label>
                       <span [class.text-danger]="isExpired(company.subscriptionExpiryDate)"
-                            [class.text-success]="!isExpired(company.subscriptionExpiryDate)"
-                            class="fw-bold">
+                            [class.text-success]="!isExpired(company.subscriptionExpiryDate)">
                         {{ company.subscriptionExpiryDate | date: 'dd/MM/yyyy' }}
                       </span>
                     </div>
                   </div>
 
-                  <div class="info-item">
-                    <i class="bi bi-info-circle-fill text-info"></i>
-                    <div>
-                      <small class="text-muted d-block">حالة الاشتراك</small>
-                      <span class="badge"
-                            [class.bg-success]="!isExpired(company.subscriptionExpiryDate)"
-                            [class.bg-danger]="isExpired(company.subscriptionExpiryDate)">
-                        {{ isExpired(company.subscriptionExpiryDate) ? 'منتهي' : 'ساري' }}
-                      </span>
-                    </div>
-                  </div>
-
                 </div>
               </div>
 
+              <!-- Card Actions -->
               @if (authService.isDeveloper) {
-                <div class="card-footer bg-light border-0 py-3">
-                  <button 
-                    class="btn btn-primary w-100"
-                    (click)="openExpiryModal(company)">
-                    <i class="bi bi-calendar-plus me-2"></i>
+                <div class="card-actions">
+                  <button class="btn-edit" (click)="openExpiryModal(company)">
+                    <i class="bi bi-calendar-plus"></i>
                     تعديل الاشتراك
                   </button>
                 </div>
               }
 
             </div>
-          </div>
-        }
-      </div>
-    }
-
-    @if (totalPages > 1) {
-      <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" [class.disabled]="currentPage === 1">
-            <a class="page-link" (click)="goToPage(currentPage - 1)">السابق</a>
-          </li>
-          @for (page of pages; track page) {
-            <li class="page-item" [class.active]="page === currentPage">
-              <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
-            </li>
           }
-          <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <a class="page-link" (click)="goToPage(currentPage + 1)">التالي</a>
-          </li>
-        </ul>
-      </nav>
-    }
+        </div>
+      }
 
+      <!-- Pagination -->
+      @if (totalPages > 1) {
+        <nav class="pagination-nav">
+          <button 
+            class="btn-page"
+            [disabled]="currentPage === 1"
+            (click)="goToPage(currentPage - 1)">
+            <i class="bi bi-chevron-right"></i>
+            السابق
+          </button>
+          
+          <div class="page-numbers">
+            @for (page of pages; track page) {
+              <button 
+                class="btn-page-number"
+                [class.active]="page === currentPage"
+                (click)="goToPage(page)">
+                {{ page }}
+              </button>
+            }
+          </div>
+          
+          <button 
+            class="btn-page"
+            [disabled]="currentPage === totalPages"
+            (click)="goToPage(currentPage + 1)">
+            التالي
+            <i class="bi bi-chevron-left"></i>
+          </button>
+        </nav>
+      }
+
+    </div>
   </div>
 </div>
 
 <!-- Modal -->
-@if (showExpiryModal) {
-  <div class="modal fade show" 
-       [style.display]="'block'"
-       tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" dir="rtl">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title">
-            <i class="bi bi-calendar-plus me-2"></i>
-            تحديث تاريخ الاشتراك
-          </h5>
-          <button type="button" class="btn-close btn-close-white" (click)="closeExpiryModal()"></button>
-        </div>
-        <div class="modal-body">
-          <p class="mb-3">
-            <strong>الشركة:</strong> {{ selectedCompany?.name }}
-          </p>
-          <div class="mb-3">
-            <label class="form-label fw-semibold">تاريخ الانتهاء الجديد</label>
-            <input 
-              type="date" 
-              class="form-control form-control-lg"
-              [(ngModel)]="newExpiryDate"
-              [disabled]="isUpdating">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button 
-            type="button" 
-            class="btn btn-secondary" 
-            (click)="closeExpiryModal()"
-            [disabled]="isUpdating">
-            إلغاء
-          </button>
-          <button 
-            type="button" 
-            class="btn btn-primary"
-            (click)="updateExpiry()"
-            [disabled]="isUpdating || !newExpiryDate">
-            @if (!isUpdating) {
-              <span>
-                <i class="bi bi-check-lg me-2"></i>
-                تحديث
-              </span>
-            }
-            @if (isUpdating) {
-              <span>
-                <span class="spinner-border spinner-border-sm me-2"></span>
-                جاري التحديث...
-              </span>
-            }
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal-backdrop fade show" (click)="closeExpiryModal()"></div>
-}
+
