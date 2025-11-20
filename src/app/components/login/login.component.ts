@@ -103,8 +103,16 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         this.isLoading = false;
-        const errorMsg = error.error?.message || 'خطأ في تسجيل الدخول';
-        this.toastService.error('خطأ', errorMsg);
+        let errorMsg ;
+        
+        if(error.error.statusCode === 401){
+          errorMsg = "غير مسموح تسجيل دخولك"
+          this.toastService.error('خطأ', errorMsg);
+        }
+        if(error.error.statusCode !== 401){
+          errorMsg = error.error?.message || 'خطأ في تسجيل الدخول'
+          this.toastService.error('خطأ', errorMsg);
+        }
       },
       complete: () => {
         this.isLoading = false;

@@ -207,9 +207,8 @@
 
 <!-- ✅ FIXED: Subscription Modal (NOW INCLUDED) -->
 @if (showExpiryModal && selectedCompany) {
-  <div class="modal-overlay" (click)="closeExpiryModal()">
-    <div class="modal-dialog" (click)="$event.stopPropagation()">
-      
+  <div class="modal-overlay" (click)="closeExpiryModal()" (mousedown)="$event.stopPropagation()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()" (mousedown)="$event.stopPropagation()">
       <!-- Modal Header -->
       <div class="modal-header">
         <h3>

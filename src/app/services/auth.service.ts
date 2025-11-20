@@ -50,7 +50,7 @@ export class AuthService {
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(
-      `${environment.API_URL}/users/login`,
+      `${environment.API_URL}/users/logindev`,
       credentials,
       { withCredentials: true }
     ).pipe(
