@@ -1,10 +1,12 @@
-// 📁 src/app/components/companies/companies.component.scss
-// تم تهيئته وتنظيفه وإصلاح كل المشاكل (تكرار، تعارض، RTL، Modal)
+// 📁 companies.component.scss - MODERN CLEAN DESIGN
 
-// ──────────────────────────────────────────────
-// متغيّرات الألوان (اختياري لو حابب تستخدمها)
+// ============================================
+// COLOR SYSTEM (متسق مع باقي الموقع)
+// ============================================
 $primary: #2563EB;
 $primary-dark: #1D4ED8;
+$primary-light: #DBEAFE;
+
 $gray-50: #F9FAFB;
 $gray-100: #F3F4F6;
 $gray-200: #E5E7EB;
@@ -12,11 +14,15 @@ $gray-300: #D1D5DB;
 $gray-500: #6B7280;
 $gray-700: #374151;
 $gray-900: #111827;
-$success: #10B981;
-$danger: #EF4444;
 
-// ──────────────────────────────────────────────
-// الحاوية الرئيسية
+$success: #10B981;
+$success-light: #D1FAE5;
+$danger: #EF4444;
+$danger-light: #FEE2E2;
+
+// ============================================
+// MAIN CONTAINER
+// ============================================
 .dashboard-container {
   min-height: 100vh;
   background-color: $gray-50;
@@ -24,8 +30,9 @@ $danger: #EF4444;
   direction: rtl;
 }
 
-// ──────────────────────────────────────────────
-// الـ Navigation
+// ============================================
+// NAVIGATION
+// ============================================
 .dashboard-nav {
   background: #FFFFFF;
   border-bottom: 1px solid $gray-200;
@@ -50,19 +57,36 @@ $danger: #EF4444;
   gap: 1rem;
   color: $primary;
   font-weight: 700;
+  
+  i {
+    font-size: 2rem;
+  }
+  
+  h5 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  small {
+    color: $gray-500;
+    font-weight: 400;
+  }
 }
 
 .nav-user {
   display: flex;
   align-items: center;
-  gap:host-context([dir=rtl]) & {
-    flex-direction: row-reverse;
-  }
   gap: 1.5rem;
 }
 
 .user-info {
   text-align: right;
+  
+  strong {
+    display: block;
+    color: $gray-900;
+    font-size: 1rem;
+  }
 }
 
 .user-role {
@@ -70,7 +94,10 @@ $danger: #EF4444;
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 0.375rem;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 0.25rem;
 }
 
 .btn-logout {
@@ -80,18 +107,41 @@ $danger: #EF4444;
   font-size: 1.5rem;
   cursor: pointer;
   transition: color 0.2s;
-  &:hover { color: $danger; }
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  
+  &:hover {
+    color: $danger;
+  }
 }
 
-// ──────────────────────────────────────────────
-// الـ Header والـ Toolbar
+// ============================================
+// MAIN CONTENT
+// ============================================
+.dashboard-main {
+  padding: 2rem;
+}
+
 .page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 2rem 0 1.5rem;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
   gap: 1rem;
+  
+  h1 {
+    font-size: 2rem;
+    color: $gray-900;
+    margin: 0;
+  }
+  
+  p {
+    color: $gray-500;
+    margin: 0.25rem 0 0;
+  }
 }
 
 .stats-badge {
@@ -103,8 +153,16 @@ $danger: #EF4444;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  box-shadow: 0 4px 6px rgba($primary, 0.2);
+  
+  i {
+    font-size: 1.25rem;
+  }
 }
 
+// ============================================
+// TOOLBAR
+// ============================================
 .toolbar {
   margin-bottom: 2rem;
 }
@@ -112,51 +170,60 @@ $danger: #EF4444;
 .search-box {
   position: relative;
   max-width: 400px;
-  margin: 0 auto;
+  
+  i {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $gray-500;
+    font-size: 1.125rem;
+    pointer-events: none;
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.875rem 1rem 0.875rem 3rem;
+    border: 2px solid $gray-200;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.2s;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+    
+    &::placeholder {
+      color: $gray-500;
+    }
+  }
 }
 
-.search-box i {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: $gray-500;
-  font-size: 1.125rem;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 0.75rem 1rem 0.75rem 3rem;
-  border: 2px solid $gray-200;
-  border-radius: 0.75rem;
-  font-size: 1rem;
-  transition: all 0.2s;
-}
-
-.search-box input:focus {
-  outline: none;
-  border-color: none;
-  border-color: $primary;
-  box-shadow: 0 0 0 3px rgba($primary, 0.1);
-}
-
-/* RTL دعم */
-[dir="rtl"] .search-box i {
-  right: auto;
-  left: 1rem;
-}
-
-[dir="rtl"] .search-box input {
-  padding: 0.75rem 3rem 0.75rem 1rem;
-}
-
-// ──────────────────────────────────────────────
-// حالات التحميل والفراغ
+// ============================================
+// LOADING & EMPTY STATES
+// ============================================
 .loading-state,
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
+  
+  i {
+    font-size: 4rem;
+    color: $gray-300;
+    margin-bottom: 1rem;
+  }
+  
+  h3 {
+    color: $gray-900;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    color: $gray-500;
+  }
 }
 
 .spinner {
@@ -173,14 +240,9 @@ $danger: #EF4444;
   to { transform: rotate(360deg); }
 }
 
-.empty-state i {
-  font-size: 4rem;
-  color: $gray-300;
-  margin-bottom: 1rem;
-}
-
-// ──────────────────────────────────────────────
-// شبكة الكروت
+// ============================================
+// COMPANIES GRID
+// ============================================
 .companies-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -188,19 +250,22 @@ $danger: #EF4444;
   margin-bottom: 3rem;
 }
 
-// كارت الشركة
+// ============================================
+// COMPANY CARD
+// ============================================
 .company-card {
   background: white;
   border: 1px solid $gray-200;
-  border-radius: 0.875rem;
+  border-radius: 1rem;
   overflow: hidden;
   transition: all 0.3s ease;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.company-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+  
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    border-color: $primary;
+  }
 }
 
 .card-header {
@@ -216,6 +281,13 @@ $danger: #EF4444;
   display: flex;
   align-items: center;
   gap: 1rem;
+  
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $gray-900;
+  }
 }
 
 .company-logo,
@@ -224,10 +296,11 @@ $danger: #EF4444;
   height: 3.5rem;
   border-radius: 0.75rem;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .company-logo-placeholder {
-  background: #DBEAFE;
+  background: $primary-light;
   color: $primary;
   display: flex;
   align-items: center;
@@ -235,16 +308,11 @@ $danger: #EF4444;
   font-size: 1.75rem;
 }
 
-.company-identity h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: $gray-900;
-}
-
 .company-id {
   font-size: 0.8rem;
   color: $gray-500;
+  display: block;
+  margin-top: 0.25rem;
 }
 
 .status-badge {
@@ -252,14 +320,27 @@ $danger: #EF4444;
   border-radius: 0.5rem;
   font-size: 0.8rem;
   font-weight: 600;
+  
+  &.active {
+    background: $success-light;
+    color: #065F46;
+  }
+  
+  &.expired {
+    background: $danger-light;
+    color: #991B1B;
+  }
 }
 
-.status-badge.active   { background: #D1FAE5; color: #065F46; }
-.status-badge.expired  { background: #FEE2E2; color: #991B1B; }
+.card-body {
+  padding: 1.5rem;
+}
 
-.card-body { padding: 1.5rem; }
-
-.info-grid { display: flex; flex-direction: column; gap: 1rem; }
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
 .info-row {
   display: flex;
@@ -268,32 +349,47 @@ $danger: #EF4444;
   padding: 0.875rem;
   background: $gray-50;
   border-radius: 0.5rem;
+  transition: all 0.2s;
+  
+  &:hover {
+    background: $gray-100;
+  }
+  
+  &.highlight {
+    background: $primary-light;
+  }
+  
+  i {
+    font-size: 1.2rem;
+    color: $primary;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+  
+  label {
+    font-size: 0.75rem;
+    color: $gray-500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+  
+  span {
+    font-size: 0.95rem;
+    color: $gray-900;
+    font-weight: 500;
+    display: block;
+  }
 }
 
-.info-row.highlight { background: #DBEAFE; }
-
-.info-row i {
-  font-size: 1.2rem;
-  color: $primary;
-  margin-top: 0.2rem;
+.text-success {
+  color: $success !important;
 }
 
-.info-row label {
-  font-size: 0.8rem;
-  color: $gray-500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 0.25rem;
+.text-danger {
+  color: $danger !important;
 }
-
-.info-row span {
-  font-size: 0.95rem;
-  color: $gray-900;
-  font-weight: 500;
-}
-
-.text-success { color: $success !important; }
-.text-danger  { color: $danger !important; }
 
 .card-actions {
   padding: 1rem 1.5rem;
@@ -314,15 +410,23 @@ $danger: #EF4444;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: background 0.2s;
+  transition: all 0.2s;
+  font-family: 'Cairo', sans-serif;
+  
+  &:hover {
+    background: $primary-dark;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba($primary, 0.3);
+  }
+  
+  i {
+    font-size: 1.125rem;
+  }
 }
 
-.btn-edit:hover {
-  background: $primary-dark;
-}
-
-// ──────────────────────────────────────────────
-// الـ Pagination
+// ============================================
+// PAGINATION
+// ============================================
 .pagination-nav {
   display: flex;
   justify-content: center;
@@ -335,24 +439,24 @@ $danger: #EF4444;
 .btn-page-number {
   padding: 0.6rem 1.2rem;
   background: white;
-  border: 1.5px solid $gray-200;
+  border: 2px solid $gray-200;
   border-radius: 0.5rem;
   color: $gray-700;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-}
-
-.btn-page:hover:not(:disabled),
-.btn-page-number:hover {
-  background: $gray-100;
-  border-color: $primary;
-  color: $primary;
-}
-
-.btn-page:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  font-family: 'Cairo', sans-serif;
+  
+  &:hover:not(:disabled) {
+    background: $gray-100;
+    border-color: $primary;
+    color: $primary;
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
 .btn-page-number.active {
@@ -361,8 +465,14 @@ $danger: #EF4444;
   border-color: $primary;
 }
 
-// ──────────────────────────────────────────────
-// المودال (الجزء الأهم – شغال 100%)
+.page-numbers {
+  display: flex;
+  gap: 0.5rem;
+}
+
+// ============================================
+// MODAL (✅ الجزء الجديد)
+// ============================================
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -371,15 +481,15 @@ $danger: #EF4444;
   align-items: center;
   justify-content: center;
   z-index: 1050;
-  animation: fadeIn 0.25s ease-out;
+  animation: fadeIn 0.2s ease-out;
+  padding: 1rem;
 }
 
 .modal-dialog {
   background: white;
-  border-radius: none;
   border-radius: 1rem;
   max-width: 32rem;
-  width: 90%;
+  width: 100%;
   box-shadow: 0 25px 50px rgba(0,0,0,0.3);
   overflow: hidden;
   animation: modalSlide 0.3s ease-out;
@@ -392,15 +502,20 @@ $danger: #EF4444;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.modal-header h3 {
-  margin: 0;
-  font-size: 1.3rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  
+  h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    
+    i {
+      font-size: 1.5rem;
+    }
+  }
 }
 
 .btn-close {
@@ -415,7 +530,12 @@ $danger: #EF4444;
   align-items: center;
   justify-content: center;
   opacity: 0.9;
-  &:hover { opacity: 1; }
+  transition: opacity 0.2s;
+  padding: 0;
+  
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .modal-body {
@@ -426,27 +546,91 @@ $danger: #EF4444;
   margin-bottom: 1.5rem;
   color: $gray-700;
   font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  i {
+    color: $primary;
+    font-size: 1.25rem;
+  }
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: $gray-700;
+.current-expiry {
+  background: $gray-50;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  
+  label {
+    font-size: 0.875rem;
+    color: $gray-500;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  
+  span {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $gray-900;
+    
+    &.expired {
+      color: $danger;
+    }
+  }
+}
+
+.form-group {
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: $gray-700;
+    font-size: 0.875rem;
+    
+    i {
+      color: $primary;
+      font-size: 1rem;
+    }
+  }
 }
 
 .form-control {
   width: 100%;
   padding: 0.875rem;
   border: 2px solid $gray-200;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   font-size: 1rem;
+  font-family: 'Cairo', sans-serif;
+  transition: all 0.2s;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 4px rgba($primary, 0.15);
+  }
+  
+  &:disabled {
+    background: $gray-100;
+    cursor: not-allowed;
+  }
 }
 
-.form-control:focus {
-  outline: none;
-  border-color: $primary;
-  box-shadow: 0 0 0 4px rgba($primary, 0.15);
+.form-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: $gray-500;
+  
+  i {
+    font-size: 1rem;
+    color: $primary;
+  }
 }
 
 .modal-footer {
@@ -457,34 +641,54 @@ $danger: #EF4444;
   gap: 1rem;
 }
 
-.btn-primary, .btn-secondary {
+.btn-primary,
+.btn-secondary {
   flex: 1;
   padding: 0.875rem;
   border: none;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  transition: all 0.2s;
+  font-family: 'Cairo', sans-serif;
+  
+  i {
+    font-size: 1.125rem;
+  }
 }
 
 .btn-primary {
   background: $primary;
   color: white;
-  &:hover:not(:disabled) { background: $primary-dark; }
+  
+  &:hover:not(:disabled) {
+    background: $primary-dark;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba($primary, 0.3);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .btn-secondary {
   background: $gray-100;
   color: $gray-700;
-}
-
-.btn-primary:disabled,
-.btn-secondary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  
+  &:hover:not(:disabled) {
+    background: $gray-200;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .spinner-sm {
@@ -496,22 +700,69 @@ $danger: #EF4444;
   animation: spin 0.6s linear infinite;
 }
 
-// أنيميشن المودال
+// Modal Animations
 @keyframes fadeIn {
   from { opacity: 0; }
-  to   { opacity: 1; }
+  to { opacity: 1; }
 }
 
 @keyframes modalSlide {
-  from { opacity: 0; transform: translateY(-30px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-// ──────────────────────────────────────────────
-// Responsive
+// ============================================
+// RESPONSIVE
+// ============================================
+@media (max-width: 992px) {
+  .companies-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
-  .companies-grid { grid-template-columns: 1fr; }
-  .page-header { flex-direction: column; align-items: stretch; text-align: center; }
-  .nav-user .user-info { display: none; }
-  .dashboard-nav { padding: 1rem; }
+  .dashboard-main {
+    padding: 1rem;
+  }
+  
+  .companies-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .nav-user .user-info {
+    display: none;
+  }
+  
+  .dashboard-nav {
+    padding: 1rem;
+  }
+  
+  .search-box {
+    max-width: 100%;
+  }
+  
+  .modal-dialog {
+    margin: 1rem;
+  }
+  
+  .modal-footer {
+    flex-direction: column;
+    
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
+    }
+  }
 }

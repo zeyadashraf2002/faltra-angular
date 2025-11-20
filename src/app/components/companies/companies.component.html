@@ -1,4 +1,4 @@
-<!-- 📁 companies.component.html - Professional Dashboard -->
+<!-- 📁 companies.component.html - FIXED VERSION -->
 <div class="dashboard-container" dir="rtl">
   
   <!-- Top Navigation Bar -->
@@ -205,5 +205,85 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- ✅ FIXED: Subscription Modal (NOW INCLUDED) -->
+@if (showExpiryModal && selectedCompany) {
+  <div class="modal-overlay" (click)="closeExpiryModal()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h3>
+          <i class="bi bi-calendar-plus"></i>
+          تعديل تاريخ الاشتراك
+        </h3>
+        <button class="btn-close" (click)="closeExpiryModal()">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
 
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <p class="company-name">
+          <i class="bi bi-building"></i>
+          {{ selectedCompany.name }}
+        </p>
+
+        <div class="current-expiry">
+          <label>التاريخ الحالي:</label>
+          <span [class.expired]="isExpired(selectedCompany.subscriptionExpiryDate)">
+            {{ selectedCompany.subscriptionExpiryDate | date: 'dd/MM/yyyy' }}
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="newExpiryDate">
+            <i class="bi bi-calendar-event"></i>
+            التاريخ الجديد
+          </label>
+          <input
+            id="newExpiryDate"
+            type="date"
+            class="form-control"
+            [(ngModel)]="newExpiryDate"
+            [min]="getTodayDate()"
+            [disabled]="isUpdating"
+            (click)="onDateInputClick($event)">
+          
+          <small class="form-hint">
+            <i class="bi bi-info-circle"></i>
+            لا يمكن تقليل مدة الاشتراك
+          </small>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button 
+          class="btn-secondary" 
+          (click)="closeExpiryModal()"
+          [disabled]="isUpdating">
+          إلغاء
+        </button>
+        
+        <button 
+          class="btn-primary" 
+          (click)="updateExpiry()"
+          [disabled]="isUpdating || !newExpiryDate">
+          @if (!isUpdating) {
+            <span>
+              <i class="bi bi-check-circle"></i>
+              حفظ
+            </span>
+          }
+          @if (isUpdating) {
+            <span>
+              <span class="spinner-sm"></span>
+              جاري الحفظ...
+            </span>
+          }
+        </button>
+      </div>
+
+    </div>
+  </div>
+}
