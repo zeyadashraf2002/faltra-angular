@@ -1,11 +1,13 @@
 // 📁 src/app/components/hero/hero.ts
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './hero.html',
   styleUrls: ['./hero.scss'],
 })

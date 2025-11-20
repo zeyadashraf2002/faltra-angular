@@ -1,8 +1,6 @@
-
-// ============================================
 // 📁 src/app/components/how-it-works/how-it-works.ts
-// ============================================
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 interface Step {
   icon: string;
@@ -13,7 +11,8 @@ interface Step {
 
 @Component({
   selector: 'app-how-it-works',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './how-it-works.html',
   styleUrls: ['./how-it-works.scss']
 })

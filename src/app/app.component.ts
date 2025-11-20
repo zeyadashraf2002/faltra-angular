@@ -8,12 +8,12 @@ import { filter } from 'rxjs/operators';
 import { ToastComponent } from './components/toast/toast.component';
 import { Navbar } from './components/navbar/navbar';
 import { Hero } from './components/hero/hero';
+import { Contact } from './components/contact/contact';
 import { Features } from './components/features/features';
 import { Screenshots } from './components/screenshots/screenshots';
 import { Pricing } from './components/pricing/pricing';
 import { HowItWorks } from './components/how-it-works/how-it-works';
 import { Testimonials } from './components/testimonials/testimonials';
-import { Contact } from './components/contact/contact';
 import { Faq } from './components/faq/faq';
 import { Footer } from './components/footer/footer';
 
@@ -26,21 +26,21 @@ import { Footer } from './components/footer/footer';
     ToastComponent,
     Navbar,
     Hero,
+    Contact,
     Features,
     Screenshots,
     Pricing,
     HowItWorks,
     Testimonials,
-    Contact,
     Faq,
-    Footer
+    Footer,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   protected readonly title = 'faltarah-landing';
-  showLandingPage = false;
+  showLandingPage = true;
 
   constructor(private router: Router) {}
 

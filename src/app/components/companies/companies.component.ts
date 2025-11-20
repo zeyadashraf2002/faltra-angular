@@ -36,6 +36,14 @@ export class CompaniesComponent implements OnInit {
     private companyService: CompanyService,
     private toastService: ToastService
   ) {}
+fixDate(dateString: string): string {
+  const date = new Date(dateString);
+
+  // تصحيح التاريخ حسب timezone
+  const corrected = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+
+  return corrected.toISOString().split('T')[0];
+}
 
   ngOnInit() {
     this.loadCompanies();
@@ -102,7 +110,8 @@ export class CompaniesComponent implements OnInit {
 
   openExpiryModal(company: Company) {
     this.selectedCompany = company;
-    this.newExpiryDate = company.subscriptionExpiryDate.split('T')[0];
+    this.newExpiryDate = this.fixDate(company.subscriptionExpiryDate);
+
     this.showExpiryModal = true;
   }
 
@@ -112,27 +121,48 @@ export class CompaniesComponent implements OnInit {
     this.newExpiryDate = '';
   }
 
-  updateExpiry() {
-    if (!this.selectedCompany || !this.newExpiryDate) return;
+ updateExpiry() {
+  if (!this.selectedCompany || !this.newExpiryDate) return;
 
-    this.isUpdating = true;
+  const currentExpiry = new Date(this.selectedCompany.subscriptionExpiryDate);
+  const newExpiry = new Date(this.newExpiryDate);
 
-    this.companyService.updateSubscription(this.selectedCompany.id, {
-      subscriptionExpiryDate: new Date(this.newExpiryDate).toISOString()
-    }).subscribe({
-      next: () => {
-        this.toastService.success('نجح', 'تم تحديث تاريخ الاشتراك بنجاح');
-        this.loadCompanies();
-        this.closeExpiryModal();
-        this.isUpdating = false;
-      },
-      error: (error) => {
-        console.error('Error updating expiry:', error);
-        this.toastService.error('خطأ', 'فشل تحديث تاريخ الاشتراك');
-        this.isUpdating = false;
-      }
-    });
+  // 🔥 تحقق من أن التاريخ الجديد لا يقل عن القديم
+  if (newExpiry < currentExpiry) {
+    this.toastService.error(
+      'تاريخ غير صالح',
+      `لا يمكن تقليل مدة الاشتراك. تاريخ الانتهاء الحالي هو: 
+      ${currentExpiry.toLocaleDateString('ar-EG')}`
+    );
+    return; // ❌ توقف قبل الإرسال
   }
+
+  this.isUpdating = true;
+
+  this.companyService.updateSubscription(this.selectedCompany.id, {
+    subscriptionExpiryDate: newExpiry.toISOString()
+  }).subscribe({
+    next: () => {
+      this.toastService.success('نجاح', 'تم تحديث تاريخ الاشتراك بنجاح');
+      this.loadCompanies();
+      this.closeExpiryModal();
+      this.isUpdating = false;
+    },
+    error: (error) => {
+      console.error('Error updating expiry:', error);
+
+      // ✔ لو الباك إند رجع خطأ من نفس النوع
+      if (error?.error?.message) {
+        this.toastService.error('خطأ', error.error.message);
+      } else {
+        this.toastService.error('خطأ', 'فشل تحديث تاريخ الاشتراك');
+      }
+
+      this.isUpdating = false;
+    }
+  });
+}
+
 
   logout() {
     if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {

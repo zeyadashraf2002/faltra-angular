@@ -1,11 +1,11 @@
-// ============================================
 // 📁 src/app/components/footer/footer.ts
-// ============================================
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-footer',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './footer.html',
   styleUrls: ['./footer.scss']
 })

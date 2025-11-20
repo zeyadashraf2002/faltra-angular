@@ -1,12 +1,11 @@
-
-// ============================================
 // 📁 src/app/components/screenshots/screenshots.ts
-// ============================================
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-screenshots',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './screenshots.html',
   styleUrls: ['./screenshots.scss']
 })

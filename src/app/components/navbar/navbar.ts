@@ -1,10 +1,13 @@
+// 📁 src/app/components/navbar/navbar.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.scss'],
 })
@@ -55,7 +58,7 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   login(): void {
-    window.location.href = `${environment.APP_URL}/login`;
+    this.router.navigate(['/login']);
   }
 
   freeTrial(): void {

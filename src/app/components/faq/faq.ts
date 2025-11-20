@@ -1,11 +1,11 @@
-// ============================================
 // 📁 src/app/components/faq/faq.ts
-// ============================================
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-faq',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './faq.html',
   styleUrls: ['./faq.scss']
 })

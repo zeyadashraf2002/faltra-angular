@@ -30,15 +30,15 @@ export class CompanyService {
     );
   }
 
-  updateSubscription(id: number, data: UpdateSubscriptionRequest): Observable<Company> {
-    return this.http.put<ApiResponse<Company>>(
-      `${this.apiUrl}/${id}/subscription`,
-      data,
-      { withCredentials: true }
-    ).pipe(
-      map(response => response.data)
-    );
-  }
+updateSubscription(id: number, data: UpdateSubscriptionRequest): Observable<Company> {
+  return this.http.put<ApiResponse<Company>>(
+    `${this.apiUrl}/${id}/subscription`,
+    data,
+    { withCredentials: true }
+  ).pipe(
+    map(response => response.data)
+  );
+}
 
   deleteCompany(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, {

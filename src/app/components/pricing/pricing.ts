@@ -1,12 +1,12 @@
-// ============================================
 // 📁 src/app/components/pricing/pricing.ts
-// ============================================
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-pricing',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './pricing.html',
   styleUrls: ['./pricing.scss'],
 })

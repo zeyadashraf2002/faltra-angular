@@ -1,7 +1,6 @@
-// ============================================
 // 📁 src/app/components/testimonials/testimonials.ts
-// ============================================
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 interface Testimonial {
   name: string;
@@ -11,9 +10,10 @@ interface Testimonial {
 
 @Component({
   selector: 'app-testimonials',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './testimonials.html',
-  styleUrls: ['./testimonials.scss'],
-  standalone: false
+  styleUrls: ['./testimonials.scss']
 })
 export class Testimonials {
   testimonials: Testimonial[] = [

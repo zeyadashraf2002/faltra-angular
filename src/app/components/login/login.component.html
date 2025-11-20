@@ -1,120 +1,102 @@
-// 📁 src/app/components/login/login.component.ts
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { ToastService } from '../../services/toast.service';
-import { environment } from '../../../environments/environment';
+<!-- 📁 src/app/components/login/login.component.html -->
+<div class="login-container min-vh-100 d-flex align-items-center justify-content-center" dir="rtl">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+          
+          <!-- Header -->
+          <div class="card-header bg-gradient text-white text-center py-4 border-0">
+            <h3 class="mb-2 fw-bold">
+              <i class="bi bi-shield-check fs-1"></i>
+            </h3>
+            <h4 class="mb-0">مرحباً بعودتك</h4>
+            <p class="mb-0 mt-2 opacity-75">سجل دخولك للمتابعة</p>
+          </div>
 
-@Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
-})
-export class LoginComponent implements OnInit {
-  formData = {
-    email: '',
-    password: ''
-  };
+          <!-- Body -->
+          <div class="card-body p-5">
+            <form (ngSubmit)="onSubmit()">
+              
+              <!-- Email -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold mb-2">
+                  <i class="bi bi-envelope-fill me-2"></i>
+                  البريد الإلكتروني
+                </label>
+                <input 
+                  type="email"
+                  class="form-control form-control-lg"
+                  [(ngModel)]="formData.email"
+                  name="email"
+                  [class.is-invalid]="errors.email"
+                  placeholder="example@domain.com"
+                  [disabled]="isLoading">
+                @if (errors.email) {
+                  <div class="invalid-feedback">{{ errors.email }}</div>
+                }
+              </div>
 
-  errors = {
-    email: '',
-    password: ''
-  };
+              <!-- Password -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold mb-2">
+                  <i class="bi bi-lock-fill me-2"></i>
+                  كلمة المرور
+                </label>
+                <div class="input-group">
+                  <input 
+                    [type]="showPassword ? 'text' : 'password'"
+                    class="form-control form-control-lg border-end-0"
+                    [(ngModel)]="formData.password"
+                    name="password"
+                    [class.is-invalid]="errors.password"
+                    placeholder="••••••••"
+                    [disabled]="isLoading">
+                  <button 
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    (click)="togglePassword()"
+                    [disabled]="isLoading">
+                    <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+                  </button>
+                </div>
+                @if (errors.password) {
+                  <div class="invalid-feedback d-block">{{ errors.password }}</div>
+                }
+              </div>
 
-  isLoading = false;
-  showPassword = false;
-  returnUrl = '/dashboard/companies';
+              <!-- Submit Button -->
+              <button 
+                type="submit"
+                class="btn btn-primary btn-lg w-100 fw-bold"
+                [disabled]="isLoading">
+                @if (!isLoading) {
+                  <span>
+                    <i class="bi bi-box-arrow-in-left me-2"></i>
+                    تسجيل الدخول
+                  </span>
+                }
+                @if (isLoading) {
+                  <span>
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    جاري تسجيل الدخول...
+                  </span>
+                }
+              </button>
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastService: ToastService
-  ) {}
+            </form>
+          </div>
 
-  ngOnInit() {
-    // إذا كان المستخدم مسجل دخول بالفعل
-    if (this.authService.isAuthenticated) {
-      this.router.navigate(['/dashboard/companies']);
-    }
+          <!-- Footer -->
+          <div class="card-footer bg-light text-center py-3 border-0">
+            <small class="text-muted">
+              ليس لديك حساب؟
+              <a href="#" class="text-primary fw-semibold text-decoration-none">تواصل معنا</a>
+            </small>
+          </div>
 
-    // Get return url from route parameters
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/companies';
-  }
-
-  validateForm(): boolean {
-    this.resetErrors();
-    let isValid = true;
-
-    // Validate email
-    if (!this.formData.email.trim()) {
-      this.errors.email = 'البريد الإلكتروني مطلوب';
-      isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.formData.email)) {
-      this.errors.email = 'البريد الإلكتروني غير صحيح';
-      isValid = false;
-    }
-
-    // Validate password
-    if (!this.formData.password) {
-      this.errors.password = 'كلمة المرور مطلوبة';
-      isValid = false;
-    } else if (this.formData.password.length < 8) {
-      this.errors.password = 'كلمة المرور يجب أن تكون 8 أحرف على الأقل';
-      isValid = false;
-    }
-
-    return isValid;
-  }
-
-  resetErrors() {
-    this.errors = { email: '', password: '' };
-  }
-
-  onSubmit() {
-    if (!this.validateForm()) return;
-
-    this.isLoading = true;
-
-    this.authService.login(this.formData).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.toastService.success(
-            'مرحباً!',
-            `أهلاً بك ${response.data.user.fullName}`
-          );
-
-          // تحقق من نوع المستخدم
-          if (response.data.user.role === 'developer') {
-            // Check if React frontend is available
-            this.authService.checkReactFrontendAvailable().then(isAvailable => {
-              if (isAvailable) {
-                window.location.href = environment.APP_URL;
-              } else {
-                this.router.navigate([this.returnUrl]);
-              }
-            });
-          } else {
-            this.router.navigate([this.returnUrl]);
-          }
-        }
-      },
-      error: (error) => {
-        this.isLoading = false;
-        const errorMsg = error.error?.message || 'خطأ في تسجيل الدخول';
-        this.toastService.error('خطأ', errorMsg);
-      },
-      complete: () => {
-        this.isLoading = false;
-      }
-    });
-  }
-
-  togglePassword() {
-    this.showPassword = !this.showPassword;
-  }
-}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

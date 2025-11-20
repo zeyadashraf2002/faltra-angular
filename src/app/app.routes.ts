@@ -1,11 +1,12 @@
+// 📁 src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { AuthGuard, DeveloperGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { 
     path: '', 
-    redirectTo: '/dashboard/companies', 
-    pathMatch: 'full' 
+    pathMatch: 'full',
+    redirectTo: ''
   },
   { 
     path: 'login',

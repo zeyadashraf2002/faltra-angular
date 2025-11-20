@@ -4,10 +4,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 import { environment } from '../../../environments/environment';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  imports: [FormsModule],
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
