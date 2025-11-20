@@ -1,4 +1,4 @@
-// 📁 src/app/guards/auth.guard.ts
+// 📁 src/app/guards/auth.guard.ts (Verified)
 import { inject } from '@angular/core';
 import { Router, CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -11,19 +11,28 @@ export const AuthGuard: CanActivateFn = (
   const authService = inject(AuthService);
   const router = inject(Router);
 
+  console.log('🔐 AuthGuard: Checking authentication...', {
+    isAuthenticated: authService.isAuthenticated,
+    currentUser: authService.currentUser,
+    requestedUrl: state.url
+  });
+
   if (authService.isAuthenticated) {
     // Check if user has required role
     const requiredRole = route.data['role'] as string;
     
     if (requiredRole && authService.currentUser?.role !== requiredRole) {
+      console.log('❌ AuthGuard: Role mismatch, redirecting to /unauthorized');
       router.navigate(['/unauthorized']);
       return false;
     }
     
+    console.log('✅ AuthGuard: Access granted');
     return true;
   }
 
   // Not logged in, redirect to login
+  console.log('❌ AuthGuard: Not authenticated, redirecting to /login');
   router.navigate(['/login'], {
     queryParams: { returnUrl: state.url }
   });

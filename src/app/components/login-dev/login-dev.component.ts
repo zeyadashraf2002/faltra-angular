@@ -1,4 +1,4 @@
-// 📁 src/app/components/login/login.component.ts (Updated)
+// 📁 src/app/components/login-dev/login-dev.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -7,12 +7,11 @@ import { environment } from '../../../environments/environment';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
+  selector: 'app-login-dev',
+  templateUrl: './login-dev.component.html',
   imports: [FormsModule],
-  styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginDevComponent implements OnInit {
   formData = {
     email: '',
     password: ''
@@ -37,10 +36,19 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // إذا كان المستخدم مسجل دخول بالفعل
     if (this.authService.isAuthenticated) {
-      this.router.navigate(['/dashboard/companies']);
+      // تحقق من أنه developer
+      if (this.authService.isDeveloper) {
+        // ✅ التوجيه المباشر لصفحة الشركات
+        this.router.navigate(['/dashboard/companies']);
+        return;
+      } else {
+        // إذا لم يكن developer، قم بتسجيل الخروج
+        this.authService.logout().subscribe(() => {
+          this.toastService.warning('تنبيه', 'هذه الصفحة مخصصة للمطورين فقط');
+        });
+      }
     }
 
-    // Get return url from route parameters
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/companies';
   }
 
@@ -78,8 +86,8 @@ export class LoginComponent implements OnInit {
 
     this.isLoading = true;
 
-    // ✅ استخدام endpoint الخاص بالمستخدمين العاديين فقط
-    this.authService.login(this.formData).subscribe({
+    // استخدام endpoint الخاص بالـ Developer
+    this.authService.loginDev(this.formData).subscribe({
       next: (response) => {
         if (response.success) {
           this.toastService.success(
@@ -87,18 +95,21 @@ export class LoginComponent implements OnInit {
             `أهلاً بك ${response.data.user.fullName}`
           );
 
-          // 🔹 المستخدمون العاديون لا يذهبون لـ React App
-          // فقط يوجهون للـ Dashboard الداخلي
-          this.router.navigate([this.returnUrl]);
+          // ✅ استخدام setTimeout للتأكد من تنفيذ التوجيه بعد حفظ البيانات
+          setTimeout(() => {
+            this.router.navigate(['/dashboard/companies']).then(() => {
+              console.log('✅ Navigation to /dashboard/companies successful');
+            });
+          }, 100);
         }
       },
       error: (error) => {
         this.isLoading = false;
         let errorMsg = 'خطأ في تسجيل الدخول';
         
-        if(error.error.statusCode === 401){
-          errorMsg = "البريد الإلكتروني أو كلمة المرور غير صحيحة";
-        } else if(error.error?.message){
+        if (error.error.statusCode === 401) {
+          errorMsg = "البريد الإلكتروني أو كلمة المرور غير صحيحة، أو أنك لست مطورًا";
+        } else if (error.error?.message) {
           errorMsg = error.error.message;
         }
         

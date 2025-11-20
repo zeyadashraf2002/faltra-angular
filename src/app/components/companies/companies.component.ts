@@ -1,11 +1,14 @@
-// 📁 src/app/components/companies/companies.component.ts - COMPLETE FIX
+// 📁 src/app/components/companies/companies.component.ts (Updated with Filters)
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router'; // ✅ NEW
 import { CompanyService } from '../../services/company.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 import { Company } from '../../models/company.model';
+
+type SubscriptionFilter = 'all' | 'active' | 'expired';
 
 @Component({
   selector: 'app-companies',
@@ -19,6 +22,9 @@ export class CompaniesComponent implements OnInit {
   filteredCompanies: Company[] = [];
   isLoading = false;
   searchQuery = '';
+  
+  // 🔹 NEW: Filter by subscription status
+  subscriptionFilter: SubscriptionFilter = 'all';
   
   // Pagination
   currentPage = 1;
@@ -34,7 +40,8 @@ export class CompaniesComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private companyService: CompanyService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router // ✅ NEW
   ) {}
 
   ngOnInit() {
@@ -58,9 +65,11 @@ export class CompaniesComponent implements OnInit {
     });
   }
 
+  // 🔹 NEW: Apply both search and subscription filters
   applyFilters() {
     let filtered = this.companies;
 
+    // Filter by search query
     if (this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase();
       filtered = filtered.filter(company => 
@@ -70,9 +79,23 @@ export class CompaniesComponent implements OnInit {
       );
     }
 
+    // 🔹 NEW: Filter by subscription status
+    if (this.subscriptionFilter === 'active') {
+      filtered = filtered.filter(company => !this.isExpired(company.subscriptionExpiryDate));
+    } else if (this.subscriptionFilter === 'expired') {
+      filtered = filtered.filter(company => this.isExpired(company.subscriptionExpiryDate));
+    }
+    // 'all' shows everything
+
     this.filteredCompanies = filtered;
     this.totalPages = Math.ceil(this.filteredCompanies.length / this.itemsPerPage);
     this.currentPage = 1;
+  }
+
+  // 🔹 NEW: Change subscription filter
+  setSubscriptionFilter(filter: SubscriptionFilter) {
+    this.subscriptionFilter = filter;
+    this.applyFilters();
   }
 
   onSearchChange() {
@@ -99,32 +122,22 @@ export class CompaniesComponent implements OnInit {
     return new Date(expiryDate) < new Date();
   }
 
-  /**
-   * ✅ FIX: تصحيح التاريخ حسب timezone
-   */
   fixDate(dateString: string): string {
     const date = new Date(dateString);
     const corrected = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
     return corrected.toISOString().split('T')[0];
   }
 
-  /**
-   * ✅ NEW: الحصول على تاريخ اليوم لـ min attribute
-   */
   getTodayDate(): string {
     const today = new Date();
     return today.toISOString().split('T')[0];
   }
 
-  /**
-   * ✅ NEW: معالج الضغط على date input
-   */
   onDateInputClick(event: Event) {
     const input = event.target as HTMLInputElement;
     try {
-      input.showPicker(); // ✅ فتح calendar picker
+      input.showPicker();
     } catch (error) {
-      // Fallback للمتصفحات القديمة
       input.focus();
       console.log('showPicker not supported, using focus fallback');
     }
@@ -142,9 +155,6 @@ export class CompaniesComponent implements OnInit {
     this.newExpiryDate = '';
   }
 
-  /**
-   * ✅ FIX: تحديث الاشتراك
-   */
   updateExpiry() {
     if (!this.selectedCompany || !this.newExpiryDate) {
       this.toastService.error('خطأ', 'يرجى اختيار تاريخ صحيح');
@@ -154,10 +164,8 @@ export class CompaniesComponent implements OnInit {
     const currentExpiry = new Date(this.selectedCompany.subscriptionExpiryDate);
     const newExpiry = new Date(this.newExpiryDate);
     
-    // ✅ إضافة يوم للتعويض عن timezone
     newExpiry.setDate(newExpiry.getDate() + 1);
 
-    // التحقق من عدم تقليل المدة
     if (newExpiry < currentExpiry) {
       this.toastService.error(
         'تاريخ غير صالح',
@@ -186,43 +194,16 @@ export class CompaniesComponent implements OnInit {
     });
   }
 
-  /**
-   * ✅ FIX: تسجيل الخروج بدون تأكيد
-   * أو إظهار toast للتأكيد
-   */
   logout() {
-    // ✅ خروج مباشر بدون confirm
     this.authService.logout().subscribe({
       next: () => {
         this.toastService.success('تم تسجيل الخروج', 'وداعاً، نراك قريباً');
+        // ✅ التوجيه بعد تسجيل الخروج
+        this.router.navigate(['/login']);
       },
       error: () => {
         this.toastService.error('خطأ', 'فشل تسجيل الخروج');
       }
     });
   }
-  
-
-  
-  /**
-   * OR - إذا أردت Toast للتأكيد بدلاً من confirm:
-   */
-  /*
-  logout() {
-    // عرض Toast للتأكيد
-    this.toastService.warning(
-      'تأكيد تسجيل الخروج',
-      'هل أنت متأكد من تسجيل الخروج؟'
-    );
-    
-    // يمكنك إضافة timeout للخروج التلقائي
-    setTimeout(() => {
-      this.authService.logout().subscribe({
-        next: () => {
-          this.toastService.success('تم', 'تم تسجيل الخروج بنجاح');
-        }
-      });
-    }, 2000);
-  }
-  */
 }

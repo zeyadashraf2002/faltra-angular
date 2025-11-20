@@ -1,4 +1,4 @@
-// src/app/services/auth.service.ts
+// 📁 src/app/services/auth.service.ts (Updated)
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -48,7 +48,24 @@ export class AuthService {
     return this.currentUser?.role === 'manager';
   }
 
+  // 🔹 تسجيل دخول المستخدمين العاديين (Manager, Employee)
   login(credentials: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(
+      `${environment.API_URL}/users/login`,
+      credentials,
+      { withCredentials: true }
+    ).pipe(
+      tap(response => {
+        if (response.success && response.data.user) {
+          localStorage.setItem('currentUser', JSON.stringify(response.data.user));
+          this.currentUserSubject.next(response.data.user);
+        }
+      })
+    );
+  }
+
+  // 🔹 NEW: تسجيل دخول المطورين فقط
+  loginDev(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(
       `${environment.API_URL}/users/logindev`,
       credentials,
@@ -72,7 +89,8 @@ export class AuthService {
       tap(() => {
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
-        this.router.navigate(['/login']);
+        // ✅ إزالة التوجيه التلقائي - سيتم التحكم به من الـ Component
+        // this.router.navigate(['/login']); 
       })
     );
   }
