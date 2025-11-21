@@ -14,10 +14,12 @@ import { environment } from '../../../environments/environment';
 export class Hero {
   constructor(private router: Router) {}
 
+  // ✅ UPDATED: Route to React login
   login(): void {
-    this.router.navigate(['/login']);
+    window.location.href = `${environment.APP_URL}/login`;
   }
 
+  // ✅ UPDATED: Route to React signup
   freeTrial(): void {
     window.location.href = `${environment.APP_URL}/signup`;
   }

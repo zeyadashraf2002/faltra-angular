@@ -1,4 +1,3 @@
-// 📁 src/app/components/company-details/company-details.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,41 +6,7 @@ import { SubscriptionService } from '../../services/subscription.service';
 import { ToastService } from '../../services/toast.service';
 import { AuthService } from '../../services/auth.service';
 
-interface SubscriptionStatus {
-  company: {
-    id: number;
-    name: string;
-    email: string;
-  };
-  status: 'active' | 'expired';
-  currentSubscription: {
-    id: number;
-    status: string;
-    startDate: string;
-    endDate: string;
-    plan: {
-      id: number;
-      name: string;
-      nameAr: string;
-      price: number;
-      durationDays: number;
-    };
-  } | null;
-  daysRemaining: number;
-  expiryDate: string;
-  invoices: Array<{
-    id: number;
-    planName: string;
-    amount: number;
-    durationDays: number;
-    paymentMethod: string;
-    paymentStatus: string;
-    createdAt: string;
-    paidAt: string | null;
-  }>;
-  unreadAlerts: any[];
-  alertsHistory: any[];
-}
+import { SubscriptionStatus } from '../../models/subscription-status.model';
 
 @Component({
   selector: 'app-company-details',
@@ -66,7 +31,6 @@ export class CompanyDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Get company ID from route params
     this.route.params.subscribe(params => {
       this.companyId = Number(params['id']);
       if (this.companyId) {
@@ -84,12 +48,10 @@ export class CompanyDetailsComponent implements OnInit {
 
     this.subscriptionService.getCompanyStatus(this.companyId).subscribe({
       next: (response) => {
-        console.log('✅ Subscription status:', response);
         this.subscriptionStatus = response.data;
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('❌ Error loading subscription:', error);
         const errorMsg = error.error?.message || 'فشل تحميل بيانات الاشتراك';
         this.error = errorMsg;
         this.toastService.error('خطأ', errorMsg);
@@ -104,44 +66,30 @@ export class CompanyDetailsComponent implements OnInit {
 
   getStatusBadgeClass(status: string): string {
     switch (status) {
-      case 'active':
-        return 'badge-success';
-      case 'expired':
-        return 'badge-danger';
-      case 'pending':
-        return 'badge-warning';
-      default:
-        return 'badge-secondary';
+      case 'active': return 'badge-success';
+      case 'expired': return 'badge-danger';
+      case 'pending': return 'badge-warning';
+      default: return 'badge-secondary';
     }
   }
 
   getStatusText(status: string): string {
     switch (status) {
-      case 'active':
-        return 'نشط';
-      case 'expired':
-        return 'منتهي';
-      case 'pending':
-        return 'قيد الانتظار';
-      case 'cancelled':
-        return 'ملغي';
-      default:
-        return status;
+      case 'active': return 'نشط';
+      case 'expired': return 'منتهي';
+      case 'pending': return 'قيد الانتظار';
+      case 'cancelled': return 'ملغي';
+      default: return status;
     }
   }
 
   getPaymentStatusBadge(status: string): { class: string; text: string; icon: string } {
     switch (status) {
-      case 'paid':
-        return { class: 'badge-success', text: 'مدفوع', icon: 'bi-check-circle' };
-      case 'pending':
-        return { class: 'badge-warning', text: 'قيد الانتظار', icon: 'bi-clock' };
-      case 'failed':
-        return { class: 'badge-danger', text: 'فشل', icon: 'bi-x-circle' };
-      case 'refunded':
-        return { class: 'badge-secondary', text: 'مسترد ', icon: 'bi-arrow-clockwise' };
-      default:
-        return { class: 'badge-secondary', text: status, icon: 'bi-question-circle' };
+      case 'paid': return { class: 'badge-success', text: 'مدفوع', icon: 'bi-check-circle' };
+      case 'pending': return { class: 'badge-warning', text: 'قيد الانتظار', icon: 'bi-clock' };
+      case 'failed': return { class: 'badge-danger', text: 'فشل', icon: 'bi-x-circle' };
+      case 'refunded': return { class: 'badge-secondary', text: 'مسترد ', icon: 'bi-arrow-clockwise' };
+      default: return { class: 'badge-secondary', text: status, icon: 'bi-question-circle' };
     }
   }
 
@@ -155,11 +103,29 @@ export class CompanyDetailsComponent implements OnInit {
 
   getDaysRemainingClass(): string {
     if (!this.subscriptionStatus) return '';
-    
+
     const days = this.subscriptionStatus.daysRemaining;
     if (days <= 0) return 'text-danger';
     if (days <= 3) return 'text-danger';
     if (days <= 7) return 'text-warning';
     return 'text-success';
+  }
+
+  getSubscriptionStatusBadge(status: string): string {
+    switch (status) {
+      case 'active': return 'badge-success';
+      case 'expired': return 'badge-danger';
+      case 'cancelled': return 'badge-secondary';
+      default: return 'badge-secondary';
+    }
+  }
+
+  getSubscriptionStatusText(status: string): string {
+    switch (status) {
+      case 'active': return 'نشط';
+      case 'expired': return 'منتهي';
+      case 'cancelled': return 'ملغي';
+      default: return status;
+    }
   }
 }

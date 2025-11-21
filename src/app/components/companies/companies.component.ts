@@ -31,11 +31,6 @@ export class CompaniesComponent implements OnInit {
   itemsPerPage = 6;
   totalPages = 1;
   
-  // Modal
-  showExpiryModal = false;
-  selectedCompany: Company | null = null;
-  newExpiryDate = '';
-  isUpdating = false;
 
   constructor(
     public authService: AuthService,
@@ -121,77 +116,9 @@ export class CompaniesComponent implements OnInit {
     return new Date(expiryDate) < new Date();
   }
 
-  fixDate(dateString: string): string {
-    const date = new Date(dateString);
-    const corrected = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-    return corrected.toISOString().split('T')[0];
-  }
+ 
+ 
 
-  getTodayDate(): string {
-    const today = new Date();
-    return today.toISOString().split('T')[0];
-  }
-
-  onDateInputClick(event: Event) {
-    const input = event.target as HTMLInputElement;
-    try {
-      input.showPicker();
-    } catch (error) {
-      input.focus();
-      console.log('showPicker not supported, using focus fallback');
-    }
-  }
-
-  openExpiryModal(company: Company) {
-    this.selectedCompany = company;
-    this.newExpiryDate = this.fixDate(company.subscriptionExpiryDate);
-    this.showExpiryModal = true;
-  }
-
-  closeExpiryModal() {
-    this.showExpiryModal = false;
-    this.selectedCompany = null;
-    this.newExpiryDate = '';
-  }
-
-  updateExpiry() {
-    if (!this.selectedCompany || !this.newExpiryDate) {
-      this.toastService.error('خطأ', 'يرجى اختيار تاريخ صحيح');
-      return;
-    }
-
-    const currentExpiry = new Date(this.selectedCompany.subscriptionExpiryDate);
-    const newExpiry = new Date(this.newExpiryDate);
-    
-    newExpiry.setDate(newExpiry.getDate() + 1);
-
-    if (newExpiry < currentExpiry) {
-      this.toastService.error(
-        'تاريخ غير صالح',
-        `لا يمكن تقليل مدة الاشتراك. التاريخ الحالي: ${currentExpiry.toLocaleDateString('ar-EG')}`
-      );
-      return;
-    }
-
-    this.isUpdating = true;
-
-    this.companyService.updateSubscription(this.selectedCompany.id, {
-      subscriptionExpiryDate: newExpiry.toISOString()
-    }).subscribe({
-      next: () => {
-        this.toastService.success('نجاح', 'تم تحديث تاريخ الاشتراك بنجاح');
-        this.loadCompanies();
-        this.closeExpiryModal();
-        this.isUpdating = false;
-      },
-      error: (error) => {
-        console.error('Error updating expiry:', error);
-        const errorMsg = error?.error?.message || 'فشل تحديث تاريخ الاشتراك';
-        this.toastService.error('خطأ', errorMsg);
-        this.isUpdating = false;
-      }
-    });
-  }
 
   // 🔹 NEW: Navigate to company details page
   viewCompanyDetails(companyId: number) {
