@@ -1,9 +1,17 @@
-// 📁 src/app/app.routes.ts (Updated with company details route)
+// 📁 src/app/app.routes.ts (FIXED - Home page accessible without login)
 import { Routes } from '@angular/router';
 import { AuthGuard, DeveloperGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  // 🔹 Login routes
+  // 🔹 Public routes (no authentication required)
+  { 
+    path: '',
+    pathMatch: 'full',
+    loadChildren: () => import('./app.component').then(m => [
+      { path: '', component: m.AppComponent }
+    ])
+  },
+  
   { 
     path: 'login',
     loadComponent: () => import('./components/login/login.component')
@@ -28,24 +36,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   
-  // 🔹 NEW: Company details route
+  // 🔹 Company details route
   { 
     path: 'dashboard/companies/:id',
     loadComponent: () => import('./components/company-details/company-details.component')
       .then(m => m.CompanyDetailsComponent),
     canActivate: [AuthGuard]
-  },
-  
-  // 🔹 Default redirect
-  {
-    path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
-  },
-  
-  // 🔹 Wildcard route
-  {
-    path: '**',
-    redirectTo: '/login'
   }
 ];
