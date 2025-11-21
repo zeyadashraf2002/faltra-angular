@@ -1,4 +1,4 @@
-// 📁 src/app/app.component.ts (Updated)
+// 📁 src/app/app.component.ts - DEV-LOGIN ROUTE CHECK
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
@@ -48,9 +48,8 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      // ✅ إضافة dev-login للصفحات التي لا تظهر فيها Landing Page
-      const isAuthRoute = event.url.includes('/login') || 
-                         event.url.includes('/dev-login') ||
+      // ✅ UPDATED: Include /dev-login in hidden routes
+      const isAuthRoute = event.url.includes('/dev-login') || 
                          event.url.includes('/dashboard') ||
                          event.url.includes('/unauthorized');
       

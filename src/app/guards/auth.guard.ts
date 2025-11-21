@@ -1,9 +1,9 @@
-// 📁 src/app/guards/auth.guard.ts (Verified)
+// 📁 src/app/guards/auth.guard.ts - REDIRECT TO DEV-LOGIN
 import { inject } from '@angular/core';
 import { Router, CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-// AuthGuard - Functional Guard
+// ✅ AuthGuard - Redirects to /dev-login if not authenticated
 export const AuthGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
@@ -31,15 +31,15 @@ export const AuthGuard: CanActivateFn = (
     return true;
   }
 
-  // Not logged in, redirect to login
-  console.log('❌ AuthGuard: Not authenticated, redirecting to /login');
-  router.navigate(['/login'], {
+  // ✅ Not logged in, redirect to /dev-login
+  console.log('❌ AuthGuard: Not authenticated, redirecting to /dev-login');
+  router.navigate(['/dev-login'], {
     queryParams: { returnUrl: state.url }
   });
   return false;
 };
 
-// DeveloperGuard - Functional Guard
+// ✅ DeveloperGuard - For developer-only routes
 export const DeveloperGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);

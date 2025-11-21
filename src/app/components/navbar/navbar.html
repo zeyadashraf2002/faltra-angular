@@ -1,4 +1,4 @@
-<!-- 📁 navbar.html - Modern Clean Design -->
+<!-- 📁 navbar.html - FULL HEIGHT SIDEBAR -->
 <nav class="navbar-modern" dir="rtl">
   <div class="container">
     <div class="navbar-container">
@@ -37,9 +37,13 @@
       </button>
     </div>
 
-    <!-- Mobile Menu -->
+    <!-- ✅ FULL HEIGHT SIDEBAR with Backdrop -->
     @if (mobileMenuOpen) {
-      <div class="mobile-menu d-lg-none">
+      <!-- Backdrop -->
+      <div class="mobile-backdrop" (click)="mobileMenuOpen = false"></div>
+      
+      <!-- Mobile Sidebar Menu -->
+      <div class="mobile-sidebar d-lg-none">
         <a href="#home" class="mobile-link" (click)="mobileMenuOpen = false">الرئيسية</a>
         <a href="#features" class="mobile-link" (click)="mobileMenuOpen = false">المميزات</a>
         <a href="#how-it-works" class="mobile-link" (click)="mobileMenuOpen = false">كيف يعمل</a>
@@ -49,8 +53,8 @@
         <a href="#contact" class="mobile-link" (click)="mobileMenuOpen = false">تواصل</a>
         
         <div class="mobile-actions">
-          <button class="btn-secondary w-100 mb-2" (click)="login()">تسجيل الدخول</button>
-          <button class="btn-primary w-100" (click)="freeTrial()">
+          <button class="btn-secondary w-100 mb-2" (click)="login(); mobileMenuOpen = false">تسجيل الدخول</button>
+          <button class="btn-primary w-100" (click)="freeTrial(); mobileMenuOpen = false">
             ابدأ مجاناً
             <i class="bi bi-arrow-left"></i>
           </button>
@@ -61,7 +65,7 @@
 </nav>
 
 <style>
-/* Modern Navbar Styles */
+/* Modern Navbar */
 .navbar-modern {
   position: fixed;
   top: 0;
@@ -101,7 +105,7 @@
   color: #2563EB;
 }
 
-/* Navigation Links */
+/* Desktop Navigation Links */
 .navbar-menu {
   display: flex;
   align-items: center;
@@ -194,33 +198,81 @@
   color: #374151;
   font-size: 1.5rem;
   cursor: pointer;
+  z-index: 1002;
 }
 
-/* Mobile Menu */
-.mobile-menu {
-  padding: 1.5rem 0;
-  border-top: 1px solid #E5E7EB;
-  margin-top: 1rem;
+/* ✅ FIXED: Full Screen Backdrop */
+.mobile-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ✅ FIXED: Full Height Sidebar */
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  max-width: 85vw;
+  height: 100vh; /* ✅ Full screen height */
+  background-color: #FFFFFF;
+  padding: 5rem 1.5rem 1.5rem;
+  overflow-y: auto;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .mobile-link {
   display: block;
-  padding: 0.75rem 0;
+  padding: 1rem 0;
   color: #374151;
   font-weight: 500;
+  font-size: 1.0625rem;
   text-decoration: none;
   border-bottom: 1px solid #F3F4F6;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .mobile-link:hover {
   color: #2563EB;
+  padding-right: 0.5rem;
+}
+
+.mobile-link:last-of-type {
+  border-bottom: none;
 }
 
 .mobile-actions {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #E5E7EB;
+  border-top: 2px solid #E5E7EB;
+}
+
+/* Prevent body scroll when sidebar is open */
+body.sidebar-open {
+  overflow: hidden;
 }
 
 /* Responsive */

@@ -1,4 +1,4 @@
-// 📁 src/app/components/companies/companies.component.ts (Updated with navigation)
+// 📁 companies.component.ts - LOGOUT TO DEV-LOGIN
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -22,15 +22,10 @@ export class CompaniesComponent implements OnInit {
   filteredCompanies: Company[] = [];
   isLoading = false;
   searchQuery = '';
-  
-  // Filter by subscription status
   subscriptionFilter: SubscriptionFilter = 'all';
-  
-  // Pagination
   currentPage = 1;
   itemsPerPage = 6;
   totalPages = 1;
-  
 
   constructor(
     public authService: AuthService,
@@ -60,11 +55,9 @@ export class CompaniesComponent implements OnInit {
     });
   }
 
-  // Apply both search and subscription filters
   applyFilters() {
     let filtered = this.companies;
 
-    // Filter by search query
     if (this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase();
       filtered = filtered.filter(company => 
@@ -74,7 +67,6 @@ export class CompaniesComponent implements OnInit {
       );
     }
 
-    // Filter by subscription status
     if (this.subscriptionFilter === 'active') {
       filtered = filtered.filter(company => !this.isExpired(company.subscriptionExpiryDate));
     } else if (this.subscriptionFilter === 'expired') {
@@ -86,7 +78,6 @@ export class CompaniesComponent implements OnInit {
     this.currentPage = 1;
   }
 
-  // Change subscription filter
   setSubscriptionFilter(filter: SubscriptionFilter) {
     this.subscriptionFilter = filter;
     this.applyFilters();
@@ -116,20 +107,17 @@ export class CompaniesComponent implements OnInit {
     return new Date(expiryDate) < new Date();
   }
 
- 
- 
-
-
-  // 🔹 NEW: Navigate to company details page
   viewCompanyDetails(companyId: number) {
     this.router.navigate(['/dashboard/companies', companyId]);
   }
 
+  // ✅ FIXED: Logout redirects to /dev-login
   logout() {
     this.authService.logout().subscribe({
       next: () => {
         this.toastService.success('تم تسجيل الخروج', 'وداعاً، نراك قريباً');
-        this.router.navigate(['/login']);
+        // ✅ Navigate to /dev-login (protected developer route)
+        this.router.navigate(['/dev-login']);
       },
       error: () => {
         this.toastService.error('خطأ', 'فشل تسجيل الخروج');

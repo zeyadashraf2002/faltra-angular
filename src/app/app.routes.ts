@@ -1,34 +1,29 @@
-// 📁 src/app/app.routes.ts (FIXED - Home page accessible without login)
+// 📁 src/app/app.routes.ts - PROTECTED DEV-LOGIN ROUTE
 import { Routes } from '@angular/router';
-import { AuthGuard, DeveloperGuard } from './guards/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  // 🔹 Public routes (no authentication required)
+  // 🔹 Home route - Landing page
   { 
     path: '',
     pathMatch: 'full',
-    loadChildren: () => import('./app.component').then(m => [
-      { path: '', component: m.AppComponent }
-    ])
+    children: []
   },
   
-  { 
-    path: 'login',
-    loadComponent: () => import('./components/login/login.component')
-      .then(m => m.LoginComponent)
-  },
+  // 🔹 PROTECTED: Dev-Login route (hidden from regular users)
   { 
     path: 'dev-login',
     loadComponent: () => import('./components/login-dev/login-dev.component')
       .then(m => m.LoginDevComponent)
   },
+  
   { 
     path: 'unauthorized',
     loadComponent: () => import('./components/unauthorized/unauthorized.component')
       .then(m => m.UnauthorizedComponent)
   },
   
-  // 🔹 Dashboard routes (protected)
+  // 🔹 Dashboard routes (protected by AuthGuard)
   { 
     path: 'dashboard/companies',
     loadComponent: () => import('./components/companies/companies.component')
@@ -36,11 +31,16 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   
-  // 🔹 Company details route
   { 
     path: 'dashboard/companies/:id',
     loadComponent: () => import('./components/company-details/company-details.component')
       .then(m => m.CompanyDetailsComponent),
     canActivate: [AuthGuard]
+  },
+
+  // 🔹 Redirect unknown routes to home
+  { 
+    path: '**', 
+    redirectTo: '' 
   }
 ];

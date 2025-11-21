@@ -1,9 +1,8 @@
-// 📁 src/app/components/login-dev/login-dev.component.ts
+// 📁 src/app/components/login-dev/login-dev.component.ts - RETURN URL
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
-import { environment } from '../../../environments/environment';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -34,21 +33,19 @@ export class LoginDevComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // إذا كان المستخدم مسجل دخول بالفعل
+    // ✅ Check if already logged in
     if (this.authService.isAuthenticated) {
-      // تحقق من أنه developer
       if (this.authService.isDeveloper) {
-        // ✅ التوجيه المباشر لصفحة الشركات
         this.router.navigate(['/dashboard/companies']);
         return;
       } else {
-        // إذا لم يكن developer، قم بتسجيل الخروج
         this.authService.logout().subscribe(() => {
           this.toastService.warning('تنبيه', 'هذه الصفحة مخصصة للمطورين فقط');
         });
       }
     }
 
+    // ✅ Get return URL from query params
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/companies';
   }
 
@@ -56,7 +53,6 @@ export class LoginDevComponent implements OnInit {
     this.resetErrors();
     let isValid = true;
 
-    // Validate email
     if (!this.formData.email.trim()) {
       this.errors.email = 'البريد الإلكتروني مطلوب';
       isValid = false;
@@ -65,7 +61,6 @@ export class LoginDevComponent implements OnInit {
       isValid = false;
     }
 
-    // Validate password
     if (!this.formData.password) {
       this.errors.password = 'كلمة المرور مطلوبة';
       isValid = false;
@@ -86,7 +81,6 @@ export class LoginDevComponent implements OnInit {
 
     this.isLoading = true;
 
-    // استخدام endpoint الخاص بالـ Developer
     this.authService.loginDev(this.formData).subscribe({
       next: (response) => {
         if (response.success) {
@@ -95,10 +89,10 @@ export class LoginDevComponent implements OnInit {
             `أهلاً بك ${response.data.user.fullName}`
           );
 
-          // ✅ استخدام setTimeout للتأكد من تنفيذ التوجيه بعد حفظ البيانات
+          // ✅ Navigate to return URL or default dashboard
           setTimeout(() => {
-            this.router.navigate(['/dashboard/companies']).then(() => {
-              console.log('✅ Navigation to /dashboard/companies successful');
+            this.router.navigate([this.returnUrl]).then(() => {
+              console.log('✅ Navigation successful to:', this.returnUrl);
             });
           }, 100);
         }

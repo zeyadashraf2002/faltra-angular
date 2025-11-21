@@ -1,4 +1,4 @@
-// 📁 src/app/components/navbar/navbar.ts
+// 📁 src/app/components/navbar/navbar.ts - BODY SCROLL LOCK
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -12,9 +12,25 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./navbar.scss'],
 })
 export class Navbar implements OnInit, OnDestroy {
-  mobileMenuOpen = false;
+  private _mobileMenuOpen = false;
 
   constructor(private router: Router) {}
+
+  // ✅ Getter/Setter with body scroll lock
+  get mobileMenuOpen(): boolean {
+    return this._mobileMenuOpen;
+  }
+
+  set mobileMenuOpen(value: boolean) {
+    this._mobileMenuOpen = value;
+    
+    // ✅ Lock/unlock body scroll
+    if (value) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
 
   ngOnInit(): void {
     this.setupScrollEffect();
@@ -23,6 +39,8 @@ export class Navbar implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     window.removeEventListener('scroll', this.handleScroll);
+    // ✅ Cleanup: restore scroll on destroy
+    document.body.style.overflow = '';
   }
 
   private handleScroll = () => {
@@ -51,18 +69,18 @@ export class Navbar implements OnInit, OnDestroy {
           const yOffset = -80;
           const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
           window.scrollTo({ top: y, behavior: 'smooth' });
-          this.mobileMenuOpen = false; 
+          this.mobileMenuOpen = false;
         }
       });
     });
   }
 
-  // ✅ UPDATED: Route to React login
+  // ✅ Login redirects to React app
   login(): void {
     window.location.href = `${environment.APP_URL}/login`;
   }
 
-  // ✅ UPDATED: Route to React signup
+  // ✅ Free trial redirects to React signup
   freeTrial(): void {
     window.location.href = `${environment.APP_URL}/signup`;
   }
