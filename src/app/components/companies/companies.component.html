@@ -1,11 +1,10 @@
-<!-- 📁 companies.component.html - UPDATED WITH FILTERS -->
+<!-- 📁 companies.component.html - UPDATED WITH DETAILS BUTTON -->
 <div class="dashboard-container" dir="rtl">
   
   <!-- Top Navigation Bar -->
   <nav class="dashboard-nav">
     <div class="nav-content">
       <div class="nav-brand">
-        <!-- ✅ استخدام نفس اللوجو من صفحة الهوم -->
         <img src="assets/logo.png" alt="فلتره" class="nav-logo-img">
         <div>
           <h5>فلتره</h5>
@@ -44,7 +43,7 @@
         </div>
       </div>
 
-      <!-- 🔹 NEW: Search & Filter Toolbar -->
+      <!-- Search & Filter Toolbar -->
       <div class="toolbar">
         <!-- Search Box -->
         <div class="search-box">
@@ -56,7 +55,7 @@
             (input)="onSearchChange()">
         </div>
 
-        <!-- 🔹 NEW: Subscription Status Filters -->
+        <!-- Subscription Status Filters -->
         <div class="filter-buttons">
           <button 
             class="filter-btn"
@@ -164,7 +163,7 @@
                     </div>
                   </div>
 
-                  <!-- 🔹 UPDATED: Expiry Date with Inline Edit Button -->
+                  <!-- Expiry Date with Inline Edit Button -->
                   <div class="info-row highlight expiry-row">
                     <i class="bi bi-calendar-x" 
                        [class.text-danger]="isExpired(company.subscriptionExpiryDate)"
@@ -179,7 +178,7 @@
                         </span>
                       </div>
                       
-                      <!-- 🔹 NEW: Inline Edit Button (Developer Only) -->
+                      <!-- Inline Edit Button (Developer Only) -->
                       @if (authService.isDeveloper) {
                         <button 
                           class="btn-edit-inline" 
@@ -192,6 +191,18 @@
                   </div>
 
                 </div>
+              </div>
+
+              <!-- 🔹 NEW: Card Footer with Details Button -->
+              <div class="card-footer">
+                <button 
+                  class="btn-details" 
+                  (click)="viewCompanyDetails(company.id)"
+                  title="عرض التفاصيل الكاملة">
+                  <i class="bi bi-file-text"></i>
+                  <span>عرض تفاصيل الاشتراك والفواتير</span>
+                  <i class="bi bi-arrow-left"></i>
+                </button>
               </div>
 
             </div>

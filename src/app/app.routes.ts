@@ -1,18 +1,14 @@
-// 📁 src/app/app.routes.ts (Fixed)
+// 📁 src/app/app.routes.ts (Updated with company details route)
 import { Routes } from '@angular/router';
 import { AuthGuard, DeveloperGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  // ✅ المسار الرئيسي - لن يفعل شيء (Landing Page ستظهر من app.component)
-  // نحتاج component فارغ أو نحذف هذا السطر تماماً
-  
-  // 🔹 تسجيل دخول المستخدمين العاديين (Manager, Employee)
+  // 🔹 Login routes
   { 
     path: 'login',
     loadComponent: () => import('./components/login/login.component')
       .then(m => m.LoginComponent)
   },
-  // 🔹 تسجيل دخول المطورين فقط
   { 
     path: 'dev-login',
     loadComponent: () => import('./components/login-dev/login-dev.component')
@@ -23,11 +19,33 @@ export const routes: Routes = [
     loadComponent: () => import('./components/unauthorized/unauthorized.component')
       .then(m => m.UnauthorizedComponent)
   },
-  // 🔹 Dashboard للشركات (يتطلب تسجيل دخول)
+  
+  // 🔹 Dashboard routes (protected)
   { 
     path: 'dashboard/companies',
     loadComponent: () => import('./components/companies/companies.component')
       .then(m => m.CompaniesComponent),
     canActivate: [AuthGuard]
+  },
+  
+  // 🔹 NEW: Company details route
+  { 
+    path: 'dashboard/companies/:id',
+    loadComponent: () => import('./components/company-details/company-details.component')
+      .then(m => m.CompanyDetailsComponent),
+    canActivate: [AuthGuard]
+  },
+  
+  // 🔹 Default redirect
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+  
+  // 🔹 Wildcard route
+  {
+    path: '**',
+    redirectTo: '/login'
   }
 ];

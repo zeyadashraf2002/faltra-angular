@@ -1,8 +1,8 @@
-// 📁 src/app/components/companies/companies.component.ts (Updated with Filters)
+// 📁 src/app/components/companies/companies.component.ts (Updated with navigation)
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router'; // ✅ NEW
+import { Router } from '@angular/router';
 import { CompanyService } from '../../services/company.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
@@ -23,7 +23,7 @@ export class CompaniesComponent implements OnInit {
   isLoading = false;
   searchQuery = '';
   
-  // 🔹 NEW: Filter by subscription status
+  // Filter by subscription status
   subscriptionFilter: SubscriptionFilter = 'all';
   
   // Pagination
@@ -41,7 +41,7 @@ export class CompaniesComponent implements OnInit {
     public authService: AuthService,
     private companyService: CompanyService,
     private toastService: ToastService,
-    private router: Router // ✅ NEW
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -65,7 +65,7 @@ export class CompaniesComponent implements OnInit {
     });
   }
 
-  // 🔹 NEW: Apply both search and subscription filters
+  // Apply both search and subscription filters
   applyFilters() {
     let filtered = this.companies;
 
@@ -79,20 +79,19 @@ export class CompaniesComponent implements OnInit {
       );
     }
 
-    // 🔹 NEW: Filter by subscription status
+    // Filter by subscription status
     if (this.subscriptionFilter === 'active') {
       filtered = filtered.filter(company => !this.isExpired(company.subscriptionExpiryDate));
     } else if (this.subscriptionFilter === 'expired') {
       filtered = filtered.filter(company => this.isExpired(company.subscriptionExpiryDate));
     }
-    // 'all' shows everything
 
     this.filteredCompanies = filtered;
     this.totalPages = Math.ceil(this.filteredCompanies.length / this.itemsPerPage);
     this.currentPage = 1;
   }
 
-  // 🔹 NEW: Change subscription filter
+  // Change subscription filter
   setSubscriptionFilter(filter: SubscriptionFilter) {
     this.subscriptionFilter = filter;
     this.applyFilters();
@@ -194,11 +193,15 @@ export class CompaniesComponent implements OnInit {
     });
   }
 
+  // 🔹 NEW: Navigate to company details page
+  viewCompanyDetails(companyId: number) {
+    this.router.navigate(['/dashboard/companies', companyId]);
+  }
+
   logout() {
     this.authService.logout().subscribe({
       next: () => {
         this.toastService.success('تم تسجيل الخروج', 'وداعاً، نراك قريباً');
-        // ✅ التوجيه بعد تسجيل الخروج
         this.router.navigate(['/login']);
       },
       error: () => {

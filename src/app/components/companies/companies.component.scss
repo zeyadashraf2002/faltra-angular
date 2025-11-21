@@ -21,6 +21,26 @@ $danger: #EF4444;
 $danger-light: #FEE2E2;
 
 // ============================================
+// COLOR SYSTEM
+// ============================================
+$primary: #2563EB;
+$primary-dark: #1D4ED8;
+$primary-light: #DBEAFE;
+
+$gray-50: #F9FAFB;
+$gray-100: #F3F4F6;
+$gray-200: #E5E7EB;
+$gray-300: #D1D5DB;
+$gray-500: #6B7280;
+$gray-700: #374151;
+$gray-900: #111827;
+
+$success: #10B981;
+$success-light: #D1FAE5;
+$danger: #EF4444;
+$danger-light: #FEE2E2;
+
+// ============================================
 // MAIN CONTAINER
 // ============================================
 .dashboard-container {
@@ -165,6 +185,70 @@ $danger-light: #FEE2E2;
   }
 }
 
+
+
+// ============================================
+// 🔹 NEW: CARD FOOTER
+// ============================================
+.card-footer {
+  padding: 1rem 1.25rem;
+  background: $gray-50;
+  border-top: 1px solid $gray-200;
+}
+
+.btn-details {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 2px solid $primary;
+  border-radius: 0.5rem;
+  color: $primary;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: 'Cairo', sans-serif;
+  
+  i {
+    font-size: 1.1rem;
+    
+    &:last-child {
+      font-size: 1rem;
+      margin-right: auto;
+    }
+  }
+  
+  &:hover {
+    background: $primary;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba($primary, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ============================================
+// RESPONSIVE - CARD FOOTER
+// ============================================
+@media (max-width: 768px) {
+  .btn-details {
+    font-size: 0.875rem;
+    padding: 0.65rem 0.875rem;
+    
+    span {
+      @media (max-width: 480px) {
+        font-size: 0.8125rem;
+      }
+    }
+  }
+}
 // ============================================
 // 🔹 NEW: TOOLBAR WITH FILTERS
 // ============================================
