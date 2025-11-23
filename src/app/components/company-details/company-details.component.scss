@@ -1,4 +1,4 @@
-// 📁 src/app/components/company-details/company-details.component.scss
+// 📁 company-details.component.scss - MODERN MINIMALIST
 
 // ============================================
 // COLOR SYSTEM
@@ -58,7 +58,6 @@ $warning-light: #FEF3C7;
   
   p {
     color: $gray-500;
-    margin-bottom: 1.5rem;
   }
 }
 
@@ -99,11 +98,6 @@ $warning-light: #FEF3C7;
     gap: 1rem;
     flex: 1;
     
-    i {
-      font-size: 3rem;
-      color: $primary;
-    }
-    
     h1 {
       font-size: 2rem;
       font-weight: 700;
@@ -121,7 +115,7 @@ $warning-light: #FEF3C7;
 .btn-back-small {
   padding: 0.65rem 1.2rem;
   background: white;
-  border: 2px solid $gray-200;
+  border: 1px solid $gray-200;
   border-radius: 0.5rem;
   color: $gray-700;
   font-weight: 600;
@@ -137,8 +131,7 @@ $warning-light: #FEF3C7;
   }
   
   &:hover {
-    background: $gray-100;
-    border-color: $primary;
+    background: $gray-50;
     color: $primary;
   }
 }
@@ -159,8 +152,30 @@ $warning-light: #FEF3C7;
   
   &:hover {
     background: $primary-dark;
-    transform: translateY(-2px);
   }
+}
+
+.company-logo-header {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.75rem;
+  object-fit: cover;
+  border: 2px solid $gray-200;
+  flex-shrink: 0;
+}
+
+.company-logo-placeholder-header {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.75rem;
+  background: $primary-light;
+  color: $primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+  border: 2px solid $gray-200;
 }
 
 // ============================================
@@ -169,14 +184,13 @@ $warning-light: #FEF3C7;
 .status-card {
   background: white;
   border: 1px solid $gray-200;
-  border-radius: 1rem;
+  border-radius: 0.75rem;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
 }
 
 .status-header {
-  padding: 1.5rem 2rem;
+  padding: 1.5rem;
   background: $gray-50;
   border-bottom: 1px solid $gray-200;
   display: flex;
@@ -185,7 +199,7 @@ $warning-light: #FEF3C7;
   
   h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: $gray-900;
     display: flex;
@@ -194,14 +208,14 @@ $warning-light: #FEF3C7;
     
     i {
       color: $primary;
-      font-size: 1.75rem;
+      font-size: 1.5rem;
     }
   }
 }
 
 .status-badge {
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.375rem;
   font-size: 0.875rem;
   font-weight: 600;
   
@@ -232,18 +246,15 @@ $warning-light: #FEF3C7;
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1.25rem;
+  padding: 1rem;
   background: $gray-50;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   margin-bottom: 1rem;
-  transition: all 0.2s;
-  
-  &:hover {
-    background: $gray-100;
-  }
+  border: 1px solid $gray-100;
   
   &.highlight {
     background: $primary-light;
+    border-color: $primary;
   }
 }
 
@@ -251,7 +262,7 @@ $warning-light: #FEF3C7;
   width: 3rem;
   height: 3rem;
   background: white;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -285,12 +296,12 @@ $warning-light: #FEF3C7;
     font-weight: 600;
     
     &.plan-name {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       color: $primary;
     }
     
     &.days-count {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 700;
     }
   }
@@ -298,9 +309,137 @@ $warning-light: #FEF3C7;
 
 .subscription-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
   margin-bottom: 1.5rem;
+}
+
+// ============================================
+// CASH SUBSCRIPTION CARD
+// ============================================
+.cash-subscription-card {
+  background: white;
+  border: 1px solid $gray-200;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  
+  .section-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    
+    h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      
+      i {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+
+.cash-form {
+  padding: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: $gray-700;
+    font-size: 0.875rem;
+    
+    i {
+      color: $primary;
+      font-size: 1rem;
+    }
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid $gray-200;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-family: 'Cairo', sans-serif;
+  transition: all 0.2s;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+  
+  &:disabled {
+    background: $gray-50;
+    cursor: not-allowed;
+  }
+}
+
+.form-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  color: $gray-500;
+  padding: 0.75rem;
+  background: $gray-50;
+  border-radius: 0.5rem;
+  
+  i {
+    font-size: 1rem;
+    color: $primary;
+  }
+}
+
+.btn-add-subscription {
+  width: 100%;
+  padding: 0.875rem;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  font-family: 'Cairo', sans-serif;
+  font-size: 1rem;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.spinner-sm {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
 }
 
 // ============================================
@@ -330,9 +469,9 @@ $warning-light: #FEF3C7;
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  padding: 1.25rem;
-  border-radius: 0.75rem;
-  border: 2px solid;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
   margin-top: 1.5rem;
   
   i {
@@ -374,27 +513,28 @@ $warning-light: #FEF3C7;
 }
 
 // ============================================
-// INVOICES SECTION
+// SECTIONS
 // ============================================
+.subscriptions-section,
 .invoices-section {
   background: white;
   border: 1px solid $gray-200;
-  border-radius: 1rem;
+  border-radius: 0.75rem;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
 }
 
 .section-header {
-  padding: 1.5rem 2rem;
+  padding: 1.5rem;
   background: $gray-50;
   border-bottom: 1px solid $gray-200;
   display: flex;
   align-items: center;
   justify-content: space-between;
   
-  h2 {
+  h2, h3 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: $gray-900;
     display: flex;
@@ -403,7 +543,7 @@ $warning-light: #FEF3C7;
     
     i {
       color: $primary;
-      font-size: 1.75rem;
+      font-size: 1.5rem;
     }
   }
 }
@@ -411,7 +551,7 @@ $warning-light: #FEF3C7;
 .count-badge {
   background: $primary;
   color: white;
-  padding: 0.375rem 0.875rem;
+  padding: 0.375rem 0.75rem;
   border-radius: 2rem;
   font-size: 0.875rem;
   font-weight: 600;
@@ -422,7 +562,7 @@ $warning-light: #FEF3C7;
 // ============================================
 .empty-state {
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 3rem 2rem;
   
   i {
     font-size: 4rem;
@@ -432,42 +572,45 @@ $warning-light: #FEF3C7;
   
   p {
     color: $gray-500;
-    font-size: 1.125rem;
+    font-size: 1rem;
     margin: 0;
   }
 }
 
 // ============================================
-// INVOICES TABLE
+// TABLES
 // ============================================
+.subscriptions-table-wrapper,
 .invoices-table-wrapper {
   overflow-x: auto;
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
+.subscriptions-table,
 .invoices-table {
   width: 100%;
   border-collapse: collapse;
   
   thead {
     tr {
-      border-bottom: 2px solid $gray-200;
+      background: $gray-50;
     }
     
     th {
-      padding: 1rem;
+      padding: 0.875rem;
       text-align: right;
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       font-weight: 700;
       color: $gray-700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      border-bottom: 2px solid $gray-200;
     }
   }
   
   tbody {
     tr {
-      border-bottom: 1px solid $gray-200;
+      border-bottom: 1px solid $gray-100;
       transition: background-color 0.2s;
       
       &:hover {
@@ -480,24 +623,27 @@ $warning-light: #FEF3C7;
     }
     
     td {
-      padding: 1rem;
+      padding: 0.875rem;
       font-size: 0.9375rem;
       color: $gray-900;
       
+      &.subscription-id,
       &.invoice-id {
         font-weight: 600;
         color: $gray-500;
         font-family: monospace;
       }
       
-      &.plan-name {
+      &.plan-name,
+      &.plan-name-ar {
         font-weight: 600;
+        color: $primary;
       }
       
       &.amount {
         strong {
           color: $primary;
-          font-size: 1.125rem;
+          font-size: 1.0625rem;
         }
       }
       
@@ -505,8 +651,26 @@ $warning-light: #FEF3C7;
         color: $gray-500;
         font-size: 0.875rem;
       }
+      
+      &.text-center {
+        text-align: center;
+        
+        i {
+          font-size: 1.25rem;
+        }
+      }
     }
   }
+}
+
+.sub-id-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: $primary-light;
+  color: $primary;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  font-size: 0.875rem;
 }
 
 .payment-method {
@@ -526,7 +690,7 @@ $warning-light: #FEF3C7;
   gap: 0.375rem;
   padding: 0.375rem 0.75rem;
   border-radius: 0.375rem;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   
   &.badge-success {
@@ -565,6 +729,10 @@ $warning-light: #FEF3C7;
   color: $warning !important;
 }
 
+.text-muted {
+  color: $gray-500 !important;
+}
+
 // ============================================
 // RESPONSIVE
 // ============================================
@@ -587,22 +755,25 @@ $warning-light: #FEF3C7;
   
   .status-header,
   .section-header {
-    padding: 1rem 1.5rem;
+    padding: 1rem;
     
-    h2 {
-      font-size: 1.25rem;
+    h2, h3 {
+      font-size: 1.125rem;
     }
   }
   
   .status-body,
+  .cash-form,
+  .subscriptions-table-wrapper,
   .invoices-table-wrapper {
-    padding: 1.5rem;
+    padding: 1rem;
   }
   
   .subscription-grid {
     grid-template-columns: 1fr;
   }
   
+  .subscriptions-table,
   .invoices-table {
     font-size: 0.875rem;
     
@@ -611,146 +782,7 @@ $warning-light: #FEF3C7;
       padding: 0.75rem 0.5rem;
     }
   }
-}
-
-
-// ==========================================
-// 🆕 NEW: Subscriptions History Section
-// ==========================================
-.subscriptions-section {
-  background: white;
-  border: 1px solid $gray-200;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
-}
-
-.subscriptions-table-wrapper {
-  overflow-x: auto;
-  padding: 2rem;
-}
-
-.subscriptions-table {
-  width: 100%;
-  border-collapse: collapse;
   
-  thead {
-    tr {
-      border-bottom: 2px solid $gray-200;
-    }
-    
-    th {
-      padding: 1rem;
-      text-align: right;
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: $gray-700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-  }
-  
-  tbody {
-    tr {
-      border-bottom: 1px solid $gray-200;
-      transition: background-color 0.2s;
-      
-      &:hover {
-        background: $gray-50;
-      }
-      
-      &:last-child {
-        border-bottom: none;
-      }
-    }
-    
-    td {
-      padding: 1rem;
-      font-size: 0.9375rem;
-      color: $gray-900;
-      
-      &.subscription-id {
-        font-weight: 600;
-        color: $gray-500;
-        font-family: monospace;
-      }
-      
-      &.plan-name-ar {
-        font-weight: 600;
-        color: $primary;
-      }
-      
-      &.date {
-        color: $gray-500;
-        font-size: 0.875rem;
-      }
-      
-      &.text-center {
-        text-align: center;
-        
-        i {
-          font-size: 1.25rem;
-        }
-      }
-    }
-  }
-}
-
-// ==========================================
-// 🆕 NEW: Subscription ID Styling
-// ==========================================
-.subscription-id {
-  font-family: monospace;
-  
-  .sub-id-badge {
-    display: inline-block;
-    padding: 0.25rem 0.5rem;
-    background: $primary-light;
-    color: $primary;
-    border-radius: 0.375rem;
-    font-weight: 600;
-    font-size: 0.875rem;
-  }
-  
-  .text-muted {
-    color: $gray-500;
-    font-style: italic;
-  }
-}
-
-
-.company-logo-header {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 1rem;
-  object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border: 2px solid $gray-200;
-  flex-shrink: 0;
-}
-
-.company-logo-placeholder-header {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 1rem;
-  background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border: 2px solid $primary-light;
-  
-  i {
-    font-size: 2rem;
-    color: $primary;
-  }
-}
-
-// ==========================================
-// Responsive Logo
-// ==========================================
-@media (max-width: 768px) {
   .company-logo-header,
   .company-logo-placeholder-header {
     width: 3rem;
@@ -758,57 +790,6 @@ $warning-light: #FEF3C7;
     
     i {
       font-size: 1.5rem;
-    }
-  }
-}
-
-
-.page-header {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-  
-  .header-content {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex: 1;
-    
-    // ✅ NEW: Logo Styles
-    .company-logo-header {
-      width: 4rem;
-      height: 4rem;
-      border-radius: 0.75rem;
-      object-fit: cover;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      flex-shrink: 0;
-    }
-    
-    .company-logo-placeholder-header {
-      width: 4rem;
-      height: 4rem;
-      border-radius: 0.75rem;
-      background: $primary-light;
-      color: $primary;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      flex-shrink: 0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      color: $gray-900;
-      margin: 0;
-    }
-    
-    p {
-      color: $gray-500;
-      margin: 0.25rem 0 0;
     }
   }
 }

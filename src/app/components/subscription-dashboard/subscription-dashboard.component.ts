@@ -1,4 +1,4 @@
-// 📁 src/app/components/subscription-dashboard/subscription-dashboard.component.ts
+// 📁 subscription-dashboard.component.ts - UPDATED
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -110,7 +110,7 @@ export class SubscriptionDashboardComponent implements OnInit {
     });
   }
 
-  // Helper methods
+  // ✨ Helper methods
   formatCurrency(amount: number): string {
     return new Intl.NumberFormat('ar-EG', {
       style: 'currency',
@@ -120,9 +120,13 @@ export class SubscriptionDashboardComponent implements OnInit {
     }).format(amount);
   }
 
-  getMonthName(month: number): string {
-    const date = new Date(2025, month - 1);
-    return date.toLocaleString('ar-EG', { month: 'long' });
+  getProgressPercentage(value: number, total: number): number {
+    if (total === 0) return 0;
+    return Math.round((value / total) * 100);
+  }
+
+  getTotalInvoices(months: any[]): number {
+    return months.reduce((sum, month) => sum + month.invoicesCount, 0);
   }
 
   getStatusBadgeClass(status: string): string {

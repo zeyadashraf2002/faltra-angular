@@ -1,4 +1,4 @@
-<!-- 📁 src/app/components/company-details/company-details.component.html - FIXED -->
+<!-- 📁 company-details.component.html - UPDATED WITH CASH SUBSCRIPTION -->
 <div class="company-details-container" dir="rtl">
 
   <!-- Loading State -->
@@ -33,7 +33,6 @@
         عودة
       </button>
       <div class="header-content">
-        <!-- ✅ FIXED: Show company logo with proper checks -->
         @if (subscriptionStatus.company.logo) {
           <img 
             [src]="subscriptionStatus.company.logo" 
@@ -80,7 +79,6 @@
         @if (subscriptionStatus.currentSubscription) {
         <div class="subscription-grid">
 
-          <!-- Current Plan -->
           <div class="info-card highlight">
             <div class="info-icon success">
               <i class="bi bi-award-fill"></i>
@@ -91,18 +89,19 @@
             </div>
           </div>
 
-          <!-- Expiry Date -->
           <div class="info-card">
             <div class="info-icon">
               <i class="bi bi-calendar-x"></i>
             </div>
             <div class="info-content">
               <label>تاريخ الانتهاء</label>
-              <span>{{ subscriptionStatus.expiryDate | date: 'dd/MM/yyyy' }}</span>
+              <span [class.text-danger]="isExpired(subscriptionStatus.expiryDate)"
+                    [class.text-success]="!isExpired(subscriptionStatus.expiryDate)">
+                {{ subscriptionStatus.expiryDate | date: 'dd/MM/yyyy' }}
+              </span>
             </div>
           </div>
 
-          <!-- Days Remaining -->
           <div class="info-card">
             <div class="info-icon">
               <i class="bi bi-hourglass-split"></i>
@@ -132,12 +131,12 @@
           <i class="bi bi-exclamation-triangle-fill"></i>
           <div>
             <strong>الاشتراك منتهي</strong>
-            <p>الشركه لم تدفع الاشتراك حتي الان</p>
+            <p>الشركة لم تدفع الاشتراك حتى الآن</p>
           </div>
         </div>
         }
 
-        @if (subscriptionStatus.daysRemaining <= 7 && subscriptionStatus.daysRemaining> 0) {
+        @if (subscriptionStatus.daysRemaining <= 7 && subscriptionStatus.daysRemaining > 0) {
           <div class="alert alert-warning">
             <i class="bi bi-bell-fill"></i>
             <div>
@@ -145,10 +144,86 @@
               <p>الاشتراك ينتهي خلال {{ subscriptionStatus.daysRemaining }} أيام</p>
             </div>
           </div>
-          }
+        }
 
       </div>
     </div>
+
+    <!-- ✨ NEW: Add Cash Subscription Section (Developer Only) -->
+    @if (authService.currentUser?.role === 'developer') {
+      <div class="cash-subscription-card">
+        <div class="section-header">
+          <h3>
+            <i class="bi bi-cash-coin"></i>
+            إضافة اشتراك كاش
+          </h3>
+        </div>
+
+        <div class="cash-form">
+          
+          <!-- Plan Selection -->
+          <div class="form-group">
+            <label for="planId" class="form-label">
+              <i class="bi bi-award"></i>
+              اختر الباقة
+            </label>
+            <select
+              id="planId"
+              class="form-control"
+              [(ngModel)]="cashSubscriptionForm.planId"
+              [disabled]="isSubmittingCash || isLoadingPlans"
+              required>
+              <option [value]="null" disabled selected>اختر باقة...</option>
+              @for (plan of availablePlans; track plan.id) {
+                <option [value]="plan.id">
+                  {{ plan.nameAr }} - {{ plan.price }} جنيه ({{ plan.durationDays }} يوم)
+                </option>
+              }
+            </select>
+          </div>
+
+          <!-- Notes -->
+          <div class="form-group">
+            <label for="notes" class="form-label">
+              <i class="bi bi-chat-text"></i>
+              ملاحظات (اختياري)
+            </label>
+            <textarea
+              id="notes"
+              class="form-control"
+              [(ngModel)]="cashSubscriptionForm.notes"
+              [disabled]="isSubmittingCash"
+              rows="3"
+              placeholder="أي ملاحظات إضافية..."></textarea>
+          </div>
+
+          <div class="form-hint">
+            <i class="bi bi-info-circle"></i>
+            <span>سيتم إضافة الاشتراك فوراً بدون دفع إلكتروني</span>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            class="btn-add-subscription" 
+            (click)="submitCashSubscription()"
+            [disabled]="!cashSubscriptionForm.planId || isSubmittingCash">
+            @if (!isSubmittingCash) {
+              <span>
+                <i class="bi bi-check-circle"></i>
+                إضافة الاشتراك
+              </span>
+            }
+            @if (isSubmittingCash) {
+              <span class="loading-state">
+                <span class="spinner-sm"></span>
+                جاري الإضافة...
+              </span>
+            }
+          </button>
+
+        </div>
+      </div>
+    }
 
     <!-- Subscription History Section -->
     <div class="subscriptions-section">

@@ -1,4 +1,4 @@
-<!-- 📁 src/app/components/subscription-dashboard/subscription-dashboard.component.html -->
+<!-- 📁 subscription-dashboard.component.html - MODERN MINIMALIST -->
 <div class="dashboard-container" dir="rtl">
   
   <!-- Top Navigation Bar -->
@@ -15,11 +15,11 @@
       <div class="nav-actions">
         <button class="btn-companies" (click)="goToCompanies()">
           <i class="bi bi-buildings"></i>
-          الشركات
+          <span>الشركات</span>
         </button>
         <button class="btn-logout" (click)="logout()">
           <i class="bi bi-box-arrow-left"></i>
-          خروج
+          <span>خروج</span>
         </button>
       </div>
     </div>
@@ -32,7 +32,7 @@
       <!-- Page Header -->
       <div class="page-header">
         <div>
-          <h1>📊 إحصائيات الاشتراكات</h1>
+          <h1>إحصائيات الاشتراكات</h1>
           <p>نظرة شاملة على دخل الاشتراكات والشركات المشتركة</p>
         </div>
       </div>
@@ -40,7 +40,10 @@
       <!-- Filters -->
       <div class="filters-section">
         <div class="filter-group">
-          <label>الشهر</label>
+          <label>
+            <i class="bi bi-calendar-month"></i>
+            الشهر
+          </label>
           <select [(ngModel)]="selectedMonth" (change)="onMonthChange()" class="form-select">
             <option [value]="1">يناير</option>
             <option [value]="2">فبراير</option>
@@ -58,7 +61,10 @@
         </div>
         
         <div class="filter-group">
-          <label>السنة</label>
+          <label>
+            <i class="bi bi-calendar"></i>
+            السنة
+          </label>
           <select [(ngModel)]="selectedYear" (change)="onYearChange()" class="form-select">
             @for (year of availableYears; track year) {
               <option [value]="year">{{ year }}</option>
@@ -77,12 +83,11 @@
 
       <!-- Stats Cards -->
       @if (!isLoading && stats) {
-        <!-- Current Month Stats -->
         <div class="stats-grid">
           
           <!-- Monthly Revenue -->
-          <div class="stat-card revenue-card">
-            <div class="stat-icon">
+          <div class="stat-card">
+            <div class="stat-icon revenue">
               <i class="bi bi-cash-stack"></i>
             </div>
             <div class="stat-content">
@@ -93,8 +98,8 @@
           </div>
 
           <!-- Yearly Revenue -->
-          <div class="stat-card yearly-card">
-            <div class="stat-icon">
+          <div class="stat-card">
+            <div class="stat-icon yearly">
               <i class="bi bi-graph-up-arrow"></i>
             </div>
             <div class="stat-content">
@@ -105,8 +110,8 @@
           </div>
 
           <!-- Active Subscriptions -->
-          <div class="stat-card active-card">
-            <div class="stat-icon">
+          <div class="stat-card">
+            <div class="stat-icon active">
               <i class="bi bi-check-circle"></i>
             </div>
             <div class="stat-content">
@@ -117,8 +122,8 @@
           </div>
 
           <!-- Trial Companies -->
-          <div class="stat-card trial-card">
-            <div class="stat-icon">
+          <div class="stat-card">
+            <div class="stat-icon trial">
               <i class="bi bi-hourglass-split"></i>
             </div>
             <div class="stat-content">
@@ -134,20 +139,53 @@
         @if (yearlyReport) {
           <div class="chart-section">
             <div class="section-header">
-              <h3>📈 تقرير الأشهر لسنة {{ yearlyReport.year }}</h3>
+              <h3>
+                <i class="bi bi-bar-chart-line"></i>
+                تقرير الأشهر لسنة {{ yearlyReport.year }}
+              </h3>
               <div class="total-badge">
                 إجمالي: {{ formatCurrency(yearlyReport.totalRevenue) }}
               </div>
             </div>
             
-            <div class="months-grid">
-              @for (month of yearlyReport.months; track month.month) {
-                <div class="month-card" [class.current]="month.month === selectedMonth">
-                  <div class="month-name">{{ month.monthName }}</div>
-                  <div class="month-revenue">{{ formatCurrency(month.revenue) }}</div>
-                  <div class="month-count">{{ month.invoicesCount }} فاتورة</div>
-                </div>
-              }
+            <!-- Modern Table with Visual Bars -->
+            <div class="revenue-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>الشهر</th>
+                    <th>الدخل</th>
+                    <th>الفواتير</th>
+                    <th>التقدم</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (month of yearlyReport.months; track month.month) {
+                    <tr [class.current]="month.month === selectedMonth">
+                      <td class="month-name">{{ month.monthName }}</td>
+                      <td class="revenue">{{ formatCurrency(month.revenue) }}</td>
+                      <td class="invoices">{{ month.invoicesCount }}</td>
+                      <td class="progress-cell">
+                        <div class="progress-bar">
+                          <div 
+                            class="progress-fill" 
+                            [style.width.%]="getProgressPercentage(month.revenue, yearlyReport.totalRevenue)">
+                          </div>
+                        </div>
+                        <span class="percentage">{{ getProgressPercentage(month.revenue, yearlyReport.totalRevenue) }}%</span>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>الإجمالي</strong></td>
+                    <td><strong>{{ formatCurrency(yearlyReport.totalRevenue) }}</strong></td>
+                    <td><strong>{{ getTotalInvoices(yearlyReport.months) }}</strong></td>
+                    <td></td>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
           </div>
         }
@@ -155,7 +193,10 @@
         <!-- Recent Subscriptions -->
         <div class="recent-section">
           <div class="section-header">
-            <h3>🆕 أحدث الاشتراكات</h3>
+            <h3>
+              <i class="bi bi-clock-history"></i>
+              أحدث الاشتراكات
+            </h3>
           </div>
 
           @if (stats.recent.length === 0) {
@@ -191,8 +232,8 @@
                       </td>
                       <td>{{ sub.plan.nameAr }}</td>
                       <td class="amount">{{ formatCurrency(sub.plan.price) }}</td>
-                      <td>{{ sub.startDate | date: 'dd/MM/yyyy' }}</td>
-                      <td>{{ sub.endDate | date: 'dd/MM/yyyy' }}</td>
+                      <td class="date">{{ sub.startDate | date: 'dd/MM/yyyy' }}</td>
+                      <td class="date">{{ sub.endDate | date: 'dd/MM/yyyy' }}</td>
                       <td>
                         <span class="badge" [ngClass]="getStatusBadgeClass(sub.status)">
                           {{ getStatusText(sub.status) }}
