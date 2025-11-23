@@ -150,80 +150,82 @@
     </div>
 
     <!-- ✨ NEW: Add Cash Subscription Section (Developer Only) -->
-    @if (authService.currentUser?.role === 'developer') {
-      <div class="cash-subscription-card">
-        <div class="section-header">
-          <h3>
-            <i class="bi bi-cash-coin"></i>
-            إضافة اشتراك كاش
-          </h3>
+@if (authService.currentUser?.role === 'developer') {
+  <div class="cash-subscription-card">
+    <div class="section-header collapsible-header" (click)="toggleCashSection()">
+      <div class="header-left">
+        <h3>
+          <i class="bi bi-cash-coin"></i>
+          إضافة اشتراك كاش
+        </h3>
+        @if (cashSubscriptionForm.planId) {
+          <span class="selected-plan-hint">
+            تم اختيار: {{ getSelectedPlanName() }}
+          </span>
+        }
+      </div>
+      <i class="bi" [class.bi-chevron-up]="isCashSectionOpen" [class.bi-chevron-down]="!isCashSectionOpen"></i>
+    </div>
+
+    @if (isCashSectionOpen) {
+      <div class="cash-form">
+        <!-- Plan Selection -->
+        <div class="form-group">
+          <label for="planId" class="form-label">
+            <i class="bi bi-award"></i> اختر الباقة
+          </label>
+          <select
+            id="planId"
+            class="form-control"
+            [(ngModel)]="cashSubscriptionForm.planId"
+            [disabled]="isSubmittingCash || isLoadingPlans"
+            required>
+            <option [value]="null" disabled selected>اختر باقة...</option>
+            @for (plan of availablePlans; track plan.id) {
+              <option [value]="plan.id">
+                {{ plan.nameAr }} - {{ plan.price }} جنيه ({{ plan.durationDays }} يوم)
+              </option>
+            }
+          </select>
         </div>
 
-        <div class="cash-form">
-          
-          <!-- Plan Selection -->
-          <div class="form-group">
-            <label for="planId" class="form-label">
-              <i class="bi bi-award"></i>
-              اختر الباقة
-            </label>
-            <select
-              id="planId"
-              class="form-control"
-              [(ngModel)]="cashSubscriptionForm.planId"
-              [disabled]="isSubmittingCash || isLoadingPlans"
-              required>
-              <option [value]="null" disabled selected>اختر باقة...</option>
-              @for (plan of availablePlans; track plan.id) {
-                <option [value]="plan.id">
-                  {{ plan.nameAr }} - {{ plan.price }} جنيه ({{ plan.durationDays }} يوم)
-                </option>
-              }
-            </select>
-          </div>
-
-          <!-- Notes -->
-          <div class="form-group">
-            <label for="notes" class="form-label">
-              <i class="bi bi-chat-text"></i>
-              ملاحظات (اختياري)
-            </label>
-            <textarea
-              id="notes"
-              class="form-control"
-              [(ngModel)]="cashSubscriptionForm.notes"
-              [disabled]="isSubmittingCash"
-              rows="3"
-              placeholder="أي ملاحظات إضافية..."></textarea>
-          </div>
-
-          <div class="form-hint">
-            <i class="bi bi-info-circle"></i>
-            <span>سيتم إضافة الاشتراك فوراً بدون دفع إلكتروني</span>
-          </div>
-
-          <!-- Submit Button -->
-          <button 
-            class="btn-add-subscription" 
-            (click)="submitCashSubscription()"
-            [disabled]="!cashSubscriptionForm.planId || isSubmittingCash">
-            @if (!isSubmittingCash) {
-              <span>
-                <i class="bi bi-check-circle"></i>
-                إضافة الاشتراك
-              </span>
-            }
-            @if (isSubmittingCash) {
-              <span class="loading-state">
-                <span class="spinner-sm"></span>
-                جاري الإضافة...
-              </span>
-            }
-          </button>
-
+        <!-- Notes -->
+        <div class="form-group">
+          <label for="notes" class="form-label">
+            <i class="bi bi-chat-text"></i> ملاحظات (اختياري)
+          </label>
+          <textarea
+            id="notes"
+            class="form-control"
+            [(ngModel)]="cashSubscriptionForm.notes"
+            [disabled]="isSubmittingCash"
+            rows="3"
+            placeholder="أي ملاحظات إضافية..."></textarea>
         </div>
+
+        <div class="form-hint">
+          <i class="bi bi-info-circle"></i>
+          <span>سيتم إضافة الاشتراك فوراً بدون دفع إلكتروني</span>
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          class="btn-add-subscription" 
+          (click)="submitCashSubscription()"
+          [disabled]="!cashSubscriptionForm.planId || isSubmittingCash">
+          @if (!isSubmittingCash) {
+            <span><i class="bi bi-check-circle"></i> إضافة الاشتراك</span>
+          }
+          @if (isSubmittingCash) {
+            <span class="loading-state">
+              <span class="spinner-sm"></span> جاري الإضافة...
+            </span>
+          }
+        </button>
       </div>
     }
+  </div>
+}
 
     <!-- Subscription History Section -->
     <div class="subscriptions-section">
@@ -254,7 +256,6 @@
               <th>الحالة</th>
               <th>تاريخ البداية</th>
               <th>تاريخ النهاية</th>
-              <th>التجديد التلقائي</th>
             </tr>
           </thead>
           <tbody>
@@ -272,13 +273,6 @@
               </td>
               <td class="date">
                 {{ subscription.endDate | date: 'dd/MM/yyyy' }}
-              </td>
-              <td class="text-center">
-                @if (subscription.autoRenew) {
-                <i class="bi bi-check-circle-fill text-success" title="مفعل"></i>
-                } @else {
-                <i class="bi bi-x-circle-fill text-danger" title="غير مفعل"></i>
-                }
               </td>
             </tr>
             }

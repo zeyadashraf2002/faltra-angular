@@ -221,7 +221,17 @@ export class CompanyDetailsComponent implements OnInit {
       default: return 'badge-secondary';
     }
   }
+  
+  isCashSectionOpen = false; 
 
+  toggleCashSection() {
+    this.isCashSectionOpen = !this.isCashSectionOpen;
+  }
+
+  getSelectedPlanName(): string {
+    const plan = this.availablePlans.find(p => p.id === this.cashSubscriptionForm.planId);
+    return plan ? `${plan.nameAr} (${plan.price} جنيه)` : '';
+  }
   getSubscriptionStatusText(status: string): string {
     switch (status) {
       case 'active': return 'نشط';

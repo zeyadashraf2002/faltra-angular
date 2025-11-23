@@ -1,8 +1,40 @@
-// 📁 src/app/services/subscription-stats.service.ts
+// 📁 src/app/services/subscription-stats.service.ts - ENHANCED
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+
+export interface Company {
+  id: number;
+  name: string;
+  email: string;
+  logo?: string;
+}
+
+export interface Plan {
+  id: number;
+  name: string;
+  nameAr: string;
+  price: number;
+  durationDays: number;
+}
+
+export interface Subscription {
+  id: number;
+  status: string;
+  startDate: string;
+  endDate: string;
+  company: Company;
+  plan: Plan;
+  daysRemaining?: number; // For expiring soon
+}
+
+export interface SubscriptionsByPlan {
+  all: Subscription[];
+  monthly: Subscription[];
+  quarterly: Subscription[];
+  yearly: Subscription[];
+}
 
 export interface SubscriptionStats {
   period: {
@@ -23,23 +55,11 @@ export interface SubscriptionStats {
     expired: number;
     trial: number;
   };
-  recent: Array<{
-    id: number;
-    status: string;
-    startDate: string;
-    endDate: string;
-    company: {
-      id: number;
-      name: string;
-      email: string;
-    };
-    plan: {
-      id: number;
-      name: string;
-      nameAr: string;
-      price: number;
-    };
-  }>;
+  recent: Subscription[];
+  recentByPlan?: SubscriptionsByPlan; // ✅ NEW
+  expiringSoon: Subscription[]; // ✅ NEW
+  expiredNotRenewed: Subscription[]; // ✅ NEW
+  trialSubscriptions: Subscription[];
 }
 
 export interface MonthlyRevenueReport {

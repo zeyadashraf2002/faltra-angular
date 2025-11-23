@@ -815,3 +815,33 @@ overflow: hidden;
     }
   }
 }
+
+.cash-subscription-card {
+  .collapsible-header {
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+    
+    
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .selected-plan-hint {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+    }
+    
+    i:last-child {
+      font-size: 1.5rem;
+      transition: transform 0.3s;
+    }
+  }
+}

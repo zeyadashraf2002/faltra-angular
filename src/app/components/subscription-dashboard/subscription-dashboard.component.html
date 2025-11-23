@@ -1,7 +1,6 @@
-<!-- 📁 subscription-dashboard.component.html - MODERN MINIMALIST -->
+<!-- 📁 subscription-dashboard.component.html - FINAL CLEAN VERSION -->
 <div class="dashboard-container" dir="rtl">
   
-  <!-- Top Navigation Bar -->
   <nav class="dashboard-nav">
     <div class="nav-content">
       <div class="nav-brand">
@@ -11,60 +10,37 @@
           <small>إحصائيات الاشتراكات</small>
         </div>
       </div>
-      
       <div class="nav-actions">
         <button class="btn-companies" (click)="goToCompanies()">
-          <i class="bi bi-buildings"></i>
-          <span>الشركات</span>
+          <i class="bi bi-buildings"></i> <span>الشركات</span>
         </button>
         <button class="btn-logout" (click)="logout()">
-          <i class="bi bi-box-arrow-left"></i>
-          <span>خروج</span>
+          <i class="bi bi-box-arrow-left"></i> <span>خروج</span>
         </button>
       </div>
     </div>
   </nav>
 
-  <!-- Main Content -->
   <div class="dashboard-main">
     <div class="container-fluid">
       
-      <!-- Page Header -->
       <div class="page-header">
-        <div>
-          <h1>إحصائيات الاشتراكات</h1>
-          <p>نظرة شاملة على دخل الاشتراكات والشركات المشتركة</p>
-        </div>
+        <h1>إحصائيات الاشتراكات</h1>
+        <p>نظرة شاملة على دخل الاشتراكات والشركات المشتركة</p>
       </div>
 
-      <!-- Filters -->
       <div class="filters-section">
         <div class="filter-group">
-          <label>
-            <i class="bi bi-calendar-month"></i>
-            الشهر
-          </label>
+          <label><i class="bi bi-calendar-month"></i> الشهر</label>
           <select [(ngModel)]="selectedMonth" (change)="onMonthChange()" class="form-select">
-            <option [value]="1">يناير</option>
-            <option [value]="2">فبراير</option>
-            <option [value]="3">مارس</option>
-            <option [value]="4">أبريل</option>
-            <option [value]="5">مايو</option>
-            <option [value]="6">يونيو</option>
-            <option [value]="7">يوليو</option>
-            <option [value]="8">أغسطس</option>
-            <option [value]="9">سبتمبر</option>
-            <option [value]="10">أكتوبر</option>
-            <option [value]="11">نوفمبر</option>
-            <option [value]="12">ديسمبر</option>
+            <option [value]="1">يناير</option><option [value]="2">فبراير</option><option [value]="3">مارس</option>
+            <option [value]="4">أبريل</option><option [value]="5">مايو</option><option [value]="6">يونيو</option>
+            <option [value]="7">يوليو</option><option [value]="8">أغسطس</option><option [value]="9">سبتمبر</option>
+            <option [value]="10">أكتوبر</option><option [value]="11">نوفمبر</option><option [value]="12">ديسمبر</option>
           </select>
         </div>
-        
         <div class="filter-group">
-          <label>
-            <i class="bi bi-calendar"></i>
-            السنة
-          </label>
+          <label><i class="bi bi-calendar"></i> السنة</label>
           <select [(ngModel)]="selectedYear" (change)="onYearChange()" class="form-select">
             @for (year of availableYears; track year) {
               <option [value]="year">{{ year }}</option>
@@ -73,7 +49,6 @@
         </div>
       </div>
 
-      <!-- Loading State -->
       @if (isLoading) {
         <div class="loading-state">
           <div class="spinner"></div>
@@ -81,15 +56,11 @@
         </div>
       }
 
-      <!-- Stats Cards -->
       @if (!isLoading && stats) {
+        <!-- Stats Cards -->
         <div class="stats-grid">
-          
-          <!-- Monthly Revenue -->
           <div class="stat-card">
-            <div class="stat-icon revenue">
-              <i class="bi bi-cash-stack"></i>
-            </div>
+            <div class="stat-icon revenue"><i class="bi bi-cash-stack"></i></div>
             <div class="stat-content">
               <label>دخل {{ stats.period.monthName }}</label>
               <h2>{{ formatCurrency(stats.monthly.revenue) }}</h2>
@@ -97,11 +68,8 @@
             </div>
           </div>
 
-          <!-- Yearly Revenue -->
           <div class="stat-card">
-            <div class="stat-icon yearly">
-              <i class="bi bi-graph-up-arrow"></i>
-            </div>
+            <div class="stat-icon yearly"><i class="bi bi-graph-up-arrow"></i></div>
             <div class="stat-content">
               <label>دخل السنة {{ stats.period.year }}</label>
               <h2>{{ formatCurrency(stats.yearly.revenue) }}</h2>
@@ -109,145 +77,150 @@
             </div>
           </div>
 
-          <!-- Active Subscriptions -->
           <div class="stat-card">
-            <div class="stat-icon active">
-              <i class="bi bi-check-circle"></i>
-            </div>
+            <div class="stat-icon active"><i class="bi bi-check-circle"></i></div>
             <div class="stat-content">
               <label>اشتراكات نشطة</label>
               <h2>{{ stats.subscriptions.active }}</h2>
-              <span class="stat-meta">شركة مشتركة</span>
+              <span class="stat-meta">شركة مشتركة (مدفوعة)</span>
             </div>
           </div>
 
-          <!-- Trial Companies -->
-          <div class="stat-card">
-            <div class="stat-icon trial">
-              <i class="bi bi-hourglass-split"></i>
-            </div>
+         <div class="stat-card">
+            <div class="stat-icon trial"><i class="bi bi-gift"></i></div>
             <div class="stat-content">
-              <label>شركات في فترة تجريبية</label>
+              <label>شركات تجريبية</label>
               <h2>{{ stats.subscriptions.trial }}</h2>
-              <span class="stat-meta">شركة</span>
+              <span class="stat-meta">تحت التجربة حاليًا</span>
             </div>
           </div>
-
         </div>
 
-        <!-- Monthly Revenue Chart -->
-        @if (yearlyReport) {
-          <div class="chart-section">
-            <div class="section-header">
-              <h3>
-                <i class="bi bi-bar-chart-line"></i>
-                تقرير الأشهر لسنة {{ yearlyReport.year }}
-              </h3>
-              <div class="total-badge">
-                إجمالي: {{ formatCurrency(yearlyReport.totalRevenue) }}
+        <!-- 1. اشتراكات تنتهي خلال 7 أيام (مدفوعة + تجريبية) -->
+        @if (stats.expiringSoon && stats.expiringSoon.length > 0) {
+          <div class="collapsible-section">
+            <div class="section-header" (click)="toggleExpiring()">
+              <div class="header-left">
+                <h3><i class="bi bi-exclamation-triangle-fill"></i> تنتهي خلال 7 أيام</h3>
+                <span class="count-badge badge-danger">{{ stats.expiringSoon.length }}</span>
               </div>
+              <i class="bi" [class.bi-chevron-up]="isExpiringOpen" [class.bi-chevron-down]="!isExpiringOpen"></i>
             </div>
-            
-            <!-- Modern Table with Visual Bars -->
-            <div class="revenue-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>الشهر</th>
-                    <th>الدخل</th>
-                    <th>الفواتير</th>
-                    <th>التقدم</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (month of yearlyReport.months; track month.month) {
-                    <tr [class.current]="month.month === selectedMonth">
-                      <td class="month-name">{{ month.monthName }}</td>
-                      <td class="revenue">{{ formatCurrency(month.revenue) }}</td>
-                      <td class="invoices">{{ month.invoicesCount }}</td>
-                      <td class="progress-cell">
-                        <div class="progress-bar">
-                          <div 
-                            class="progress-fill" 
-                            [style.width.%]="getProgressPercentage(month.revenue, yearlyReport.totalRevenue)">
-                          </div>
-                        </div>
-                        <span class="percentage">{{ getProgressPercentage(month.revenue, yearlyReport.totalRevenue) }}%</span>
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td><strong>الإجمالي</strong></td>
-                    <td><strong>{{ formatCurrency(yearlyReport.totalRevenue) }}</strong></td>
-                    <td><strong>{{ getTotalInvoices(yearlyReport.months) }}</strong></td>
-                    <td></td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
+
+            @if (isExpiringOpen) {
+              <div class="section-content">
+                <div class="table-wrapper">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>الشركة</th>
+                        <th>الباقة</th>
+                        <th>المبلغ</th>
+                        <th>تاريخ الانتهاء</th>
+                        <th>الأيام المتبقية</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (sub of stats.expiringSoon; track sub.id) {
+                        <tr>
+                          <td>#{{ sub.id }}</td>
+                          <td>
+                            <div class="company-info">
+                              <strong>{{ sub.company.name }}</strong>
+                              <small>{{ sub.company.email }}</small>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="badge" 
+                                  [ngClass]="sub.plan.name === 'Trial' ? 'badge-warning' : 'badge-primary'">
+                              {{ sub.plan.nameAr || (sub.plan.name === 'Trial' ? 'تجربة مجانية' : sub.plan.nameAr) }}
+                            </span>
+                          </td>
+                          <td class="amount">
+                            {{ sub.plan.name === 'Trial' ? 'مجاني' : formatCurrency(sub.plan.price) }}
+                          </td>
+                          <td class="date">{{ sub.endDate | date: 'dd/MM/yyyy' }}</td>
+                          <td>
+                            <span class="badge" [ngClass]="getDaysRemainingClass(sub.daysRemaining || 0)">
+                              {{ sub.daysRemaining || 0 }} يوم
+                            </span>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            }
           </div>
         }
 
-        <!-- Recent Subscriptions -->
-        <div class="recent-section">
-          <div class="section-header">
-            <h3>
-              <i class="bi bi-clock-history"></i>
-              أحدث الاشتراكات
-            </h3>
+        <!-- 2. أحدث الاشتراكات النشطة (مع فلتر تجريبي) -->
+        <div class="collapsible-section">
+          <div class="section-header" (click)="toggleActive()">
+            <div class="header-left">
+              <h3><i class="bi bi-check-circle-fill"></i> أحدث الاشتراكات النشطة</h3>
+              <span class="count-badge badge-success">{{ filteredRecentSubscriptions.length }}</span>
+            </div>
+            <i class="bi" [class.bi-chevron-up]="isActiveOpen" [class.bi-chevron-down]="!isActiveOpen"></i>
           </div>
 
-          @if (stats.recent.length === 0) {
-            <div class="empty-state">
-              <i class="bi bi-inbox"></i>
-              <p>لا توجد اشتراكات حديثة</p>
-            </div>
-          }
+          @if (isActiveOpen) {
+            <div class="section-content">
+              <div class="filter-row">
+                <label>فلترة حسب الباقة:</label>
+                <select [(ngModel)]="selectedPlanFilter" class="form-select">
+                  <option value="all">جميع الباقات</option>
+                  <option value="monthly">شهري</option>
+                  <option value="quarterly">ربع سنوي</option>
+                  <option value="yearly">سنوي</option>
+                  <option value="trial">تجريبي</option>
+                </select>
+              </div>
 
-          @if (stats.recent.length > 0) {
-            <div class="subscriptions-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>الشركة</th>
-                    <th>الباقة</th>
-                    <th>المبلغ</th>
-                    <th>تاريخ البدء</th>
-                    <th>تاريخ الانتهاء</th>
-                    <th>الحالة</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (sub of stats.recent; track sub.id) {
+              <div class="table-wrapper">
+                <table class="data-table">
+                  <thead>
                     <tr>
-                      <td>#{{ sub.id }}</td>
-                      <td>
-                        <div class="company-info">
-                          <strong>{{ sub.company.name }}</strong>
-                          <small>{{ sub.company.email }}</small>
-                        </div>
-                      </td>
-                      <td>{{ sub.plan.nameAr }}</td>
-                      <td class="amount">{{ formatCurrency(sub.plan.price) }}</td>
-                      <td class="date">{{ sub.startDate | date: 'dd/MM/yyyy' }}</td>
-                      <td class="date">{{ sub.endDate | date: 'dd/MM/yyyy' }}</td>
-                      <td>
-                        <span class="badge" [ngClass]="getStatusBadgeClass(sub.status)">
-                          {{ getStatusText(sub.status) }}
-                        </span>
-                      </td>
+                      <th>#</th>
+                      <th>الشركة</th>
+                      <th>الباقة</th>
+                      <th>المبلغ</th>
+                      <th>تاريخ البدء</th>
+                      <th>تاريخ الانتهاء</th>
                     </tr>
-                  }
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    @for (sub of filteredRecentSubscriptions; track sub.id) {
+                      <tr>
+                        <td>#{{ sub.id }}</td>
+                        <td>
+                          <div class="company-info">
+                            <strong>{{ sub.company.name }}</strong>
+                            <small>{{ sub.company.email }}</small>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="badge" 
+                                [ngClass]="sub.plan.name === 'Trial' ? 'badge-warning' : 'badge-success'">
+                            {{ sub.plan.nameAr || (sub.plan.name === 'Trial' ? 'تجربة مجانية' : sub.plan.nameAr) }}
+                          </span>
+                        </td>
+                        <td class="amount">
+                          {{ sub.plan.name === 'Trial' ? 'مجاني' : formatCurrency(sub.plan.price) }}
+                        </td>
+                        <td class="date">{{ sub.startDate | date: 'dd/MM/yyyy' }}</td>
+                        <td class="date">{{ sub.endDate | date: 'dd/MM/yyyy' }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
             </div>
           }
         </div>
       }
-
     </div>
   </div>
 </div>
