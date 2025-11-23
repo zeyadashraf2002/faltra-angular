@@ -718,3 +718,97 @@ $warning-light: #FEF3C7;
     font-style: italic;
   }
 }
+
+
+.company-logo-header {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 2px solid $gray-200;
+  flex-shrink: 0;
+}
+
+.company-logo-placeholder-header {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 2px solid $primary-light;
+  
+  i {
+    font-size: 2rem;
+    color: $primary;
+  }
+}
+
+// ==========================================
+// Responsive Logo
+// ==========================================
+@media (max-width: 768px) {
+  .company-logo-header,
+  .company-logo-placeholder-header {
+    width: 3rem;
+    height: 3rem;
+    
+    i {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    
+    // ✅ NEW: Logo Styles
+    .company-logo-header {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 0.75rem;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+    
+    .company-logo-placeholder-header {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 0.75rem;
+      background: $primary-light;
+      color: $primary;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: $gray-900;
+      margin: 0;
+    }
+    
+    p {
+      color: $gray-500;
+      margin: 0.25rem 0 0;
+    }
+  }
+}

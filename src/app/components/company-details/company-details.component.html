@@ -1,189 +1,194 @@
-<!-- 📁 src/app/components/company-details/company-details.component.html -->
+<!-- 📁 src/app/components/company-details/company-details.component.html - FIXED -->
 <div class="company-details-container" dir="rtl">
-  
+
   <!-- Loading State -->
   @if (isLoading) {
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <p>جاري تحميل تفاصيل الشركة...</p>
-    </div>
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>جاري تحميل تفاصيل الشركة...</p>
+  </div>
   }
 
   <!-- Error State -->
   @if (error && !isLoading) {
-    <div class="error-state">
-      <i class="bi bi-exclamation-triangle"></i>
-      <h3>حدث خطأ</h3>
-      <p>{{ error }}</p>
-      <button class="btn-back" (click)="goBack()">
-        <i class="bi bi-arrow-right"></i>
-        العودة للشركات
-      </button>
-    </div>
+  <div class="error-state">
+    <i class="bi bi-exclamation-triangle"></i>
+    <h3>حدث خطأ</h3>
+    <p>{{ error }}</p>
+    <button class="btn-back" (click)="goBack()">
+      <i class="bi bi-arrow-right"></i>
+      العودة للشركات
+    </button>
+  </div>
   }
 
   <!-- Content -->
   @if (subscriptionStatus && !isLoading) {
-    <div class="content-wrapper">
-      
-      <!-- Header -->
-      <div class="page-header">
-        <button class="btn-back-small" (click)="goBack()">
-          <i class="bi bi-arrow-right"></i>
-          عودة
-        </button>
-        <div class="header-content">
-          <i class="bi bi-building"></i>
-          <div>
-            <h1>{{ subscriptionStatus.company.name }}</h1>
-            <p>تفاصيل الاشتراك والفواتير</p>
+  <div class="content-wrapper">
+
+    <!-- Header -->
+    <div class="page-header">
+      <button class="btn-back-small" (click)="goBack()">
+        <i class="bi bi-arrow-right"></i>
+        عودة
+      </button>
+      <div class="header-content">
+        <!-- ✅ FIXED: Show company logo with proper checks -->
+        @if (subscriptionStatus.company.logo) {
+          <img 
+            [src]="subscriptionStatus.company.logo" 
+            [alt]="subscriptionStatus.company.name"
+            class="company-logo-header">
+        } @else {
+          <div class="company-logo-placeholder-header">
+            <i class="bi bi-building"></i>
           </div>
+        }
+        <div>
+          <h1>{{ subscriptionStatus.company.name }}</h1>
+          <p>تفاصيل الاشتراك والفواتير</p>
         </div>
       </div>
+    </div>
 
-      <!-- Status Card -->
-      <div class="status-card">
-        <div class="status-header">
-          <h2>
-            <i class="bi bi-calendar-check"></i>
-            حالة اشتراك الشركة
-          </h2>
-          <span 
-            class="status-badge" 
-            [ngClass]="getStatusBadgeClass(subscriptionStatus.status)">
-            {{ getStatusText(subscriptionStatus.status) }}
-          </span>
+    <!-- Status Card -->
+    <div class="status-card">
+      <div class="status-header">
+        <h2>
+          <i class="bi bi-calendar-check"></i>
+          حالة اشتراك الشركة
+        </h2>
+        <span class="status-badge" [ngClass]="getStatusBadgeClass(subscriptionStatus.status)">
+          {{ getStatusText(subscriptionStatus.status) }}
+        </span>
+      </div>
+
+      <div class="status-body">
+
+        <!-- Company Info -->
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="bi bi-building-fill"></i>
+          </div>
+          <div class="info-content">
+            <label>اسم الشركة</label>
+            <span>{{ subscriptionStatus.company.name }}</span>
+          </div>
         </div>
 
-        <div class="status-body">
-          
-          <!-- Company Info -->
-          <div class="info-card">
-            <div class="info-icon">
-              <i class="bi bi-building-fill"></i>
+        <!-- Current Subscription -->
+        @if (subscriptionStatus.currentSubscription) {
+        <div class="subscription-grid">
+
+          <!-- Current Plan -->
+          <div class="info-card highlight">
+            <div class="info-icon success">
+              <i class="bi bi-award-fill"></i>
             </div>
             <div class="info-content">
-              <label>اسم الشركة</label>
-              <span>{{ subscriptionStatus.company.name }}</span>
+              <label>الباقة الحالية</label>
+              <span class="plan-name">{{ subscriptionStatus.currentSubscription.plan.nameAr }}</span>
             </div>
           </div>
 
-          <!-- Current Subscription -->
-          @if (subscriptionStatus.currentSubscription) {
-            <div class="subscription-grid">
-              
-              <!-- Current Plan -->
-              <div class="info-card highlight">
-                <div class="info-icon success">
-                  <i class="bi bi-award-fill"></i>
-                </div>
-                <div class="info-content">
-                  <label>الباقة الحالية</label>
-                  <span class="plan-name">{{ subscriptionStatus.currentSubscription.plan.nameAr }}</span>
-                </div>
-              </div>
-
-              <!-- Expiry Date -->
-              <div class="info-card">
-                <div class="info-icon">
-                  <i class="bi bi-calendar-x"></i>
-                </div>
-                <div class="info-content">
-                  <label>تاريخ الانتهاء</label>
-                  <span>{{ subscriptionStatus.expiryDate | date: 'dd/MM/yyyy' }}</span>
-                </div>
-              </div>
-
-              <!-- Days Remaining -->
-              <div class="info-card">
-                <div class="info-icon">
-                  <i class="bi bi-hourglass-split"></i>
-                </div>
-                <div class="info-content">
-                  <label>الأيام المتبقية</label>
-                  <span [ngClass]="getDaysRemainingClass()" class="days-count">
-                    {{ subscriptionStatus.daysRemaining }} يوم
-                  </span>
-                </div>
-              </div>
-
+          <!-- Expiry Date -->
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="bi bi-calendar-x"></i>
             </div>
-          }
-
-          <!-- No Active Subscription -->
-          @if (!subscriptionStatus.currentSubscription) {
-            <div class="no-subscription">
-              <i class="bi bi-x-circle"></i>
-              <p>لا يوجد اشتراك نشط حالياً</p>
+            <div class="info-content">
+              <label>تاريخ الانتهاء</label>
+              <span>{{ subscriptionStatus.expiryDate | date: 'dd/MM/yyyy' }}</span>
             </div>
-          }
+          </div>
 
-          <!-- Status Alert -->
-          @if (subscriptionStatus.status === 'expired') {
-            <div class="alert alert-danger">
-              <i class="bi bi-exclamation-triangle-fill"></i>
-              <div>
-                <strong>الاشتراك منتهي</strong>
-                <p>الشركه لم تدفع الاشتراك حتي الان</p>
-              </div>
+          <!-- Days Remaining -->
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="bi bi-hourglass-split"></i>
             </div>
-          }
-
-          @if (subscriptionStatus.daysRemaining <= 7 && subscriptionStatus.daysRemaining > 0) {
-            <div class="alert alert-warning">
-              <i class="bi bi-bell-fill"></i>
-              <div>
-                <strong>تنبيه</strong>
-                <p>الاشتراك ينتهي خلال {{ subscriptionStatus.daysRemaining }} أيام</p>
-              </div>
+            <div class="info-content">
+              <label>الأيام المتبقية</label>
+              <span [ngClass]="getDaysRemainingClass()" class="days-count">
+                {{ subscriptionStatus.daysRemaining }} يوم
+              </span>
             </div>
-          }
+          </div>
 
         </div>
+        }
+
+        <!-- No Active Subscription -->
+        @if (!subscriptionStatus.currentSubscription) {
+        <div class="no-subscription">
+          <i class="bi bi-x-circle"></i>
+          <p>لا يوجد اشتراك نشط حالياً</p>
+        </div>
+        }
+
+        <!-- Status Alert -->
+        @if (subscriptionStatus.status === 'expired') {
+        <div class="alert alert-danger">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <div>
+            <strong>الاشتراك منتهي</strong>
+            <p>الشركه لم تدفع الاشتراك حتي الان</p>
+          </div>
+        </div>
+        }
+
+        @if (subscriptionStatus.daysRemaining <= 7 && subscriptionStatus.daysRemaining> 0) {
+          <div class="alert alert-warning">
+            <i class="bi bi-bell-fill"></i>
+            <div>
+              <strong>تنبيه</strong>
+              <p>الاشتراك ينتهي خلال {{ subscriptionStatus.daysRemaining }} أيام</p>
+            </div>
+          </div>
+          }
+
       </div>
-<!-- ==========================================
-     🆕 NEW: Subscription History Section
-     ========================================== -->
-<div class="subscriptions-section">
-  <div class="section-header">
-    <h2>
-      <i class="bi bi-clock-history"></i>
-      سجل الاشتراكات
-    </h2>
-    @if (subscriptionStatus.subscriptionHistory.length > 0) {
-      <span class="count-badge">{{ subscriptionStatus.subscriptionHistory.length }}</span>
-    }
-  </div>
-
-  @if (subscriptionStatus.subscriptionHistory.length === 0) {
-    <div class="empty-state">
-      <i class="bi bi-inbox"></i>
-      <p>لا يوجد سجل اشتراكات</p>
     </div>
-  }
 
-  @if (subscriptionStatus.subscriptionHistory.length > 0) {
-    <div class="subscriptions-table-wrapper">
-      <table class="subscriptions-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>الباقة</th>
-            <th>الحالة</th>
-            <th>تاريخ البداية</th>
-            <th>تاريخ النهاية</th>
-            <th>التجديد التلقائي</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (subscription of subscriptionStatus.subscriptionHistory; track subscription.id) {
+    <!-- Subscription History Section -->
+    <div class="subscriptions-section">
+      <div class="section-header">
+        <h2>
+          <i class="bi bi-clock-history"></i>
+          سجل الاشتراكات
+        </h2>
+        @if (subscriptionStatus.subscriptionHistory.length > 0) {
+        <span class="count-badge">{{ subscriptionStatus.subscriptionHistory.length }}</span>
+        }
+      </div>
+
+      @if (subscriptionStatus.subscriptionHistory.length === 0) {
+      <div class="empty-state">
+        <i class="bi bi-inbox"></i>
+        <p>لا يوجد سجل اشتراكات</p>
+      </div>
+      }
+
+      @if (subscriptionStatus.subscriptionHistory.length > 0) {
+      <div class="subscriptions-table-wrapper">
+        <table class="subscriptions-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>الباقة</th>
+              <th>الحالة</th>
+              <th>تاريخ البداية</th>
+              <th>تاريخ النهاية</th>
+              <th>التجديد التلقائي</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (subscription of subscriptionStatus.subscriptionHistory; track subscription.id) {
             <tr>
               <td class="subscription-id">#{{ subscription.id }}</td>
               <td class="plan-name-ar">{{ subscription.plan.nameAr }}</td>
               <td>
-                <span 
-                  class="badge"
-                  [ngClass]="getSubscriptionStatusBadge(subscription.status)">
+                <span class="badge" [ngClass]="getSubscriptionStatusBadge(subscription.status)">
                   {{ getSubscriptionStatusText(subscription.status) }}
                 </span>
               </td>
@@ -195,93 +200,92 @@
               </td>
               <td class="text-center">
                 @if (subscription.autoRenew) {
-                  <i class="bi bi-check-circle-fill text-success" title="مفعل"></i>
+                <i class="bi bi-check-circle-fill text-success" title="مفعل"></i>
                 } @else {
-                  <i class="bi bi-x-circle-fill text-danger" title="غير مفعل"></i>
+                <i class="bi bi-x-circle-fill text-danger" title="غير مفعل"></i>
                 }
               </td>
             </tr>
-          }
-        </tbody>
-      </table>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
     </div>
-  }
-</div>
-      <!-- Invoices Section -->
-      <div class="invoices-section">
-        <div class="section-header">
-          <h2>
-            <i class="bi bi-receipt"></i>
-            سجل الفواتير السابقة
-          </h2>
-          @if (subscriptionStatus.invoices.length > 0) {
-            <span class="count-badge">{{ subscriptionStatus.invoices.length }}</span>
-          }
-        </div>
 
-        @if (subscriptionStatus.invoices.length === 0) {
-          <div class="empty-state">
-            <i class="bi bi-inbox"></i>
-            <p>لا توجد فواتير حتى الآن</p>
-          </div>
-        }
-
+    <!-- Invoices Section -->
+    <div class="invoices-section">
+      <div class="section-header">
+        <h2>
+          <i class="bi bi-receipt"></i>
+          سجل الفواتير السابقة
+        </h2>
         @if (subscriptionStatus.invoices.length > 0) {
-          <div class="invoices-table-wrapper">
-            <table class="invoices-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>🆕 ID الاشتراك</th> 
-                  <th>الباقة</th>
-                  <th>المبلغ</th>
-                  <th>المدة</th>
-                  <th>طريقة الدفع</th>
-                  <th>الحالة</th>
-                  <th>التاريخ</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (invoice of subscriptionStatus.invoices; track invoice.id) {
-                  <tr>
-                    <td class="invoice-id">#{{ invoice.id }}</td>
-                     <td class="subscription-id">
-          @if (invoice.subscriptionId) {
-            <span class="sub-id-badge">#{{ invoice.subscriptionId }}</span>
-          } @else {
-            <span class="text-muted">-</span>
-          }
-        </td>
-                    <td class="plan-name">{{ invoice.planName }}</td>
-                    <td class="amount">
-                      <strong>{{ invoice.amount }}</strong> جنيه
-                    </td>
-                    <td>{{ invoice.durationDays }} يوم</td>
-                    <td>
-                      <div class="payment-method">
-                        <i [class]="getPaymentMethodIcon(invoice.paymentMethod)"></i>
-                        <span>{{ getPaymentMethodText(invoice.paymentMethod) }}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span 
-                        class="badge"
-                        [ngClass]="getPaymentStatusBadge(invoice.paymentStatus).class">
-                        {{ getPaymentStatusBadge(invoice.paymentStatus).text }}
-                      </span>
-                    </td>
-                    <td class="date">
-                      {{ (invoice.paidAt || invoice.createdAt) | date: 'dd/MM/yyyy' }}
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
+        <span class="count-badge">{{ subscriptionStatus.invoices.length }}</span>
         }
       </div>
 
+      @if (subscriptionStatus.invoices.length === 0) {
+      <div class="empty-state">
+        <i class="bi bi-inbox"></i>
+        <p>لا توجد فواتير حتى الآن</p>
+      </div>
+      }
+
+      @if (subscriptionStatus.invoices.length > 0) {
+      <div class="invoices-table-wrapper">
+        <table class="invoices-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID الاشتراك</th>
+              <th>الباقة</th>
+              <th>المبلغ</th>
+              <th>المدة</th>
+              <th>طريقة الدفع</th>
+              <th>الحالة</th>
+              <th>التاريخ</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (invoice of subscriptionStatus.invoices; track invoice.id) {
+            <tr>
+              <td class="invoice-id">#{{ invoice.id }}</td>
+              <td class="subscription-id">
+                @if (invoice.subscriptionId) {
+                <span class="sub-id-badge">#{{ invoice.subscriptionId }}</span>
+                } @else {
+                <span class="text-muted">-</span>
+                }
+              </td>
+              <td class="plan-name">{{ invoice.planName }}</td>
+              <td class="amount">
+                <strong>{{ invoice.amount }}</strong> جنيه
+              </td>
+              <td>{{ invoice.durationDays }} يوم</td>
+              <td>
+                <div class="payment-method">
+                  <i [class]="getPaymentMethodIcon(invoice.paymentMethod)"></i>
+                  <span>{{ getPaymentMethodText(invoice.paymentMethod) }}</span>
+                </div>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="getPaymentStatusBadge(invoice.paymentStatus).class">
+                  {{ getPaymentStatusBadge(invoice.paymentStatus).text }}
+                </span>
+              </td>
+              <td class="date">
+                {{ (invoice.paidAt || invoice.createdAt) | date: 'dd/MM/yyyy' }}
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
     </div>
+
+  </div>
   }
 
 </div>

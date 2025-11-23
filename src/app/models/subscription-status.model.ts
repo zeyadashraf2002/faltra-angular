@@ -1,3 +1,4 @@
+// 📁 src/app/models/subscription-status.model.ts - FIXED
 export interface SubscriptionHistoryItem {
   id: number;
   status: string;
@@ -15,7 +16,7 @@ export interface SubscriptionHistoryItem {
 
 export interface SubscriptionInvoice {
   id: number;
-  subscriptionId?: number | null; // Optional because Prisma uses Int?
+  subscriptionId?: number | null;
   planName: string;
   amount: number;
   durationDays: number;
@@ -26,10 +27,12 @@ export interface SubscriptionInvoice {
 }
 
 export interface SubscriptionStatus {
+  // ✅ FIXED: Company object now includes logo
   company: {
     id: number;
     name: string;
     email: string;
+    logo?: string | null;       
   };
 
   status: 'active' | 'expired';

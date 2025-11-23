@@ -1,4 +1,4 @@
-<!-- 📁 companies.component.html - UPDATED WITH DETAILS BUTTON -->
+<!-- 📁 companies.component.html - WITH CASH SUBSCRIPTION MODAL -->
 <div class="dashboard-container" dir="rtl">
   
   <!-- Top Navigation Bar -->
@@ -13,6 +13,14 @@
       </div>
       
       <div class="nav-user">
+        <!-- ✨ NEW: Stats Dashboard Button (Developer Only) -->
+        @if (authService.currentUser?.role === 'developer') {
+          <button class="btn-stats" (click)="goToStats()">
+            <i class="bi bi-graph-up-arrow"></i>
+            <span>إحصائيات الاشتراكات</span>
+          </button>
+        }
+        
         <div class="user-info">
           <strong>{{ authService.currentUser?.fullName }}</strong>
           <span class="user-role">
@@ -45,7 +53,6 @@
 
       <!-- Search & Filter Toolbar -->
       <div class="toolbar">
-        <!-- Search Box -->
         <div class="search-box">
           <i class="bi bi-search"></i>
           <input 
@@ -55,7 +62,6 @@
             (input)="onSearchChange()">
         </div>
 
-        <!-- Subscription Status Filters -->
         <div class="filter-buttons">
           <button 
             class="filter-btn"
@@ -163,7 +169,6 @@
                     </div>
                   </div>
 
-                  <!-- Expiry Date with Inline Edit Button -->
                   <div class="info-row highlight expiry-row">
                     <i class="bi bi-calendar-x" 
                        [class.text-danger]="isExpired(company.subscriptionExpiryDate)"
@@ -177,15 +182,13 @@
                           {{ company.subscriptionExpiryDate | date: 'dd/MM/yyyy' }}
                         </span>
                       </div>
-                      
-                   
                     </div>
                   </div>
 
                 </div>
               </div>
 
-              <!-- 🔹 NEW: Card Footer with Details Button -->
+              <!-- Card Footer -->
               <div class="card-footer">
                 <button 
                   class="btn-details" 
@@ -195,6 +198,17 @@
                   <span>عرض تفاصيل الاشتراك والفواتير</span>
                   <i class="bi bi-arrow-left"></i>
                 </button>
+                
+                <!-- ✨ NEW: Add Cash Subscription Button (Developer Only) -->
+                @if (authService.currentUser?.role === 'developer') {
+                  <button 
+                    class="btn-add-subscription" 
+                    (click)="openAddSubscriptionModal(company)"
+                    title="إضافة اشتراك كاش">
+                    <i class="bi bi-cash-coin"></i>
+                    <span>إضافة اشتراك كاش</span>
+                  </button>
+                }
               </div>
 
             </div>
@@ -238,3 +252,106 @@
   </div>
 </div>
 
+<!-- ========================================== -->
+<!-- 🆕 CASH SUBSCRIPTION MODAL -->
+<!-- ========================================== -->
+@if (showAddSubscriptionModal) {
+  <div class="modal-overlay" (click)="closeAddSubscriptionModal()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h3>
+          <i class="bi bi-cash-coin"></i>
+          إضافة اشتراك كاش
+        </h3>
+        <button class="btn-close" (click)="closeAddSubscriptionModal()">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        
+        <!-- Company Info -->
+        @if (selectedCompany) {
+          <div class="company-name">
+            <i class="bi bi-building"></i>
+            <span>{{ selectedCompany.name }}</span>
+          </div>
+        }
+
+        <!-- Plan Selection -->
+        <div class="form-group">
+          <label for="planId" class="form-label">
+            <i class="bi bi-award"></i>
+            اختر الباقة
+          </label>
+          <select
+            id="planId"
+            class="form-control"
+            [(ngModel)]="cashSubscriptionForm.planId"
+            [disabled]="isSubmittingCash || isLoadingPlans"
+            required>
+            <option [value]="null" disabled selected>اختر باقة...</option>
+            @for (plan of availablePlans; track plan.id) {
+              <option [value]="plan.id">
+                {{ plan.nameAr }} - {{ plan.price }} جنيه ({{ plan.durationDays }} يوم)
+              </option>
+            }
+          </select>
+        </div>
+
+        <!-- Notes (Optional) -->
+        <div class="form-group">
+          <label for="notes" class="form-label">
+            <i class="bi bi-chat-text"></i>
+            ملاحظات (اختياري)
+          </label>
+          <textarea
+            id="notes"
+            class="form-control"
+            [(ngModel)]="cashSubscriptionForm.notes"
+            [disabled]="isSubmittingCash"
+            rows="3"
+            placeholder="أي ملاحظات إضافية..."></textarea>
+        </div>
+
+        <div class="form-hint">
+          <i class="bi bi-info-circle"></i>
+          <span>سيتم إضافة الاشتراك فوراً بدون دفع إلكتروني</span>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button 
+          class="btn-secondary" 
+          (click)="closeAddSubscriptionModal()"
+          [disabled]="isSubmittingCash">
+          <i class="bi bi-x-circle"></i>
+          إلغاء
+        </button>
+        <button 
+          class="btn-primary" 
+          (click)="submitCashSubscription()"
+          [disabled]="!cashSubscriptionForm.planId || isSubmittingCash">
+          @if (!isSubmittingCash) {
+            <span>
+              <i class="bi bi-check-circle"></i>
+              إضافة الاشتراك
+            </span>
+          }
+          @if (isSubmittingCash) {
+            <span class="loading-state">
+              <span class="spinner-sm"></span>
+              جاري الإضافة...
+            </span>
+          }
+        </button>
+      </div>
+
+    </div>
+  </div>
+}

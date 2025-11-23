@@ -1,14 +1,25 @@
-// 📁 companies.component.ts - LOGOUT TO DEV-LOGIN
+// 📁 companies.component.ts - COMPLETE WITH CASH SUBSCRIPTION
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CompanyService } from '../../services/company.service';
+import { SubscriptionService } from '../../services/subscription.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 import { Company } from '../../models/company.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 type SubscriptionFilter = 'all' | 'active' | 'expired';
+
+interface Plan {
+  id: number;
+  name: string;
+  nameAr: string;
+  price: number;
+  durationDays: number;
+}
 
 @Component({
   selector: 'app-companies',
@@ -27,15 +38,30 @@ export class CompaniesComponent implements OnInit {
   itemsPerPage = 6;
   totalPages = 1;
 
+  // ✨ NEW: Cash Subscription Modal
+  showAddSubscriptionModal = false;
+  selectedCompany: Company | null = null;
+  availablePlans: Plan[] = [];
+  isLoadingPlans = false;
+  isSubmittingCash = false;
+  
+  cashSubscriptionForm = {
+    planId: null as number | null,
+    notes: ''
+  };
+
   constructor(
     public authService: AuthService,
     private companyService: CompanyService,
+    private subscriptionService: SubscriptionService,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
     this.loadCompanies();
+    this.loadPlans();
   }
 
   loadCompanies() {
@@ -51,6 +77,22 @@ export class CompaniesComponent implements OnInit {
         console.error('Error loading companies:', error);
         this.toastService.error('خطأ', 'فشل تحميل الشركات');
         this.isLoading = false;
+      }
+    });
+  }
+
+  // ✨ NEW: Load Plans for Cash Subscription
+  loadPlans() {
+    this.isLoadingPlans = true;
+    
+    this.subscriptionService.getPlans().subscribe({
+      next: (response) => {
+        this.availablePlans = response.data || [];
+        this.isLoadingPlans = false;
+      },
+      error: (error) => {
+        console.error('Error loading plans:', error);
+        this.isLoadingPlans = false;
       }
     });
   }
@@ -111,12 +153,73 @@ export class CompaniesComponent implements OnInit {
     this.router.navigate(['/dashboard/companies', companyId]);
   }
 
-  // ✅ FIXED: Logout redirects to /dev-login
+  // ✨ NEW: Navigate to Stats Dashboard
+  goToStats() {
+    this.router.navigate(['/dashboard/subscriptions']);
+  }
+
+  // ✨ NEW: Open Cash Subscription Modal
+  openAddSubscriptionModal(company: Company) {
+    this.selectedCompany = company;
+    this.showAddSubscriptionModal = true;
+    this.resetCashForm();
+  }
+
+  closeAddSubscriptionModal() {
+    this.showAddSubscriptionModal = false;
+    this.selectedCompany = null;
+    this.resetCashForm();
+  }
+
+  resetCashForm() {
+    this.cashSubscriptionForm = {
+      planId: null,
+      notes: ''
+    };
+  }
+
+  // ✨ NEW: Submit Cash Subscription
+  submitCashSubscription() {
+    if (!this.selectedCompany || !this.cashSubscriptionForm.planId) {
+      this.toastService.error('خطأ', 'يرجى اختيار باقة');
+      return;
+    }
+
+    this.isSubmittingCash = true;
+
+    const payload = {
+      companyId: this.selectedCompany.id,
+      planId: this.cashSubscriptionForm.planId,
+      notes: this.cashSubscriptionForm.notes.trim() || undefined
+    };
+
+    this.http.post(
+      `${environment.API_URL}/subscriptions/cash-payment`,
+      payload,
+      { withCredentials: true }
+    ).subscribe({
+      next: (response: any) => {
+        this.toastService.success(
+          'تم بنجاح ✅',
+          `تم إضافة اشتراك كاش لشركة ${this.selectedCompany?.name}`
+        );
+        this.closeAddSubscriptionModal();
+        this.loadCompanies(); // Refresh companies list
+        this.isSubmittingCash = false;
+      },
+      error: (error) => {
+        console.error('Error adding cash subscription:', error);
+        const errorMsg = error.error?.message || 'فشل إضافة الاشتراك';
+        this.toastService.error('خطأ', errorMsg);
+        this.isSubmittingCash = false;
+      }
+    });
+  }
+
   logout() {
     this.authService.logout().subscribe({
       next: () => {
         this.toastService.success('تم تسجيل الخروج', 'وداعاً، نراك قريباً');
-        // ✅ Navigate to /dev-login (protected developer route)
         this.router.navigate(['/dev-login']);
       },
       error: () => {

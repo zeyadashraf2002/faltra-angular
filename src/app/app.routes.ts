@@ -1,6 +1,6 @@
-// 📁 src/app/app.routes.ts - PROTECTED DEV-LOGIN ROUTE
+// 📁 src/app/app.routes.ts - COMPLETE WITH DASHBOARD
 import { Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard, DeveloperGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   // 🔹 Home route - Landing page
@@ -10,7 +10,7 @@ export const routes: Routes = [
     children: []
   },
   
-  // 🔹 PROTECTED: Dev-Login route (hidden from regular users)
+  // 🔹 PROTECTED: Dev-Login route
   { 
     path: 'dev-login',
     loadComponent: () => import('./components/login-dev/login-dev.component')
@@ -36,6 +36,14 @@ export const routes: Routes = [
     loadComponent: () => import('./components/company-details/company-details.component')
       .then(m => m.CompanyDetailsComponent),
     canActivate: [AuthGuard]
+  },
+
+  // 🆕 NEW: Subscription Dashboard (Developer Only)
+  { 
+    path: 'dashboard/subscriptions',
+    loadComponent: () => import('./components/subscription-dashboard/subscription-dashboard.component')
+      .then(m => m.SubscriptionDashboardComponent),
+    canActivate: [AuthGuard, DeveloperGuard]
   },
 
   // 🔹 Redirect unknown routes to home

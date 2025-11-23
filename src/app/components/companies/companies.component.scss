@@ -1,24 +1,4 @@
-// 📁 companies.component.scss - COMPLETE WITH FILTERS
-
-// ============================================
-// COLOR SYSTEM
-// ============================================
-$primary: #2563EB;
-$primary-dark: #1D4ED8;
-$primary-light: #DBEAFE;
-
-$gray-50: #F9FAFB;
-$gray-100: #F3F4F6;
-$gray-200: #E5E7EB;
-$gray-300: #D1D5DB;
-$gray-500: #6B7280;
-$gray-700: #374151;
-$gray-900: #111827;
-
-$success: #10B981;
-$success-light: #D1FAE5;
-$danger: #EF4444;
-$danger-light: #FEE2E2;
+// 📁 companies.component.scss - COMPLETE WITH MODAL STYLES
 
 // ============================================
 // COLOR SYSTEM
@@ -78,7 +58,6 @@ $danger-light: #FEE2E2;
   color: $primary;
   font-weight: 700;
   
-  // ✅ استخدام نفس اللوجو من صفحة الهوم
   .nav-logo-img {
     width: 3rem;
     height: 3rem;
@@ -102,6 +81,38 @@ $danger-light: #FEE2E2;
   display: flex;
   align-items: center;
   gap: 1.5rem;
+}
+
+// ✨ NEW: Stats Button
+.btn-stats {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Cairo', sans-serif;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+  
+  i {
+    font-size: 1.1rem;
+  }
+  
+  span {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.4);
+  }
 }
 
 .user-info {
@@ -185,72 +196,8 @@ $danger-light: #FEE2E2;
   }
 }
 
-
-
 // ============================================
-// 🔹 NEW: CARD FOOTER
-// ============================================
-.card-footer {
-  padding: 1rem 1.25rem;
-  background: $gray-50;
-  border-top: 1px solid $gray-200;
-}
-
-.btn-details {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: white;
-  border: 2px solid $primary;
-  border-radius: 0.5rem;
-  color: $primary;
-  font-weight: 600;
-  font-size: 0.9375rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-family: 'Cairo', sans-serif;
-  
-  i {
-    font-size: 1.1rem;
-    
-    &:last-child {
-      font-size: 1rem;
-      margin-right: auto;
-    }
-  }
-  
-  &:hover {
-    background: $primary;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba($primary, 0.3);
-  }
-  
-  &:active {
-    transform: translateY(0);
-  }
-}
-
-// ============================================
-// RESPONSIVE - CARD FOOTER
-// ============================================
-@media (max-width: 768px) {
-  .btn-details {
-    font-size: 0.875rem;
-    padding: 0.65rem 0.875rem;
-    
-    span {
-      @media (max-width: 480px) {
-        font-size: 0.8125rem;
-      }
-    }
-  }
-}
-// ============================================
-// 🔹 NEW: TOOLBAR WITH FILTERS
+// TOOLBAR WITH FILTERS
 // ============================================
 .toolbar {
   margin-bottom: 2rem;
@@ -300,7 +247,6 @@ $danger-light: #FEE2E2;
   }
 }
 
-// 🔹 NEW: Filter Buttons
 .filter-buttons {
   display: flex;
   gap: 0.5rem;
@@ -539,7 +485,6 @@ $danger-light: #FEE2E2;
   }
 }
 
-// 🔹 NEW: Expiry Row with Inline Button
 .expiry-row {
   .expiry-content {
     display: flex;
@@ -550,6 +495,88 @@ $danger-light: #FEE2E2;
   }
 }
 
+// ============================================
+// CARD FOOTER
+// ============================================
+.card-footer {
+  padding: 1rem 1.25rem;
+  background: $gray-50;
+  border-top: 1px solid $gray-200;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.btn-details {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 2px solid $primary;
+  border-radius: 0.5rem;
+  color: $primary;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: 'Cairo', sans-serif;
+  
+  i {
+    font-size: 1.1rem;
+    
+    &:last-child {
+      font-size: 1rem;
+      margin-right: auto;
+    }
+  }
+  
+  &:hover {
+    background: $primary;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba($primary, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ✨ NEW: Add Subscription Button
+.btn-add-subscription {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: 'Cairo', sans-serif;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+  
+  i {
+    font-size: 1.1rem;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.4);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
 
 // ============================================
 // PAGINATION
@@ -684,31 +711,9 @@ $danger-light: #FEE2E2;
   }
 }
 
-.current-expiry {
-  background: $gray-50;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1.5rem;
-  
-  label {
-    font-size: 0.875rem;
-    color: $gray-500;
-    display: block;
-    margin-bottom: 0.25rem;
-  }
-  
-  span {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: $gray-900;
-    
-    &.expired {
-      color: $danger;
-    }
-  }
-}
-
 .form-group {
+  margin-bottom: 1.25rem;
+  
   label {
     display: flex;
     align-items: center;
@@ -827,6 +832,12 @@ $danger-light: #FEE2E2;
   animation: spin 0.6s linear infinite;
 }
 
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 // Modal Animations
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -914,21 +925,8 @@ $danger-light: #FEE2E2;
   .filter-btn span {
     display: none;
   }
-}
-
-.modal-overlay {
-  // ... الأنماط الحالية
   
-  // جعل الـ overlay يلتقط الأحداث فقط عندما يكون مطلوبًا
-  pointer-events: auto;
-}
-
-.modal-dialog {
-  // منع الـ dialog من التداخل مع أحداث الـ overlay
-  pointer-events: auto;
-  
-  // السماح للأحداث بالمرور عبر العناصر غير النشطة
-  * {
-    pointer-events: auto;
+  .btn-details span {
+    font-size: 0.8125rem;
   }
 }
