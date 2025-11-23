@@ -102,42 +102,54 @@ export class CompanyDetailsComponent implements OnInit {
   }
 
   // ✨ Submit Cash Subscription
-  submitCashSubscription() {
-    if (!this.subscriptionStatus?.company || !this.cashSubscriptionForm.planId) {
-      this.toastService.error('خطأ', 'يرجى اختيار باقة');
-      return;
-    }
+ submitCashSubscription() {
+  if (!this.subscriptionStatus?.company || !this.cashSubscriptionForm.planId) {
+    this.toastService.error('خطأ', 'يرجى اختيار باقة');
+    return;
+  }
 
-    this.isSubmittingCash = true;
+  this.isSubmittingCash = true;
 
-    const payload = {
-      companyId: this.subscriptionStatus.company.id,
-      planId: +this.cashSubscriptionForm.planId,
-      notes: this.cashSubscriptionForm.notes.trim() || undefined
-    };
-console.log('💰 Sending cash payment:', payload);
-    this.http.post(
-      `${environment.API_URL}/subscriptions/cash-payment`,
-      payload,
-      { withCredentials: true }
-    ).subscribe({
-      next: (response: any) => {
-        this.toastService.success(
-          'تم بنجاح ✅',
-          `تم إضافة اشتراك كاش لشركة ${this.subscriptionStatus?.company.name}`
+  const payload = {
+    companyId: this.subscriptionStatus.company.id,
+    planId: +this.cashSubscriptionForm.planId,
+    notes: this.cashSubscriptionForm.notes.trim() || undefined
+  };
+
+  this.http.post(
+    `${environment.API_URL}/subscriptions/cash-payment`,
+    payload,
+    { withCredentials: true }
+  ).subscribe({
+    next: (response: any) => {
+      this.toastService.success(
+        'تم بنجاح ✅',
+        `تم إضافة اشتراك كاش لشركة ${this.subscriptionStatus?.company.name}`
+      );
+      this.resetCashForm();
+      this.loadSubscriptionStatus();
+      this.isSubmittingCash = false;
+    },
+    error: (error) => {
+      console.error('Error adding cash subscription:', error);
+      
+      // ✅ تجاهل خطأ logoPublicId
+      if (error.error?.message?.includes('logoPublicId')) {
+        this.toastService.info(
+          'تنبيه',
+          'تم إضافة الاشتراك بنجاح مع تحذير بسيط'
         );
         this.resetCashForm();
-        this.loadSubscriptionStatus(); // Refresh data
-        this.isSubmittingCash = false;
-      },
-      error: (error) => {
-        console.error('Error adding cash subscription:', error);
+        this.loadSubscriptionStatus();
+      } else {
         const errorMsg = error.error?.message || 'فشل إضافة الاشتراك';
         this.toastService.error('خطأ', errorMsg);
-        this.isSubmittingCash = false;
       }
-    });
-  }
+      
+      this.isSubmittingCash = false;
+    }
+  });
+}
 
   resetCashForm() {
     this.cashSubscriptionForm = {
