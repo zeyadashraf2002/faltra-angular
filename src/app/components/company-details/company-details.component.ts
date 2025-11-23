@@ -112,10 +112,10 @@ export class CompanyDetailsComponent implements OnInit {
 
     const payload = {
       companyId: this.subscriptionStatus.company.id,
-      planId: this.cashSubscriptionForm.planId,
+      planId: +this.cashSubscriptionForm.planId,
       notes: this.cashSubscriptionForm.notes.trim() || undefined
     };
-
+console.log('💰 Sending cash payment:', payload);
     this.http.post(
       `${environment.API_URL}/subscriptions/cash-payment`,
       payload,
