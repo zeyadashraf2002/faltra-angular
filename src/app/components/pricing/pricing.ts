@@ -29,7 +29,7 @@ export class Pricing implements OnInit {
   isLoading = true;
   error: string | null = null;
 
-  constructor(private subscriptionService: SubscriptionService) {}
+  constructor(private subscriptionService: SubscriptionService) { }
 
   ngOnInit() {
     this.loadPlans();
@@ -60,7 +60,7 @@ export class Pricing implements OnInit {
         id: 1,
         name: 'Monthly',
         nameAr: 'الباقة الشهرية',
-        price: 499,
+        price: 299,
         durationDays: 30,
         description: 'Perfect for small businesses',
         descriptionAr: 'مثالي للشركات الصغيرة والبداية',
@@ -77,15 +77,14 @@ export class Pricing implements OnInit {
       {
         id: 3,
         name: 'Semi-Annual',
-        nameAr: 'الباقة نصف السنوية',
-        price: 2499,
-        durationDays: 180,
+        nameAr: 'الباقة الربع سنوية',
+        price: 765,
+        durationDays: 120,
         description: 'Best value for growing businesses',
         descriptionAr: 'أفضل قيمة للشركات النامية',
         features: [
           { en: 'All Monthly features', ar: 'كل مميزات الباقة الشهرية' },
           { en: 'Advanced analytics', ar: 'تحليلات متقدمة' },
-          { en: 'AI assistant', ar: 'مساعد AI ذكي' },
           { en: 'Priority support', ar: 'دعم ذو أولوية' },
           { en: 'Custom reports', ar: 'تقارير مخصصة' },
           { en: 'Free training', ar: 'تدريب مجاني' }
@@ -97,7 +96,7 @@ export class Pricing implements OnInit {
         id: 4,
         name: 'Annual',
         nameAr: 'الباقة السنوية',
-        price: 4499,
+        price: 2691,
         durationDays: 365,
         description: 'Maximum savings for established businesses',
         descriptionAr: 'أقصى توفير للشركات الراسخة',

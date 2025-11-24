@@ -3,13 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import { 
-  SubscriptionStatsService, 
-  SubscriptionStats, 
+import {
+  SubscriptionStatsService,
+  SubscriptionStats,
   MonthlyRevenueReport,
-  Subscription 
+  Subscription
 } from '../../services/subscription-stats.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
@@ -17,7 +16,7 @@ import { ToastService } from '../../services/toast.service';
 @Component({
   selector: 'app-subscription-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgxChartsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './subscription-dashboard.component.html',
   styleUrls: ['./subscription-dashboard.component.scss']
 })
@@ -28,8 +27,8 @@ export class SubscriptionDashboardComponent implements OnInit {
   isExpiringOpen = true;
   selectedMonth: number = new Date().getMonth() + 1;
   selectedYear: number = new Date().getFullYear();
-  selectedPlanFilter:'all' | 'monthly' | 'quarterly' | 'yearly' | 'trial' = 'all';
-  
+  selectedPlanFilter: 'all' | 'monthly' | 'quarterly' | 'yearly' | 'trial' = 'all';
+
   availableYears: number[] = [];
 
   // Collapsible states
@@ -55,7 +54,7 @@ export class SubscriptionDashboardComponent implements OnInit {
     public authService: AuthService,
     private toastService: ToastService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.authService.currentUser?.role !== 'developer') {
@@ -89,16 +88,16 @@ export class SubscriptionDashboardComponent implements OnInit {
       }
     });
   }
-toggleExpiring() {
-  this.isExpiringOpen = !this.isExpiringOpen;
-}
+  toggleExpiring() {
+    this.isExpiringOpen = !this.isExpiringOpen;
+  }
   loadYearlyReport() {
     this.statsService.getMonthlyRevenue(this.selectedYear).subscribe({
       next: (res) => {
         this.yearlyReport = res.data;
         this.prepareChartData();
       },
-      error: () => {}
+      error: () => { }
     });
   }
 
@@ -117,23 +116,23 @@ toggleExpiring() {
   onYearChange() { this.loadStats(); this.loadYearlyReport(); }
 
   get filteredRecentSubscriptions(): Subscription[] {
-  if (!this.stats) return [];
+    if (!this.stats) return [];
 
-  // لو اختار "تجريبي" → ارجع الشركات التجريبية
-  if (this.selectedPlanFilter === 'trial') {
-    return this.stats.trialSubscriptions || [];
+    // لو اختار "تجريبي" → ارجع الشركات التجريبية
+    if (this.selectedPlanFilter === 'trial') {
+      return this.stats.trialSubscriptions || [];
+    }
+
+    // لو اختار باقة مدفوعة أو الكل
+    if (!this.stats.recentByPlan) return [];
+
+    switch (this.selectedPlanFilter) {
+      case 'monthly': return this.stats.recentByPlan.monthly;
+      case 'quarterly': return this.stats.recentByPlan.quarterly;
+      case 'yearly': return this.stats.recentByPlan.yearly;
+      default: return this.stats.recentByPlan.all;
+    }
   }
-
-  // لو اختار باقة مدفوعة أو الكل
-  if (!this.stats.recentByPlan) return [];
-
-  switch (this.selectedPlanFilter) {
-    case 'monthly':   return this.stats.recentByPlan.monthly;
-    case 'quarterly': return this.stats.recentByPlan.quarterly;
-    case 'yearly':    return this.stats.recentByPlan.yearly;
-    default:          return this.stats.recentByPlan.all;
-  }
-}
 
   // Toggle methods
   toggleChart() { this.isChartOpen = !this.isChartOpen; }
