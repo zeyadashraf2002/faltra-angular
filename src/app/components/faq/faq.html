@@ -1,25 +1,99 @@
-<section id="faq" class="py-5 bg-light" dir="rtl">
+<!-- 📁 src/app/components/faq/faq.html - MODERN FAQ -->
+<section id="faq" class="faq-modern" dir="rtl">
   <div class="container">
-    <h2 class="display-4 text-center mb-5 text-primary fw-bold">أسئلة شائعة</h2>
+    
+    <!-- Section Header -->
+    <div class="section-header" data-aos="fade-up">
+      <div class="section-badge">
+        <i class="bi bi-question-circle"></i>
+        <span>الأسئلة الشائعة</span>
+      </div>
+      <h2 class="section-title">
+        أسئلة
+        <span class="gradient-text">يطرحها الجميع</span>
+      </h2>
+      <p class="section-subtitle">
+        إجابات سريعة على أكثر الأسئلة شيوعاً حول نظام فلتره
+      </p>
+    </div>
 
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="accordion" id="faqAccordion">
-          <div class="accordion-item border-0 shadow-sm mb-3 rounded-3" *ngFor="let faq of faqs; let i = index">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse"
-                      [attr.data-bs-target]="'#faq' + i" [attr.aria-controls]="'faq' + i">
-                {{ faq.q }}
-              </button>
-            </h2>
-            <div [id]="'faq' + i" class="accordion-collapse collapse" [attr.data-bs-parent]="'#faqAccordion'">
-              <div class="accordion-body fs-5 text-muted">
-                {{ faq.a }}
-              </div>
+    <!-- FAQ Grid -->
+    <div class="faq-grid">
+      
+      @for (faq of faqs; track faq.id) {
+        <div 
+          class="faq-item"
+          [class.active]="activeFaq === faq.id"
+          data-aos="fade-up"
+          [attr.data-aos-delay]="$index * 50">
+          
+          <!-- Question Header -->
+          <button 
+            class="faq-question"
+            (click)="toggleFaq(faq.id)">
+            
+            <div class="question-icon">
+              <i class="bi bi-question-circle"></i>
+            </div>
+            
+            <h3 class="question-text">{{ faq.question }}</h3>
+            
+            <div class="toggle-icon">
+              <i class="bi" [class.bi-chevron-down]="activeFaq !== faq.id" 
+                            [class.bi-chevron-up]="activeFaq === faq.id"></i>
+            </div>
+          </button>
+
+          <!-- Answer Content -->
+          <div class="faq-answer" [class.expanded]="activeFaq === faq.id">
+            <div class="answer-content">
+              <p>{{ faq.answer }}</p>
+              
+              @if (faq.highlights) {
+                <ul class="highlights-list">
+                  @for (highlight of faq.highlights; track highlight) {
+                    <li>
+                      <i class="bi bi-check-circle-fill"></i>
+                      <span>{{ highlight }}</span>
+                    </li>
+                  }
+                </ul>
+              }
             </div>
           </div>
+
+        </div>
+      }
+
+    </div>
+
+    <!-- Still Have Questions -->
+    <div class="help-section" data-aos="zoom-in">
+      <div class="help-content">
+        <div class="help-icon">
+          <i class="bi bi-headset"></i>
+        </div>
+        <div class="help-text">
+          <h3>لم تجد إجابتك؟</h3>
+          <p>فريق الدعم الفني لدينا جاهز لمساعدتك في أي وقت</p>
+        </div>
+        <div class="help-actions">
+          <button class="btn-help-primary" (click)="contactSupport()">
+            <i class="bi bi-chat-dots"></i>
+            <span>تواصل معنا</span>
+          </button>
+          <a href="https://wa.me/20123456789" target="_blank" class="btn-help-whatsapp">
+            <i class="bi bi-whatsapp"></i>
+            <span>واتساب</span>
+          </a>
         </div>
       </div>
     </div>
+
   </div>
+
+  <!-- Background Elements -->
+  <div class="bg-decoration decoration-1"></div>
+  <div class="bg-decoration decoration-2"></div>
+
 </section>

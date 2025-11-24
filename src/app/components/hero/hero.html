@@ -1,88 +1,180 @@
-<!-- 📁 hero.html - Clean Professional Design -->
-<section class="hero-section" dir="rtl" id="home">
-  <div class="container">
-    <div class="row align-items-center">
+<!-- 📁 src/app/components/hero/hero.html - MODERN FUTURISTIC HERO -->
+<section class="hero-modern" dir="rtl" id="home">
+  <!-- Animated Background -->
+  <div class="hero-bg">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    
+    <!-- Floating Particles -->
+    <div class="particles-container">
+      @for (particle of particles; track $index) {
+        <div 
+          class="particle" 
+          [style.left.%]="particle.x"
+          [style.top.%]="particle.y"
+          [style.width.px]="particle.size"
+          [style.height.px]="particle.size"
+          [style.animation-delay.s]="particle.delay">
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="container hero-container">
+    <div class="row align-items-center g-5">
       
       <!-- Content Column -->
-      <div class="col-lg-6">
+      <div class="col-lg-6" [@fadeInUp]>
         <div class="hero-content">
-          <!-- Badge -->
-          <div class="hero-badge">
+          
+          <!-- Premium Badge -->
+          <div class="premium-badge" [@fadeInUp]>
+            <span class="badge-glow"></span>
             <i class="bi bi-stars"></i>
-            <span>الحل الأمثل لإدارة شركات الفلاتر</span>
+            <span>نظام إدارة متكامل بتقنية AI</span>
           </div>
 
           <!-- Main Headline -->
-          <h1 class="hero-title">
-            نظام <span class="highlight">فلتره</span> المتكامل
+          <h1 class="hero-title" [@fadeInUp]>
+            <span class="gradient-text">أعد تصميم</span>
+            <br>
+            طريقة إدارة شركتك
           </h1>
 
           <!-- Description -->
-          <p class="hero-description">
-            إدارة ذكية وشاملة لجميع عمليات شركتك: المبيعات، التركيب، الصيانة، الأقساط، والمخزون - كل شيء في مكان واحد
+          <p class="hero-description" [@fadeInUp]>
+            نظام فلتره المدعوم بالذكاء الاصطناعي - حيث تلتقي الإدارة الذكية مع البساطة. 
+            تتبع كل شيء من العملاء والمخزون إلى الفواتير والصيانة في منصة واحدة قوية.
           </p>
 
+          <!-- Feature Pills -->
+          <div class="feature-pills" [@staggerItems]="particles.length">
+            <div class="pill">
+              <i class="bi bi-lightning-charge-fill"></i>
+              <span>بحث ذكي بالـ AI</span>
+            </div>
+            <div class="pill">
+              <i class="bi bi-phone"></i>
+              <span>100% متجاوب</span>
+            </div>
+            <div class="pill">
+              <i class="bi bi-shield-check"></i>
+              <span>آمن ومشفر</span>
+            </div>
+          </div>
+
           <!-- CTA Buttons -->
-          <div class="hero-actions">
+          <div class="hero-cta" [@fadeInUp]>
             <button class="btn-hero-primary" (click)="freeTrial()">
-              <i class="bi bi-rocket-takeoff"></i>
-              ابدأ تجربتك المجانية
+              <span class="btn-text">ابدأ تجربتك المجانية</span>
+              <span class="btn-icon">
+                <i class="bi bi-arrow-left"></i>
+              </span>
             </button>
-            <button class="btn-hero-secondary" (click)="login()">
-              تسجيل الدخول
-              <i class="bi bi-arrow-left"></i>
+            
+            <button class="btn-hero-secondary" (click)="scrollToFeatures()">
+              <i class="bi bi-play-circle"></i>
+              <span>شاهد كيف يعمل</span>
             </button>
           </div>
 
-          <!-- Trust Indicators -->
-          <div class="hero-stats">
-            <div class="stat-item">
-              <i class="bi bi-buildings"></i>
-              <div>
-                <strong>+100</strong>
-                <span>شركة تثق بنا</span>
-              </div>
+          <!-- Trust Stats -->
+          <div class="trust-stats" [@staggerItems]="particles.length">
+            <div class="stat">
+              <div class="stat-value">+500</div>
+              <div class="stat-label">شركة تثق بنا</div>
             </div>
-            <div class="stat-item">
-              <i class="bi bi-star-fill"></i>
-              <div>
-                <strong>4.9/5</strong>
-                <span>تقييم العملاء</span>
-              </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <div class="stat-value">4.9/5</div>
+              <div class="stat-label">تقييم العملاء</div>
             </div>
-            <div class="stat-item">
-              <i class="bi bi-shield-check"></i>
-              <div>
-                <strong>آمن 100%</strong>
-                <span>بياناتك محمية</span>
-              </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <div class="stat-value">24/7</div>
+              <div class="stat-label">دعم فني</div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Visual Column -->
-      <div class="col-lg-6">
+      <div class="col-lg-6" [@fadeInUp]>
         <div class="hero-visual">
-          <!-- Modern Illustration Placeholder -->
-          <div class="visual-card">
-            <i class="bi bi-layers-fill"></i>
-            <p>واجهة حديثة وسهلة</p>
+          <!-- Main Dashboard Mockup -->
+          <div class="dashboard-mockup">
+            <div class="mockup-header">
+              <div class="mockup-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="mockup-title">لوحة التحكم</div>
+            </div>
+            <div class="mockup-content">
+              <div class="mockup-stats-grid">
+                <div class="mockup-stat">
+                  <i class="bi bi-graph-up-arrow"></i>
+                  <div class="stat-info">
+                    <div class="stat-num">+32%</div>
+                    <div class="stat-txt">نمو المبيعات</div>
+                  </div>
+                </div>
+                <div class="mockup-stat">
+                  <i class="bi bi-people-fill"></i>
+                  <div class="stat-info">
+                    <div class="stat-num">1,248</div>
+                    <div class="stat-txt">عملاء نشطون</div>
+                  </div>
+                </div>
+                <div class="mockup-stat">
+                  <i class="bi bi-box-seam"></i>
+                  <div class="stat-info">
+                    <div class="stat-num">856</div>
+                    <div class="stat-txt">منتجات</div>
+                  </div>
+                </div>
+                <div class="mockup-stat">
+                  <i class="bi bi-calendar-check"></i>
+                  <div class="stat-info">
+                    <div class="stat-num">24</div>
+                    <div class="stat-txt">صيانة قادمة</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="visual-card">
-            <i class="bi bi-graph-up-arrow"></i>
-            <p>تقارير ذكية ودقيقة</p>
+
+          <!-- Floating Feature Cards -->
+          <div class="floating-card card-1">
+            <i class="bi bi-robot"></i>
+            <span>مساعد AI ذكي</span>
           </div>
-          <div class="visual-card">
-            <i class="bi bi-phone"></i>
-            <p>يعمل على جميع الأجهزة</p>
+          
+          <div class="floating-card card-2">
+            <i class="bi bi-search"></i>
+            <span>بحث متقدم</span>
+          </div>
+          
+          <div class="floating-card card-3">
+            <i class="bi bi-bell-fill"></i>
+            <span>تنبيهات فورية</span>
           </div>
         </div>
       </div>
 
     </div>
   </div>
+
+  <!-- Scroll Indicator -->
+  <div class="scroll-indicator">
+    <div class="scroll-mouse">
+      <div class="scroll-wheel"></div>
+    </div>
+  </div>
 </section>
+
 
 <style>
 /* Hero Section */

@@ -1,28 +1,131 @@
-<section id="testimonials" class="py-5 bg-light" dir="rtl">
+<!-- 📁 src/app/components/testimonials/testimonials.html - MODERN -->
+<section id="testimonials" class="testimonials-modern" dir="rtl">
   <div class="container">
-    <h2 class="display-5 text-center mb-5 fw-bold text-primary">
-      آراء <span class="text-dark">عملائنا</span>
-    </h2>
+    
+    <!-- Section Header -->
+    <div class="section-header" data-aos="fade-up">
+      <div class="section-badge">
+        <i class="bi bi-chat-quote"></i>
+        <span>آراء العملاء</span>
+      </div>
+      <h2 class="section-title">
+        ماذا يقول
+        <span class="gradient-text">عملاؤنا عنا</span>
+      </h2>
+      <p class="section-subtitle">
+        انضم لمئات الشركات التي تثق بنا لإدارة أعمالها بكفاءة واحترافية
+      </p>
+    </div>
 
-    <div class="row g-4 g-lg-5">
-      <div class="col-md-4" *ngFor="let t of testimonials">
-        <div class="card border-0 shadow-sm h-100 bg-white rounded-4 hover-card p-4 text-center">
-          
-          <!-- النجوم -->
-          <div class="mb-3">
-            <i class="bi bi-star-fill text-warning fs-5" *ngFor="let star of [1,2,3,4,5]"></i>
-          </div>
+    <!-- Stats Section -->
+    <div class="stats-section" data-aos="fade-up">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="bi bi-buildings"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-number">+500</div>
+          <div class="stat-label">شركة تثق بنا</div>
+        </div>
+      </div>
 
-          <!-- النص -->
-          <p class="fs-5 text-secondary mb-4">
-            "{{ t.text }}"
-          </p>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="bi bi-star-fill"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-number">4.9/5</div>
+          <div class="stat-label">تقييم العملاء</div>
+        </div>
+      </div>
 
-          <!-- الاسم والمدينة -->
-          <h5 class="fw-bold text-primary mb-1">{{ t.name }}</h5>
-          <p class="text-muted mb-0">{{ t.city }}</p>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="bi bi-people"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-number">+10K</div>
+          <div class="stat-label">مستخدم نشط</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="bi bi-graph-up-arrow"></i>
+        </div>
+        <div class="stat-info">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">رضا العملاء</div>
         </div>
       </div>
     </div>
+
+    <!-- Testimonials Grid -->
+    <div class="testimonials-grid">
+      
+      @for (testimonial of testimonials; track testimonial.name) {
+        <div class="testimonial-card" [attr.data-aos]="'fade-up'" [attr.data-aos-delay]="$index * 100">
+          
+          <!-- Quote Icon -->
+          <div class="quote-icon">
+            <i class="bi bi-quote"></i>
+          </div>
+
+          <!-- Stars Rating -->
+          <div class="rating-stars">
+            @for (star of [1,2,3,4,5]; track star) {
+              <i class="bi bi-star-fill"></i>
+            }
+          </div>
+
+          <!-- Testimonial Text -->
+          <p class="testimonial-text">
+            "{{ testimonial.text }}"
+          </p>
+
+          <!-- Author Info -->
+          <div class="author-info">
+            <div class="author-avatar">
+              <span>{{ getInitials(testimonial.name) }}</span>
+            </div>
+            <div class="author-details">
+              <h4 class="author-name">{{ testimonial.name }}</h4>
+              <p class="author-location">
+                <i class="bi bi-geo-alt"></i>
+                {{ testimonial.city }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Card Glow -->
+          <div class="card-glow"></div>
+
+        </div>
+      }
+
+    </div>
+
+    <!-- Trust Banner -->
+    <div class="trust-banner" data-aos="fade-up">
+      <div class="trust-content">
+        <i class="bi bi-shield-check"></i>
+        <div class="trust-text">
+          <h4>موثوق من قبل الشركات الرائدة في مصر</h4>
+          <p>انضم إلى مجتمع متنامٍ من رواد الأعمال الناجحين</p>
+        </div>
+      </div>
+      <div class="trust-logos">
+        <!-- Add company logos here -->
+        <div class="logo-placeholder">شركة 1</div>
+        <div class="logo-placeholder">شركة 2</div>
+        <div class="logo-placeholder">شركة 3</div>
+        <div class="logo-placeholder">شركة 4</div>
+      </div>
+    </div>
+
   </div>
+
+  <!-- Background Decorations -->
+  <div class="bg-decoration decoration-1"></div>
+  <div class="bg-decoration decoration-2"></div>
 </section>

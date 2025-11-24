@@ -6,12 +6,14 @@ import { DatePipe } from '@angular/common';
 
 import { routes } from './app.routes';
 import { httpErrorInterceptor } from './interceptors/http.interceptor';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptors([httpErrorInterceptor])),
+    provideAnimations(),
     DatePipe
   ]
 };

@@ -1,7 +1,8 @@
-// 📁 src/app/components/navbar/navbar.ts - BODY SCROLL LOCK
-import { Component, OnInit, OnDestroy } from '@angular/core';
+// 📁 src/app/components/navbar/navbar.ts
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -10,77 +11,89 @@ import { environment } from '../../../environments/environment';
   imports: [CommonModule],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.scss'],
+  animations: [
+    trigger('slideIn', [
+      state('void', style({
+        transform: 'translateX(100%)',
+        opacity: 0
+      })),
+      state('*', style({
+        transform: 'translateX(0)',
+        opacity: 1
+      })),
+      transition('void => *', animate('300ms cubic-bezier(0.4, 0, 0.2, 1)')),
+      transition('* => void', animate('250ms cubic-bezier(0.4, 0, 1, 1)'))
+    ])
+  ]
 })
 export class Navbar implements OnInit, OnDestroy {
-  private _mobileMenuOpen = false;
+  mobileMenuOpen = false;
+  isScrolled = false;
+  scrollProgress = 0;
 
   constructor(private router: Router) {}
 
-  // ✅ Getter/Setter with body scroll lock
-  get mobileMenuOpen(): boolean {
-    return this._mobileMenuOpen;
+  ngOnInit(): void {
+    this.setupScrollListener();
   }
 
-  set mobileMenuOpen(value: boolean) {
-    this._mobileMenuOpen = value;
-    
-    // ✅ Lock/unlock body scroll
-    if (value) {
+  ngOnDestroy(): void {
+    document.body.style.overflow = '';
+  }
+
+  @HostListener('window:scroll') // ✅ إزالة ['$event']
+  onWindowScroll(): void {
+    this.isScrolled = window.scrollY > 50;
+    const winScroll = document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    this.scrollProgress = (winScroll / height) * 100;
+  }
+
+  setupScrollListener(): void {
+    this.onWindowScroll();
+  }
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+    if (this.mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
   }
 
-  ngOnInit(): void {
-    this.setupScrollEffect();
-    this.setupSmoothScroll();
-  }
-
-  ngOnDestroy(): void {
-    window.removeEventListener('scroll', this.handleScroll);
-    // ✅ Cleanup: restore scroll on destroy
+  closeMobileMenu(): void {
+    this.mobileMenuOpen = false;
     document.body.style.overflow = '';
   }
 
-  private handleScroll = () => {
-    const navbar = document.querySelector('nav.navbar');
-    if (window.scrollY > 50) {
-      navbar?.classList.add('scrolled');
-    } else {
-      navbar?.classList.remove('scrolled');
-    }
-  };
+  scrollToSection(event: Event, sectionId: string): void {
+    event.preventDefault();
+    this.closeMobileMenu();
 
-  private setupScrollEffect(): void {
-    window.addEventListener('scroll', this.handleScroll);
-    this.handleScroll();
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const yOffset = -80;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth'
+      });
+    }
   }
 
-  private setupSmoothScroll(): void {
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener('click', (e) => {
-        e.preventDefault();
-        const href = anchor.getAttribute('href');
-        if (!href || href === '#') return;
-
-        const target = document.querySelector(href);
-        if (target) {
-          const yOffset = -80;
-          const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-          this.mobileMenuOpen = false;
-        }
-      });
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
     });
   }
 
-  // ✅ Login redirects to React app
   login(): void {
     window.location.href = `${environment.APP_URL}/login`;
   }
 
-  // ✅ Free trial redirects to React signup
   freeTrial(): void {
     window.location.href = `${environment.APP_URL}/signup`;
   }

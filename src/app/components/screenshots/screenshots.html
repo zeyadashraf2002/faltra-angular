@@ -1,17 +1,148 @@
-<section id="screenshots" class="py-5 bg-light" dir="rtl">
+<!-- 📁 src/app/components/screenshots/screenshots.html - WITH IMAGE MODAL -->
+<section id="screenshots" class="screenshots-modern" dir="rtl">
   <div class="container">
-    <h2 class="display-4 text-center mb-5 text-primary fw-bold">شوف النظام بنفسك</h2>
-    <p class="text-center lead text-muted mb-5">واجهة سهلة وحديثة - شغالة على الموبايل والتابلت والكمبيوتر</p>
 
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-4" *ngFor="let img of images">
-        <div class="screenshot-card overflow-hidden rounded-3 shadow-lg hover-zoom">
-          <img [src]="img.src" [alt]="img.title" class="w-100">
-          <div class="overlay">
-            <p class="fs-4 fw-bold">{{ img.title }}</p>
+    <!-- Section Header -->
+    <div class="section-header" data-aos="fade-up">
+      <div class="section-badge">
+        <i class="bi bi-images"></i>
+        <span>معرض الصور</span>
+      </div>
+      <h2 class="section-title">
+        شاهد النظام
+        <span class="gradient-text">في العمل</span>
+      </h2>
+      <p class="section-subtitle">
+        واجهة حديثة وسهلة الاستخدام تعمل بكفاءة على جميع الأجهزة - موبايل، تابلت، وكمبيوتر
+      </p>
+    </div>
+
+    <!-- Screenshots Grid with Parallax -->
+    <div class="screenshots-grid">
+
+      @for (screenshot of screenshots; track screenshot.id) {
+      <div class="screenshot-item" [attr.data-aos]="getAosAnimation($index)" [attr.data-aos-delay]="$index * 100"
+        [attr.data-aos-duration]="800" (mouseenter)="onImageHover($index)" (mouseleave)="onImageLeave($index)">
+
+        <!-- Image Container with 3D Effect -->
+        <div class="image-container" [class.hovered]="hoveredIndex === $index">
+
+          <!-- Glowing Border -->
+          <div class="glow-border"></div>
+
+          <!-- Image Wrapper -->
+          <div class="image-wrapper" (click)="openImageModal(screenshot)">
+            <img [src]="screenshot.src" [alt]="screenshot.title" class="screenshot-image" loading="lazy">
+
+            <!-- Overlay on Hover -->
+            <div class="image-overlay">
+              <div class="overlay-content">
+                <i class="bi bi-zoom-in"></i>
+                <span>اضغط للتكبير</span>
+              </div>
+            </div>
+
+            <!-- Floating Badge -->
+            <div class="floating-badge">
+              <i [class]="screenshot.icon"></i>
+            </div>
           </div>
+
+          <!-- Title -->
+          <div class="screenshot-title">
+            <h3>{{ screenshot.title }}</h3>
+            <p>{{ screenshot.description }}</p>
+          </div>
+
+        </div>
+
+      </div>
+      }
+
+    </div>
+
+    <!-- Features Showcase -->
+    <div class="features-showcase" data-aos="fade-up">
+      <h3 class="showcase-title">مميزات الواجهة</h3>
+      <div class="showcase-grid">
+
+        <div class="showcase-item" data-aos="flip-left" data-aos-delay="100">
+          <div class="showcase-icon">
+            <i class="bi bi-phone"></i>
+          </div>
+          <h4>متجاوب 100%</h4>
+          <p>يعمل بسلاسة على جميع الأجهزة والشاشات</p>
+        </div>
+
+        <div class="showcase-item" data-aos="flip-left" data-aos-delay="200">
+          <div class="showcase-icon">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <h4>سريع وخفيف</h4>
+          <p>تحميل فوري وأداء عالي السرعة</p>
+        </div>
+
+        <div class="showcase-item" data-aos="flip-left" data-aos-delay="300">
+          <div class="showcase-icon">
+            <i class="bi bi-palette"></i>
+          </div>
+          <h4>تصميم عصري</h4>
+          <p>واجهة جميلة وسهلة الاستخدام</p>
+        </div>
+
+        <div class="showcase-item" data-aos="flip-left" data-aos-delay="400">
+          <div class="showcase-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h4>آمن ومحمي</h4>
+          <p>حماية متقدمة لجميع بياناتك</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Video Demo Section -->
+    <div class="video-demo" data-aos="zoom-in">
+      <div class="video-container">
+        <div class="video-placeholder">
+          <i class="bi bi-play-circle"></i>
+          <h3>شاهد فيديو توضيحي</h3>
+          <p>تعرف على النظام في دقيقتين</p>
+          <button class="btn-play" (click)="playVideo()">
+            <i class="bi bi-play-fill"></i>
+            <span>تشغيل الفيديو</span>
+          </button>
         </div>
       </div>
     </div>
+
   </div>
+
+  <!-- Background Elements -->
+  <div class="bg-decoration decoration-1"></div>
+  <div class="bg-decoration decoration-2"></div>
+
+  <!-- Floating Particles -->
+  <div class="particles">
+    @for (particle of [1,2,3,4,5,6]; track particle) {
+    <div class="particle" [style.animation-delay.s]="particle * 0.5"></div>
+    }
+  </div>
+
+  <!-- ✅ IMAGE MODAL -->
+  @if (selectedImage) {
+    <div class="image-modal" (click)="closeImageModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeImageModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+        <img [src]="selectedImage.src" [alt]="selectedImage.title" class="modal-image">
+        <div class="modal-info">
+          <h3>{{ selectedImage.title }}</h3>
+          <p>{{ selectedImage.description }}</p>
+        </div>
+      </div>
+    </div>
+  }
+
 </section>
