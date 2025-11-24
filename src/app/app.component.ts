@@ -1,8 +1,9 @@
-// 📁 src/app/app.component.ts - DEV-LOGIN ROUTE CHECK
+// 📁 src/app/app.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import AOS from 'aos'; // ✅ صح
 
 // Import Standalone Components
 import { ToastComponent } from './components/toast/toast.component';
@@ -45,20 +46,25 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
+    // ✅ Initialize AOS
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true,
+      offset: 100
+    });
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      // ✅ UPDATED: Include /dev-login in hidden routes
       const isAuthRoute = event.url.includes('/dev-login') || 
                          event.url.includes('/dashboard') ||
                          event.url.includes('/unauthorized');
       
       this.showLandingPage = !isAuthRoute;
       
-      console.log('🔄 Route changed:', {
-        url: event.url,
-        showLandingPage: this.showLandingPage
-      });
+      // ✅ Refresh AOS on route change
+      AOS.refresh();
     });
   }
 }

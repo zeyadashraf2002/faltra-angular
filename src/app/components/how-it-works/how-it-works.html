@@ -1,24 +1,157 @@
-<!-- src/app/components/how-it-works/how-it-works.component.html -->
-<section id="how-it-works" class="py-5" dir="rtl">
-  <div class="container text-center">
-    <h2 class="display-4 fw-bold mb-5 text-primary">ثلاث خطوات وبس!</h2>
+<!-- 📁 src/app/components/how-it-works/how-it-works.html - ANIMATED STEPS -->
+<section id="how-it-works" class="how-it-works-modern" dir="rtl">
+  <div class="container">
+    
+    <!-- Section Header -->
+    <div class="section-header" data-aos="fade-up">
+      <div class="section-badge">
+        <i class="bi bi-lightbulb"></i>
+        <span>كيف يعمل</span>
+      </div>
+      <h2 class="section-title">
+        ابدأ في
+        <span class="gradient-text">3 خطوات بسيطة</span>
+      </h2>
+      <p class="section-subtitle">
+        من التسجيل إلى إدارة شركتك بالكامل في دقائق معدودة
+      </p>
+    </div>
 
-    <div class="row g-4 g-xl-5">
-      <div class="col-md-4" *ngFor="let step of steps; let i = index">
-        <div class="position-relative bg-white shadow-xl rounded-4 p-5 hover-lift transition-all overflow-hidden">
-          <!-- Big Number Background -->
-          <div class="position-absolute top-0 end-0 display-1 fw-bold text-primary opacity-10 pe-4 pt-3">
-            {{ step.stepNumber }}
+    <!-- Steps Timeline -->
+    <div class="steps-timeline">
+      
+      @for (step of steps; track step.id) {
+        <div 
+          class="step-item"
+          [attr.data-aos]="'fade-up'"
+          [attr.data-aos-delay]="$index * 150">
+          
+          <!-- Step Number Circle -->
+          <div class="step-circle">
+            <div class="circle-outer">
+              <div class="circle-inner">
+                <span class="step-number">{{ step.number }}</span>
+              </div>
+            </div>
+            
+            <!-- Connection Line -->
+            @if ($index < steps.length - 1) {
+              <div class="connection-line"></div>
+            }
           </div>
 
-          <!-- Icon -->
-          <i [class]="step.icon + ' text-primary'" style="font-size: 5rem;"></i>
+          <!-- Step Content -->
+          <div class="step-content">
+            
+            <!-- Icon Box -->
+            <div class="step-icon">
+              <i [class]="step.icon"></i>
+            </div>
 
-          <!-- Content -->
-          <h3 class="h3 fw-bold text-dark mt-4 mb-3">{{ step.title }}</h3>
-          <p class="lead text-muted fs-4">{{ step.desc }}</p>
+            <!-- Text Content -->
+            <div class="step-text">
+              <h3>{{ step.title }}</h3>
+              <p>{{ step.description }}</p>
+              
+              <!-- Features List -->
+              <ul class="step-features">
+                @for (feature of step.features; track feature) {
+                  <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>{{ feature }}</span>
+                  </li>
+                }
+              </ul>
+
+              <!-- Action Button -->
+              @if (step.action) {
+                <button class="btn-step-action" (click)="handleAction(step.action)">
+                  {{ step.actionLabel }}
+                  <i class="bi bi-arrow-left"></i>
+                </button>
+              }
+            </div>
+
+          </div>
+
+        </div>
+      }
+
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="quick-stats" data-aos="zoom-in">
+      <div class="stat-box" data-aos="flip-up" data-aos-delay="100">
+        <i class="bi bi-clock"></i>
+        <div class="stat-content">
+          <h4>5 دقائق</h4>
+          <p>وقت الإعداد</p>
+        </div>
+      </div>
+
+      <div class="stat-box" data-aos="flip-up" data-aos-delay="200">
+        <i class="bi bi-patch-check"></i>
+        <div class="stat-content">
+          <h4>بدون تعقيد</h4>
+          <p>واجهة سهلة</p>
+        </div>
+      </div>
+
+      <div class="stat-box" data-aos="flip-up" data-aos-delay="300">
+        <i class="bi bi-rocket-takeoff"></i>
+        <div class="stat-content">
+          <h4>ابدأ فوراً</h4>
+          <p>لا حاجة لتدريب</p>
         </div>
       </div>
     </div>
+
+    <!-- Video Tutorial Section -->
+    <div class="video-tutorial" data-aos="fade-up">
+      <div class="video-wrapper">
+        <div class="video-content">
+          <div class="video-icon">
+            <i class="bi bi-play-circle"></i>
+          </div>
+          <h3>شاهد فيديو توضيحي قصير</h3>
+          <p>تعرف على كيفية استخدام النظام في 3 دقائق فقط</p>
+          <button class="btn-watch-video" (click)="playTutorial()">
+            <i class="bi bi-play-fill"></i>
+            <span>مشاهدة الفيديو</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="cta-section" data-aos="zoom-in">
+      <div class="cta-content">
+        <h3>جاهز للبدء؟</h3>
+        <p>ابدأ تجربتك المجانية لمدة 14 يوم بدون الحاجة لبطاقة ائتمان</p>
+        <div class="cta-buttons">
+          <button class="btn-cta-primary" (click)="startTrial()">
+            <i class="bi bi-rocket-takeoff"></i>
+            <span>ابدأ تجربتك المجانية</span>
+          </button>
+          <button class="btn-cta-secondary" (click)="scheduleDemo()">
+            <i class="bi bi-calendar-check"></i>
+            <span>احجز عرض توضيحي</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
+
+  <!-- Background Elements -->
+  <div class="bg-decoration decoration-1"></div>
+  <div class="bg-decoration decoration-2"></div>
+
+  <!-- Animated Dots -->
+  <div class="animated-dots">
+    @for (dot of [1,2,3,4,5,6,7,8]; track dot) {
+      <div class="dot" [style.animation-delay.s]="dot * 0.3"></div>
+    }
+  </div>
+
 </section>

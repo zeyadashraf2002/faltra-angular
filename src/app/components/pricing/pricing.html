@@ -1,29 +1,36 @@
-
-<!-- 📁 pricing.html - Dynamic API Data -->
-<section id="pricing" class="pricing-section" dir="rtl">
+<!-- 📁 src/app/components/pricing/pricing.html - MODERN ANIMATED PRICING -->
+<section id="pricing" class="pricing-modern" dir="rtl">
   <div class="container">
     
     <!-- Section Header -->
-    <div class="pricing-header">
-      <h2 class="section-title">اختر الباقة المناسبة لك</h2>
+    <div class="section-header" data-aos="fade-up">
+      <div class="section-badge">
+        <i class="bi bi-tag"></i>
+        <span>خطط مرنة</span>
+      </div>
+      <h2 class="section-title">
+        اختر الباقة التي
+        <span class="gradient-text">تناسب احتياجاتك</span>
+      </h2>
       <p class="section-subtitle">
-        جميع الباقات تشمل الوصول الكامل للنظام مع الدعم الفني
+        جميع الباقات تشمل الوصول الكامل لجميع المميزات • تجربة مجانية 14 يوم • إلغاء في أي وقت
       </p>
     </div>
 
     <!-- Loading State -->
     @if (isLoading) {
-      <div class="loading-wrapper">
-        <div class="spinner-large"></div>
+      <div class="loading-state" data-aos="fade-up">
+        <div class="loader"></div>
         <p>جاري تحميل الباقات...</p>
       </div>
     }
 
     <!-- Error State -->
     @if (error && !isLoading) {
-      <div class="error-wrapper">
+      <div class="error-state" data-aos="fade-up">
         <i class="bi bi-exclamation-triangle"></i>
         <p>{{ error }}</p>
+        <button class="btn-retry" (click)="loadPlans()">إعادة المحاولة</button>
       </div>
     }
 
@@ -32,26 +39,50 @@
       <div class="pricing-grid">
         
         @for (plan of plans; track plan.id) {
-          <div class="pricing-card" [class.featured]="isPopular(plan.displayOrder)">
+          <div 
+            class="pricing-card" 
+            [class.popular]="isPopular(plan.displayOrder)"
+            [attr.data-aos]="'fade-up'"
+            [attr.data-aos-delay]="$index * 100">
             
+            <!-- Popular Badge -->
             @if (isPopular(plan.displayOrder)) {
-              <div class="popular-badge">الأكثر شعبية</div>
+              <div class="popular-badge">
+                <i class="bi bi-star-fill"></i>
+                <span>الأكثر شعبية</span>
+              </div>
             }
+
+            <!-- Card Glow Effect -->
+            <div class="card-glow"></div>
 
             <!-- Plan Header -->
             <div class="plan-header">
-              <h3 class="plan-name">{{ plan.nameAr }}</h3>
-              <div class="plan-price">
-                <span class="price-amount">{{ plan.price }}</span>
-                <span class="price-period">{{ getPeriodText(plan.durationDays) }}</span>
+              <div class="plan-icon">
+                <i class="bi" [class]="getPlanIcon(plan.displayOrder)"></i>
               </div>
+              <h3 class="plan-name">{{ plan.nameAr }}</h3>
+              <p class="plan-desc">{{ plan.descriptionAr }}</p>
+            </div>
+
+            <!-- Price Display -->
+            <div class="price-section">
+              <div class="price-wrapper">
+                <span class="currency">جنيه</span>
+                <span class="price-amount">{{ plan.price }}</span>
+                <span class="price-period">/ {{ getPeriodText(plan.durationDays) }}</span>
+              </div>
+              
               @if (getSaveText(plan.displayOrder)) {
-                <div class="save-badge">{{ getSaveText(plan.displayOrder) }}</div>
+                <div class="save-badge">
+                  <i class="bi bi-lightning-fill"></i>
+                  <span>{{ getSaveText(plan.displayOrder) }}</span>
+                </div>
               }
             </div>
 
             <!-- Features List -->
-            <div class="plan-features">
+            <div class="features-list">
               @for (feature of plan.features; track $index) {
                 <div class="feature-item">
                   <i class="bi bi-check-circle-fill"></i>
@@ -61,21 +92,78 @@
             </div>
 
             <!-- CTA Button -->
-            <button class="btn-plan" (click)="freeTrial()">
-              ابدأ التجربة المجانية
+            <button 
+              class="btn-plan"
+              [class.btn-popular]="isPopular(plan.displayOrder)"
+              (click)="freeTrial()">
+              <span>ابدأ التجربة المجانية</span>
+              <i class="bi bi-arrow-left"></i>
             </button>
+
+            <!-- Plan Footer Note -->
+            <div class="plan-footer">
+              <i class="bi bi-info-circle"></i>
+              <span>بدون بطاقة ائتمانية</span>
+            </div>
 
           </div>
         }
 
       </div>
 
-      <!-- Trust Note -->
-      <div class="trust-note">
-        <i class="bi bi-shield-check"></i>
-        <p>جميع الباقات تشمل تجربة مجانية لمدة 14 يوم • إلغاء في أي وقت • دعم فني متاح 24/7</p>
+      <!-- Bottom Trust Section -->
+      <div class="trust-section" data-aos="fade-up">
+        <div class="trust-content">
+          <i class="bi bi-shield-check"></i>
+          <div class="trust-text">
+            <h4>تجربة الموقع مجانا لمده عشره أيام</h4>
+            <p>وفي حاله الاشتراك يمكن الدفع عبر موقعنا او الدفع كاش</p>
+          </div>
+        </div>
+        
+        <div class="payment-methods">
+          <span>طرق الدفع المتاحة:</span>
+          <div class="payment-icons">
+            <i class="bi bi-credit-card"></i>
+            <i class="bi bi-wallet2"></i>
+            <i class="bi bi-bank"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Quick Links -->
+      <div class="pricing-faq" data-aos="fade-up">
+        <h3>أسئلة شائعة حول الاشتراكات</h3>
+        <div class="faq-items">
+          <div class="faq-item">
+            <i class="bi bi-question-circle"></i>
+            <div>
+              <strong>هل يمكنني تغيير الباقة لاحقاً؟</strong>
+              <p>نعم، يمكنك الترقية أو التخفيض في أي وقت</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <i class="bi bi-question-circle"></i>
+            <div>
+              <strong>ما المدفوعات المقبولة؟</strong>
+              <p>نقبل جميع البطاقات الائتمانية والتحويل البنكي</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <i class="bi bi-question-circle"></i>
+            <div>
+              <strong>هل يوجد رسوم إضافية؟</strong>
+              <p>لا، السعر المعروض شامل كل شيء بدون رسوم خفية</p>
+            </div>
+          </div>
+        </div>
       </div>
     }
 
   </div>
+
+  <!-- Background Elements -->
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="bg-shape shape-3"></div>
 </section>

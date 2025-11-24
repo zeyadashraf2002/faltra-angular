@@ -1,29 +1,167 @@
-<!-- 📁 features.html - Clean Grid Design -->
-<section id="features" class="features-section" dir="rtl">
+<!-- 📁 src/app/components/features/features.html - MODERN ANIMATED -->
+<section id="features" class="features-modern" dir="rtl">
   <div class="container">
     
     <!-- Section Header -->
-    <div class="section-header">
-      <h2 class="section-title">مميزات نظام فلتره</h2>
+    <div class="section-header" data-aos="fade-up">
+      <div class="section-badge">
+        <i class="bi bi-stars"></i>
+        <span>مميزات قوية</span>
+      </div>
+      <h2 class="section-title">
+        كل ما تحتاجه لإدارة
+        <span class="gradient-text">شركتك بذكاء</span>
+      </h2>
       <p class="section-subtitle">
-        كل ما تحتاجه لإدارة شركتك بكفاءة وسهولة في منصة واحدة متكاملة
+        نظام متكامل مدعوم بالذكاء الاصطناعي يجمع كل أدوات الإدارة في منصة واحدة قوية
       </p>
     </div>
 
-    <!-- Features Grid -->
+    <!-- Main Features Grid -->
     <div class="features-grid">
       
-      <div class="feature-card" *ngFor="let feature of features">
-        <div class="feature-icon">
-          <i [class]="feature.icon"></i>
+      <!-- AI Assistant Feature -->
+      <div class="feature-card feature-highlight" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-icon-wrapper">
+          <div class="icon-glow"></div>
+          <i class="bi bi-robot"></i>
         </div>
-        <h3 class="feature-title">{{ feature.title }}</h3>
-        <p class="feature-description">{{ feature.desc }}</p>
+        <h3 class="feature-title">مساعد AI ذكي</h3>
+        <p class="feature-description">
+          تحليل بيانات تلقائي، توصيات ذكية، وإجابات فورية على استفساراتك باستخدام الذكاء الاصطناعي
+        </p>
+        <div class="feature-tags">
+          <span class="tag">تحليل ذكي</span>
+          <span class="tag">توصيات AI</span>
+        </div>
+      </div>
+
+      <!-- Smart Search Feature -->
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="feature-icon-wrapper">
+          <i class="bi bi-search"></i>
+        </div>
+        <h3 class="feature-title">بحث متقدم وذكي</h3>
+        <p class="feature-description">
+          ابحث عن أي شيء في ثوانٍ - عملاء، فواتير، منتجات، صيانة. البحث الذكي يفهم ما تريده بالضبط
+        </p>
+      </div>
+
+      <!-- Responsive UI Feature -->
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="feature-icon-wrapper">
+          <i class="bi bi-phone"></i>
+        </div>
+        <h3 class="feature-title">واجهة متجاوبة 100%</h3>
+        <p class="feature-description">
+          يعمل بسلاسة على جميع الأجهزة - موبايل، تابلت، كمبيوتر. تصميم حديث وسهل الاستخدام
+        </p>
+      </div>
+
+      <!-- Clients Management -->
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-icon-wrapper">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <h3 class="feature-title">إدارة العملاء</h3>
+        <p class="feature-description">
+          قاعدة بيانات شاملة للعملاء مع الصور، العناوين، سجل المعاملات، والخرائط التفاعلية
+        </p>
+      </div>
+
+      <!-- Inventory Management -->
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="feature-icon-wrapper">
+          <i class="bi bi-box-seam"></i>
+        </div>
+        <h3 class="feature-title">إدارة المخزون</h3>
+        <p class="feature-description">
+          تتبع المنتجات، الموردين، الباركود. تنبيهات تلقائية عند نقص المخزون وتقارير مفصلة
+        </p>
+      </div>
+
+      <!-- Invoicing System -->
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="feature-icon-wrapper">
+          <i class="bi bi-receipt"></i>
+        </div>
+        <h3 class="feature-title">فواتير احترافية</h3>
+        <p class="feature-description">
+          إنشاء وطباعة فواتير احترافية بـ PDF. دعم الدفع النقدي والتقسيط مع متابعة الأقساط
+        </p>
+      </div>
+
+      <!-- Maintenance Scheduler -->
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-icon-wrapper">
+          <i class="bi bi-calendar-check"></i>
+        </div>
+        <h3 class="feature-title">جدولة الصيانة الذكية</h3>
+        <p class="feature-description">
+          جدولة صيانة تلقائية مع تنبيهات واتساب، تذكير العملاء، وتقارير أداء الصيانة
+        </p>
+      </div>
+
+      <!-- Employee Management -->
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="feature-icon-wrapper">
+          <i class="bi bi-person-badge"></i>
+        </div>
+        <h3 class="feature-title">إدارة الموظفين والعمال</h3>
+        <p class="feature-description">
+          متابعة أداء الفريق، الحضور، المهام، والرواتب مع تقارير تفصيلية لكل موظف
+        </p>
+      </div>
+
+      <!-- Reports & Analytics -->
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="feature-icon-wrapper">
+          <i class="bi bi-graph-up-arrow"></i>
+        </div>
+        <h3 class="feature-title">تقارير وتحليلات متقدمة</h3>
+        <p class="feature-description">
+          رسوم بيانية تفاعلية، مؤشرات أداء KPIs، تحليل المبيعات، وتقارير مالية شاملة
+        </p>
       </div>
 
     </div>
 
+    <!-- Additional Benefits Section -->
+    <div class="benefits-section" data-aos="fade-up">
+      <h3 class="benefits-title">وأكثر من ذلك بكثير</h3>
+      <div class="benefits-grid">
+        <div class="benefit-item">
+          <i class="bi bi-shield-check"></i>
+          <span>تشفير وأمان عالي</span>
+        </div>
+        <div class="benefit-item">
+          <i class="bi bi-cloud-arrow-up"></i>
+          <span>نسخ احتياطي تلقائي</span>
+        </div>
+        <div class="benefit-item">
+          <i class="bi bi-headset"></i>
+          <span>دعم فني 24/7</span>
+        </div>
+        <div class="benefit-item">
+          <i class="bi bi-arrow-repeat"></i>
+          <span>تحديثات مجانية</span>
+        </div>
+        <div class="benefit-item">
+          <i class="bi bi-printer"></i>
+          <span>طباعة احترافية</span>
+        </div>
+        <div class="benefit-item">
+          <i class="bi bi-translate"></i>
+          <span>دعم متعدد اللغات</span>
+        </div>
+      </div>
+    </div>
+
   </div>
+
+  <!-- Decorative Background Elements -->
+  <div class="bg-decoration decoration-1"></div>
+  <div class="bg-decoration decoration-2"></div>
 </section>
 
 <style>
