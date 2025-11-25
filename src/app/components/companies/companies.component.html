@@ -1,25 +1,24 @@
 <!-- 📁 companies.component.html - UPDATED WITHOUT MODAL -->
 <div class="dashboard-container" dir="rtl">
-  
   <!-- Top Navigation Bar -->
   <nav class="dashboard-nav">
     <div class="nav-content">
       <div class="nav-brand">
-        <img src="assets/logo.png" alt="فلتره" class="nav-logo-img">
+        <img src="assets/logo.png" alt="فلتره" class="nav-logo-img" />
         <div>
           <h5>فلتره</h5>
           <small>إدارة الشركات</small>
         </div>
       </div>
-      
+
       <div class="nav-user">
         @if (authService.currentUser?.role === 'developer') {
-          <button class="btn-stats" (click)="goToStats()">
-            <i class="bi bi-graph-up-arrow"></i>
-            <span>الإحصائيات</span>
-          </button>
+        <button class="btn-stats" (click)="goToStats()">
+          <i class="bi bi-graph-up-arrow"></i>
+          <span>الإحصائيات</span>
+        </button>
         }
-        
+
         <div class="user-info">
           <strong>{{ authService.currentUser?.fullName }}</strong>
           <span class="user-role">
@@ -37,7 +36,6 @@
   <!-- Main Content -->
   <div class="dashboard-main">
     <div class="container-fluid">
-      
       <!-- Page Header -->
       <div class="page-header">
         <div>
@@ -54,32 +52,36 @@
       <div class="toolbar">
         <div class="search-box">
           <i class="bi bi-search"></i>
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="ابحث عن شركة..."
             [(ngModel)]="searchQuery"
-            (input)="onSearchChange()">
+            (input)="onSearchChange()"
+          />
         </div>
 
         <div class="filter-buttons">
-          <button 
+          <button
             class="filter-btn"
             [class.active]="subscriptionFilter === 'all'"
-            (click)="setSubscriptionFilter('all')">
+            (click)="setSubscriptionFilter('all')"
+          >
             <i class="bi bi-list-ul"></i>
             <span>الكل</span>
           </button>
-          <button 
+          <button
             class="filter-btn filter-active"
             [class.active]="subscriptionFilter === 'active'"
-            (click)="setSubscriptionFilter('active')">
+            (click)="setSubscriptionFilter('active')"
+          >
             <i class="bi bi-check-circle"></i>
             <span>ساري</span>
           </button>
-          <button 
+          <button
             class="filter-btn filter-expired"
             [class.active]="subscriptionFilter === 'expired'"
-            (click)="setSubscriptionFilter('expired')">
+            (click)="setSubscriptionFilter('expired')"
+          >
             <i class="bi bi-x-circle"></i>
             <span>منتهي</span>
           </button>
@@ -88,152 +90,153 @@
 
       <!-- Loading State -->
       @if (isLoading) {
-        <div class="loading-state">
-          <div class="spinner"></div>
-          <p>جاري تحميل الشركات...</p>
-        </div>
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>جاري تحميل الشركات...</p>
+      </div>
       }
 
       <!-- Empty State -->
       @if (!isLoading && filteredCompanies.length === 0) {
-        <div class="empty-state">
-          <i class="bi bi-inbox"></i>
-          <h3>لا توجد شركات</h3>
-          <p>لم يتم العثور على أي شركات مطابقة</p>
-        </div>
+      <div class="empty-state">
+        <i class="bi bi-inbox"></i>
+        <h3>لا توجد شركات</h3>
+        <p>لم يتم العثور على أي شركات مطابقة</p>
+      </div>
       }
 
       <!-- Companies Grid -->
       @if (!isLoading && filteredCompanies.length > 0) {
-        <div class="companies-grid">
-          @for (company of paginatedCompanies; track company.id) {
-            <div class="company-card">
-              
-              <!-- Card Header -->
-              <div class="card-header">
-                <div class="company-identity">
-                  @if (company.logo) {
-                    <img [src]="company.logo" [alt]="company.name" class="company-logo">
-                  } @else {
-                    <div class="company-logo-placeholder">
-                      <i class="bi bi-building"></i>
-                    </div>
-                  }
-                  <div>
-                    <h3>{{ company.name }}</h3>
-                    <span class="company-id">#{{ company.id }}</span>
-                  </div>
-                </div>
-                
-                <div class="status-badge"
-                     [class.active]="!isExpired(company.subscriptionExpiryDate)"
-                     [class.expired]="isExpired(company.subscriptionExpiryDate)">
-                  {{ isExpired(company.subscriptionExpiryDate) ? 'منتهي' : 'ساري' }}
-                </div>
+      <div class="companies-grid">
+        @for (company of paginatedCompanies; track company.id) {
+        <div class="company-card">
+          <!-- Card Header -->
+          <div class="card-header">
+            <div class="company-identity">
+              @if (company.logo) {
+              <img [src]="company.logo" [alt]="company.name" class="company-logo" />
+              } @else {
+              <div class="company-logo-placeholder">
+                <i class="bi bi-building"></i>
               </div>
-
-              <!-- Card Body -->
-              <div class="card-body">
-                <div class="info-grid">
-                  
-                  <div class="info-row">
-                    <i class="bi bi-geo-alt"></i>
-                    <div>
-                      <label>العنوان</label>
-                      <span>{{ company.address || 'غير محدد' }}</span>
-                    </div>
-                  </div>
-
-                  <div class="info-row">
-                    <i class="bi bi-envelope"></i>
-                    <div>
-                      <label>البريد</label>
-                      <span>{{ company.email || 'غير محدد' }}</span>
-                    </div>
-                  </div>
-
-                  <div class="info-row">
-                    <i class="bi bi-telephone"></i>
-                    <div>
-                      <label>الهاتف</label>
-                      <span>{{ company.phone || 'غير محدد' }}</span>
-                    </div>
-                  </div>
-
-                  <div class="info-row">
-                    <i class="bi bi-calendar-check"></i>
-                    <div>
-                      <label>تاريخ الإنشاء</label>
-                      <span>{{ company.createdAt | date: 'dd/MM/yyyy' }}</span>
-                    </div>
-                  </div>
-
-                  <div class="info-row highlight">
-                    <i class="bi bi-calendar-x" 
-                       [class.text-danger]="isExpired(company.subscriptionExpiryDate)"
-                       [class.text-success]="!isExpired(company.subscriptionExpiryDate)">
-                    </i>
-                    <div>
-                      <label>انتهاء الاشتراك</label>
-                      <span [class.text-danger]="isExpired(company.subscriptionExpiryDate)"
-                            [class.text-success]="!isExpired(company.subscriptionExpiryDate)">
-                        {{ company.subscriptionExpiryDate | date: 'dd/MM/yyyy' }}
-                      </span>
-                    </div>
-                  </div>
-
-                </div>
+              }
+              <div>
+                <h3>{{ company.name }}</h3>
+                <span class="company-id">#{{ company.id }}</span>
               </div>
-
-              <!-- Card Footer -->
-              <div class="card-footer">
-                <button 
-                  class="btn-details" 
-                  (click)="viewCompanyDetails(company.id)"
-                  title="عرض التفاصيل الكاملة">
-                  <i class="bi bi-file-text"></i>
-                  <span>عرض تفاصيل الاشتراك</span>
-                  <i class="bi bi-arrow-left"></i>
-                </button>
-              </div>
-
             </div>
-          }
+
+            <div
+              class="status-badge"
+              [class.active]="company.status === 'active'"
+              [class.expired]="company.status === 'expired'"
+            >
+              {{ company.status === 'active' ? 'ساري' : 'منتهي' }}
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-row">
+                <i class="bi bi-geo-alt"></i>
+                <div>
+                  <label>العنوان</label>
+                  <span>{{ company.address || 'غير محدد' }}</span>
+                </div>
+              </div>
+
+              <div class="info-row">
+                <i class="bi bi-envelope"></i>
+                <div>
+                  <label>البريد</label>
+                  <span>{{ company.email || 'غير محدد' }}</span>
+                </div>
+              </div>
+
+              <div class="info-row">
+                <i class="bi bi-telephone"></i>
+                <div>
+                  <label>الهاتف</label>
+                  <span>{{ company.phone || 'غير محدد' }}</span>
+                </div>
+              </div>
+
+              <div class="info-row">
+                <i class="bi bi-calendar-check"></i>
+                <div>
+                  <label>تاريخ الإنشاء</label>
+                  <span>{{ company.createdAt | date : 'dd/MM/yyyy' }}</span>
+                </div>
+              </div>
+
+              <div class="info-row highlight">
+                <i
+                  class="bi bi-calendar-x"
+                  [class.text-danger]="company.status === 'expired'"
+                  [class.text-success]="company.status === 'active'"
+                >
+                </i>
+                <div>
+                  <label>انتهاء الاشتراك</label>
+                  <span
+                    [class.text-danger]="company.status === 'expired'"
+                    [class.text-success]="company.status === 'active'"
+                  >
+                    {{ (company.effectiveExpiryDate | date : 'dd/MM/yyyy') || 'غير محدد' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Footer -->
+          <div class="card-footer">
+            <button
+              class="btn-details"
+              (click)="viewCompanyDetails(company.id)"
+              title="عرض التفاصيل الكاملة"
+            >
+              <i class="bi bi-file-text"></i>
+              <span>عرض تفاصيل الاشتراك</span>
+              <i class="bi bi-arrow-left"></i>
+            </button>
+          </div>
         </div>
+        }
+      </div>
       }
 
       <!-- Pagination -->
       @if (totalPages > 1) {
-        <nav class="pagination-nav">
-          <button 
-            class="btn-page"
-            [disabled]="currentPage === 1"
-            (click)="goToPage(currentPage - 1)">
-            <i class="bi bi-chevron-right"></i>
-            السابق
-          </button>
-          
-          <div class="page-numbers">
-            @for (page of pages; track page) {
-              <button 
-                class="btn-page-number"
-                [class.active]="page === currentPage"
-                (click)="goToPage(page)">
-                {{ page }}
-              </button>
-            }
-          </div>
-          
-          <button 
-            class="btn-page"
-            [disabled]="currentPage === totalPages"
-            (click)="goToPage(currentPage + 1)">
-            التالي
-            <i class="bi bi-chevron-left"></i>
-          </button>
-        </nav>
-      }
+      <nav class="pagination-nav">
+        <button class="btn-page" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
+          <i class="bi bi-chevron-right"></i>
+          السابق
+        </button>
 
+        <div class="page-numbers">
+          @for (page of pages; track page) {
+          <button
+            class="btn-page-number"
+            [class.active]="page === currentPage"
+            (click)="goToPage(page)"
+          >
+            {{ page }}
+          </button>
+          }
+        </div>
+
+        <button
+          class="btn-page"
+          [disabled]="currentPage === totalPages"
+          (click)="goToPage(currentPage + 1)"
+        >
+          التالي
+          <i class="bi bi-chevron-left"></i>
+        </button>
+      </nav>
+      }
     </div>
   </div>
 </div>

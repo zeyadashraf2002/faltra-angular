@@ -6,20 +6,28 @@ import { Router } from '@angular/router';
 import { CompanyService } from '../../services/company.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
+import { SubscriptionService } from '../../services/subscription.service';
 import { Company } from '../../models/company.model';
+import { forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 type SubscriptionFilter = 'all' | 'active' | 'expired';
+
+interface ExtendedCompany extends Company {
+  effectiveExpiryDate?: string | null;
+  status?: 'active' | 'expired';
+}
 
 @Component({
   selector: 'app-companies',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './companies.component.html',
-  styleUrls: ['./companies.component.scss']
+  styleUrls: ['./companies.component.scss'],
 })
 export class CompaniesComponent implements OnInit {
-  companies: Company[] = [];
-  filteredCompanies: Company[] = [];
+  companies: ExtendedCompany[] = [];
+  filteredCompanies: ExtendedCompany[] = [];
   isLoading = false;
   searchQuery = '';
   subscriptionFilter: SubscriptionFilter = 'all';
@@ -30,6 +38,7 @@ export class CompaniesComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private companyService: CompanyService,
+    private subscriptionService: SubscriptionService,
     private toastService: ToastService,
     private router: Router
   ) {}
@@ -40,19 +49,60 @@ export class CompaniesComponent implements OnInit {
 
   loadCompanies() {
     this.isLoading = true;
-    
+
     this.companyService.getCompanies().subscribe({
       next: (data) => {
-        this.companies = data;
-        this.applyFilters();
-        this.isLoading = false;
+        this.companies = data as ExtendedCompany[];
+
+        // Fetch subscription status for each company
+        const statusRequests = this.companies.map((company) =>
+          this.subscriptionService.getCompanyStatus(company.id).pipe(
+            map((response) => ({
+              companyId: company.id,
+              effectiveExpiryDate: response.data.expiryDate,
+              status: response.data.status,
+            }))
+          )
+        );
+
+        forkJoin(statusRequests).subscribe({
+          next: (statuses) => {
+            this.companies = this.companies.map((company) => {
+              const companyStatus = statuses.find((s) => s.companyId === company.id);
+              return {
+                ...company,
+                effectiveExpiryDate: companyStatus?.effectiveExpiryDate || null,
+                status: companyStatus?.status || 'expired',
+              };
+            });
+            this.applyFilters();
+            this.isLoading = false;
+          },
+          error: (error) => {
+            console.error('Error loading subscription statuses:', error);
+            this.toastService.error('خطأ', 'فشل تحميل حالات الاشتراكات');
+            this.isLoading = false;
+            // Fallback to using subscriptionExpiryDate if status fetch fails
+            this.companies = this.companies.map((company) => ({
+              ...company,
+              effectiveExpiryDate: company.subscriptionExpiryDate,
+              status: this.calculateFallbackStatus(company.subscriptionExpiryDate),
+            }));
+            this.applyFilters();
+          },
+        });
       },
       error: (error) => {
         console.error('Error loading companies:', error);
         this.toastService.error('خطأ', 'فشل تحميل الشركات');
         this.isLoading = false;
-      }
+      },
     });
+  }
+
+  private calculateFallbackStatus(expiryDate: string | undefined): 'active' | 'expired' {
+    if (!expiryDate) return 'expired';
+    return new Date(expiryDate) > new Date() ? 'active' : 'expired';
   }
 
   applyFilters() {
@@ -60,17 +110,18 @@ export class CompaniesComponent implements OnInit {
 
     if (this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase();
-      filtered = filtered.filter(company => 
-        company.name.toLowerCase().includes(query) ||
-        company.email?.toLowerCase().includes(query) ||
-        company.phone?.includes(query)
+      filtered = filtered.filter(
+        (company) =>
+          company.name.toLowerCase().includes(query) ||
+          company.email?.toLowerCase().includes(query) ||
+          company.phone?.includes(query)
       );
     }
 
     if (this.subscriptionFilter === 'active') {
-      filtered = filtered.filter(company => !this.isExpired(company.subscriptionExpiryDate));
+      filtered = filtered.filter((company) => company.status === 'active');
     } else if (this.subscriptionFilter === 'expired') {
-      filtered = filtered.filter(company => this.isExpired(company.subscriptionExpiryDate));
+      filtered = filtered.filter((company) => company.status === 'expired');
     }
 
     this.filteredCompanies = filtered;
@@ -87,7 +138,7 @@ export class CompaniesComponent implements OnInit {
     this.applyFilters();
   }
 
-  get paginatedCompanies(): Company[] {
+  get paginatedCompanies(): ExtendedCompany[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
     return this.filteredCompanies.slice(start, end);
@@ -101,10 +152,6 @@ export class CompaniesComponent implements OnInit {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
     }
-  }
-
-  isExpired(expiryDate: string): boolean {
-    return new Date(expiryDate) < new Date();
   }
 
   viewCompanyDetails(companyId: number) {
@@ -123,7 +170,7 @@ export class CompaniesComponent implements OnInit {
       },
       error: () => {
         this.toastService.error('خطأ', 'فشل تسجيل الخروج');
-      }
+      },
     });
   }
 }
