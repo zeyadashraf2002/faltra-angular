@@ -1,4 +1,4 @@
-<!-- 📁 src/app/components/how-it-works/how-it-works.html - WITH AUTO-PLAY VIDEO -->
+<!-- 📁 src/app/components/how-it-works/how-it-works.html - ANIMATED STEPS -->
 <section id="how-it-works" class="how-it-works-modern" dir="rtl">
   <div class="container">
     
@@ -106,61 +106,20 @@
       </div>
     </div>
 
-    <!-- ✅ Video Tutorial Section with Auto-Play -->
+    <!-- Video Tutorial Section -->
     <div class="video-tutorial" data-aos="fade-up">
       <div class="video-wrapper">
-        
-        <!-- Video Player -->
-        @if (showVideo) {
-          <div class="video-player-container">
-            
-            <!-- YouTube Embed -->
-            @if (useYouTube) {
-              <iframe 
-                class="video-iframe"
-                [src]="videoUrl | safe:'resourceUrl'"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-              </iframe>
-            }
-            
-            <!-- Local Video -->
-            @if (!useYouTube) {
-              <video 
-                #videoPlayer
-                class="video-element"
-                [src]="localVideoUrl"
-                controls
-                muted
-                loop
-                playsinline>
-                المتصفح لا يدعم تشغيل الفيديو
-              </video>
-            }
-            
-            <!-- Close Button -->
-            <button class="btn-close-video" (click)="pauseVideo()">
-              <i class="bi bi-x-lg"></i>
-            </button>
+        <div class="video-content">
+          <div class="video-icon">
+            <i class="bi bi-play-circle"></i>
           </div>
-        }
-
-        <!-- Video Placeholder (Before Play) -->
-        @if (!showVideo) {
-          <div class="video-content">
-            <div class="video-icon">
-              <i class="bi bi-play-circle"></i>
-            </div>
-            <h3>شاهد فيديو لتوضيح AI </h3>
-            <p>تعرف على كيفية استخدام AI داخل النظام </p>
-            <button class="btn-watch-video" (click)="onManualPlay()">
-              <i class="bi bi-play-fill"></i>
-              <span>مشاهدة الفيديو</span>
-            </button>
-          </div>
-        }
-
+          <h3>شاهد فيديو توضيحي قصير</h3>
+          <p>تعرف على كيفية استخدام النظام في 3 دقائق فقط</p>
+          <button class="btn-watch-video" (click)="playTutorial()">
+            <i class="bi bi-play-fill"></i>
+            <span>مشاهدة الفيديو</span>
+          </button>
+        </div>
       </div>
     </div>
 

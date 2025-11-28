@@ -1,7 +1,7 @@
 <!-- 📁 src/app/components/contact/contact.html - FUTURISTIC CONTACT -->
 <section id="contact" class="contact-modern" dir="rtl">
   <div class="container">
-
+    
     <!-- Section Header -->
     <div class="section-header" data-aos="fade-up">
       <div class="section-badge">
@@ -18,13 +18,13 @@
     </div>
 
     <div class="contact-wrapper">
-
+      
       <!-- Contact Form -->
       <div class="contact-form-section" data-aos="fade-left">
         <div class="form-container">
-
+          
           <form (ngSubmit)="onSubmit()" class="modern-form">
-
+            
             <!-- Name Input -->
             <div class="form-group">
               <label class="form-label">
@@ -32,15 +32,20 @@
                 <span>الاسم الكامل</span>
               </label>
               <div class="input-wrapper">
-                <input type="text" class="form-input" [(ngModel)]="formData.name" name="name"
-                  [class.error]="errors.name" placeholder="أدخل اسمك الكامل">
+                <input
+                  type="text"
+                  class="form-input"
+                  [(ngModel)]="formData.name"
+                  name="name"
+                  [class.error]="errors.name"
+                  placeholder="أدخل اسمك الكامل">
                 <div class="input-border"></div>
               </div>
               @if (errors.name) {
-              <div class="error-message">
-                <i class="bi bi-exclamation-circle"></i>
-                <span>{{ errors.name }}</span>
-              </div>
+                <div class="error-message">
+                  <i class="bi bi-exclamation-circle"></i>
+                  <span>{{ errors.name }}</span>
+                </div>
               }
             </div>
 
@@ -51,15 +56,20 @@
                 <span>رقم الهاتف</span>
               </label>
               <div class="input-wrapper">
-                <input type="tel" class="form-input" [(ngModel)]="formData.phone" name="phone"
-                  [class.error]="errors.phone" placeholder="01234567890">
+                <input
+                  type="tel"
+                  class="form-input"
+                  [(ngModel)]="formData.phone"
+                  name="phone"
+                  [class.error]="errors.phone"
+                  placeholder="01234567890">
                 <div class="input-border"></div>
               </div>
               @if (errors.phone) {
-              <div class="error-message">
-                <i class="bi bi-exclamation-circle"></i>
-                <span>{{ errors.phone }}</span>
-              </div>
+                <div class="error-message">
+                  <i class="bi bi-exclamation-circle"></i>
+                  <span>{{ errors.phone }}</span>
+                </div>
               }
             </div>
 
@@ -70,15 +80,20 @@
                 <span>رسالتك</span>
               </label>
               <div class="input-wrapper">
-                <textarea rows="5" class="form-input form-textarea" [(ngModel)]="formData.message" name="message"
-                  [class.error]="errors.message" placeholder="اكتب رسالتك هنا..."></textarea>
+                <textarea
+                  rows="5"
+                  class="form-input form-textarea"
+                  [(ngModel)]="formData.message"
+                  name="message"
+                  [class.error]="errors.message"
+                  placeholder="اكتب رسالتك هنا..."></textarea>
                 <div class="input-border"></div>
               </div>
               @if (errors.message) {
-              <div class="error-message">
-                <i class="bi bi-exclamation-circle"></i>
-                <span>{{ errors.message }}</span>
-              </div>
+                <div class="error-message">
+                  <i class="bi bi-exclamation-circle"></i>
+                  <span>{{ errors.message }}</span>
+                </div>
               }
             </div>
 
@@ -86,11 +101,11 @@
             <button type="submit" class="btn-submit" [disabled]="isSubmitting">
               <span class="btn-glow"></span>
               @if (isSubmitting) {
-              <span class="spinner"></span>
-              <span>جاري الإرسال...</span>
+                <span class="spinner"></span>
+                <span>جاري الإرسال...</span>
               } @else {
-              <i class="bi bi-send"></i>
-              <span>إرسال الرسالة</span>
+                <i class="bi bi-send"></i>
+                <span>إرسال الرسالة</span>
               }
             </button>
 
@@ -101,10 +116,10 @@
 
       <!-- Contact Info -->
       <div class="contact-info-section" data-aos="fade-right">
-
+        
         <!-- Info Cards -->
         <div class="info-cards">
-
+          
           <div class="info-card" data-aos="zoom-in" data-aos-delay="100">
             <div class="card-icon">
               <i class="bi bi-telephone-fill"></i>
@@ -134,7 +149,7 @@
             <div class="card-content">
               <h4>موقعنا</h4>
               <p>القاهرة، مصر</p>
-              <a href="https://maps.app.goo.gl/dJgrJdErsoeT1LP36" class="map-link">
+              <a href="#" class="map-link">
                 <i class="bi bi-geo"></i>
                 <span>عرض على الخريطة</span>
               </a>
