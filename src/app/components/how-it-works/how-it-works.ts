@@ -65,8 +65,9 @@ export class HowItWorks {
         'تتبع المخزون والمبيعات',
         'تقارير تفصيلية لحظية'
       ],
-       action: 'signup',
+      action: 'signup',
       actionLabel: 'ابدأ تجربتك المجانية'
+      
     }
   ];
 
