@@ -84,8 +84,9 @@ export class HowItWorks implements OnInit, OnDestroy {
         'تتبع المخزون والمبيعات',
         'تقارير تفصيلية لحظية'
       ],
-      action: 'demo',
-      actionLabel: 'شاهد عرض توضيحي'
+      action: 'signup',
+      actionLabel: 'ابدأ تجربتك المجانية'
+      
     }
   ];
 
