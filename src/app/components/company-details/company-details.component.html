@@ -1,6 +1,5 @@
 <!-- 📁 company-details.component.html - UPDATED WITH CASH SUBSCRIPTION -->
 <div class="company-details-container" dir="rtl">
-
   <!-- Loading State -->
   @if (isLoading) {
   <div class="loading-state">
@@ -25,7 +24,6 @@
   <!-- Content -->
   @if (subscriptionStatus && !isLoading) {
   <div class="content-wrapper">
-
     <!-- Header -->
     <div class="page-header">
       <button class="btn-back-small" (click)="goBack()">
@@ -34,14 +32,15 @@
       </button>
       <div class="header-content">
         @if (subscriptionStatus.company.logo) {
-          <img 
-            [src]="subscriptionStatus.company.logo" 
-            [alt]="subscriptionStatus.company.name"
-            class="company-logo-header">
+        <img
+          [src]="subscriptionStatus.company.logo"
+          [alt]="subscriptionStatus.company.name"
+          class="company-logo-header"
+        />
         } @else {
-          <div class="company-logo-placeholder-header">
-            <i class="bi bi-building"></i>
-          </div>
+        <div class="company-logo-placeholder-header">
+          <i class="bi bi-building"></i>
+        </div>
         }
         <div>
           <h1>{{ subscriptionStatus.company.name }}</h1>
@@ -63,7 +62,6 @@
       </div>
 
       <div class="status-body">
-
         <!-- Company Info -->
         <div class="info-card">
           <div class="info-icon">
@@ -78,14 +76,15 @@
         <!-- Current Subscription -->
         @if (subscriptionStatus.currentSubscription) {
         <div class="subscription-grid">
-
           <div class="info-card highlight">
             <div class="info-icon success">
               <i class="bi bi-award-fill"></i>
             </div>
             <div class="info-content">
               <label>الباقة الحالية</label>
-              <span class="plan-name">{{ subscriptionStatus.currentSubscription.plan.nameAr }}</span>
+              <span class="plan-name">{{
+                subscriptionStatus.currentSubscription.plan.nameAr
+              }}</span>
             </div>
           </div>
 
@@ -95,9 +94,11 @@
             </div>
             <div class="info-content">
               <label>تاريخ الانتهاء</label>
-              <span [class.text-danger]="isExpired(subscriptionStatus.expiryDate)"
-                    [class.text-success]="!isExpired(subscriptionStatus.expiryDate)">
-                {{ subscriptionStatus.expiryDate | date: 'dd/MM/yyyy' }}
+              <span
+                [class.text-danger]="isExpired(subscriptionStatus.expiryDate)"
+                [class.text-success]="!isExpired(subscriptionStatus.expiryDate)"
+              >
+                {{ subscriptionStatus.expiryDate | date : 'dd/MM/yyyy' }}
               </span>
             </div>
           </div>
@@ -113,7 +114,6 @@
               </span>
             </div>
           </div>
-
         </div>
         }
 
@@ -134,57 +134,55 @@
             <p>الشركة لم تدفع الاشتراك حتى الآن</p>
           </div>
         </div>
-        }
-
-        @if (subscriptionStatus.daysRemaining <= 7 && subscriptionStatus.daysRemaining > 0) {
-          <div class="alert alert-warning">
-            <i class="bi bi-bell-fill"></i>
-            <div>
-              <strong>تنبيه</strong>
-              <p>الاشتراك ينتهي خلال {{ subscriptionStatus.daysRemaining }} أيام</p>
-            </div>
+        } @if (subscriptionStatus.daysRemaining <= 7 && subscriptionStatus.daysRemaining > 0) {
+        <div class="alert alert-warning">
+          <i class="bi bi-bell-fill"></i>
+          <div>
+            <strong>تنبيه</strong>
+            <p>الاشتراك ينتهي خلال {{ subscriptionStatus.daysRemaining }} أيام</p>
           </div>
+        </div>
         }
-
       </div>
     </div>
 
     <!-- ✨ NEW: Add Cash Subscription Section (Developer Only) -->
-@if (authService.currentUser?.role === 'developer') {
-  <div class="cash-subscription-card">
-    <div class="section-header collapsible-header" (click)="toggleCashSection()">
-      <div class="header-left">
-        <h3>
-          <i class="bi bi-cash-coin"></i>
-          إضافة اشتراك كاش
-        </h3>
-        @if (cashSubscriptionForm.planId) {
-          <span class="selected-plan-hint">
-            تم اختيار: {{ getSelectedPlanName() }}
-          </span>
-        }
+    @if (authService.currentUser?.role === 'developer') {
+    <div class="cash-subscription-card">
+      <div class="section-header collapsible-header" (click)="toggleCashSection()">
+        <div class="header-left">
+          <h3>
+            <i class="bi bi-cash-coin"></i>
+            إضافة اشتراك كاش
+          </h3>
+          @if (cashSubscriptionForm.planId) {
+          <span class="selected-plan-hint"> تم اختيار: {{ getSelectedPlanName() }} </span>
+          }
+        </div>
+        <i
+          class="bi"
+          [class.bi-chevron-up]="isCashSectionOpen"
+          [class.bi-chevron-down]="!isCashSectionOpen"
+        ></i>
       </div>
-      <i class="bi" [class.bi-chevron-up]="isCashSectionOpen" [class.bi-chevron-down]="!isCashSectionOpen"></i>
-    </div>
 
-    @if (isCashSectionOpen) {
+      @if (isCashSectionOpen) {
       <div class="cash-form">
         <!-- Plan Selection -->
         <div class="form-group">
-          <label for="planId" class="form-label">
-            <i class="bi bi-award"></i> اختر الباقة
-          </label>
+          <label for="planId" class="form-label"> <i class="bi bi-award"></i> اختر الباقة </label>
           <select
             id="planId"
             class="form-control"
             [(ngModel)]="cashSubscriptionForm.planId"
             [disabled]="isSubmittingCash || isLoadingPlans"
-            required>
+            required
+          >
             <option [value]="null" disabled selected>اختر باقة...</option>
             @for (plan of availablePlans; track plan.id) {
-              <option [value]="plan.id">
-                {{ plan.nameAr }} - {{ plan.price }} جنيه ({{ plan.durationDays }} يوم)
-              </option>
+            <option [value]="plan.id">
+              {{ plan.nameAr }} - {{ plan.price }} جنيه ({{ plan.durationDays }} يوم)
+            </option>
             }
           </select>
         </div>
@@ -200,7 +198,8 @@
             [(ngModel)]="cashSubscriptionForm.notes"
             [disabled]="isSubmittingCash"
             rows="3"
-            placeholder="أي ملاحظات إضافية..."></textarea>
+            placeholder="أي ملاحظات إضافية..."
+          ></textarea>
         </div>
 
         <div class="form-hint">
@@ -209,23 +208,21 @@
         </div>
 
         <!-- Submit Button -->
-        <button 
-          class="btn-add-subscription" 
+        <button
+          class="btn-add-subscription"
           (click)="submitCashSubscription()"
-          [disabled]="!cashSubscriptionForm.planId || isSubmittingCash">
+          [disabled]="!cashSubscriptionForm.planId || isSubmittingCash"
+        >
           @if (!isSubmittingCash) {
-            <span><i class="bi bi-check-circle"></i> إضافة الاشتراك</span>
-          }
-          @if (isSubmittingCash) {
-            <span class="loading-state">
-              <span class="spinner-sm"></span> جاري الإضافة...
-            </span>
+          <span><i class="bi bi-check-circle"></i> إضافة الاشتراك</span>
+          } @if (isSubmittingCash) {
+          <span class="loading-state"> <span class="spinner-sm"></span> جاري الإضافة... </span>
           }
         </button>
       </div>
+      }
+    </div>
     }
-  </div>
-}
 
     <!-- Subscription History Section -->
     <div class="subscriptions-section">
@@ -244,9 +241,7 @@
         <i class="bi bi-inbox"></i>
         <p>لا يوجد سجل اشتراكات</p>
       </div>
-      }
-
-      @if (subscriptionStatus.subscriptionHistory.length > 0) {
+      } @if (subscriptionStatus.subscriptionHistory.length > 0) {
       <div class="subscriptions-table-wrapper">
         <table class="subscriptions-table">
           <thead>
@@ -269,10 +264,10 @@
                 </span>
               </td>
               <td class="date">
-                {{ subscription.startDate | date: 'dd/MM/yyyy' }}
+                {{ subscription.startDate | date : 'dd/MM/yyyy' }}
               </td>
               <td class="date">
-                {{ subscription.endDate | date: 'dd/MM/yyyy' }}
+                {{ subscription.endDate | date : 'dd/MM/yyyy' }}
               </td>
             </tr>
             }
@@ -299,9 +294,7 @@
         <i class="bi bi-inbox"></i>
         <p>لا توجد فواتير حتى الآن</p>
       </div>
-      }
-
-      @if (subscriptionStatus.invoices.length > 0) {
+      } @if (subscriptionStatus.invoices.length > 0) {
       <div class="invoices-table-wrapper">
         <table class="invoices-table">
           <thead>
@@ -334,17 +327,30 @@
               <td>{{ invoice.durationDays }} يوم</td>
               <td>
                 <div class="payment-method">
-                  <i [class]="getPaymentMethodIcon(invoice.paymentMethod)"></i>
-                  <span>{{ getPaymentMethodText(invoice.paymentMethod) }}</span>
+                  <i
+                    [class]="
+                      invoice.planName === 'Trial'
+                        ? ''
+                        : getPaymentMethodIcon(invoice.paymentMethod)
+                    "
+                  ></i>
+                  <span>
+                    {{
+                      invoice.planName === 'Trial'
+                        ? '--'
+                        : getPaymentMethodText(invoice.paymentMethod)
+                    }}
+                  </span>
                 </div>
               </td>
+
               <td>
                 <span class="badge" [ngClass]="getPaymentStatusBadge(invoice.paymentStatus).class">
                   {{ getPaymentStatusBadge(invoice.paymentStatus).text }}
                 </span>
               </td>
               <td class="date">
-                {{ (invoice.paidAt || invoice.createdAt) | date: 'dd/MM/yyyy' }}
+                {{ invoice.paidAt || invoice.createdAt | date : 'dd/MM/yyyy' }}
               </td>
             </tr>
             }
@@ -353,8 +359,6 @@
       </div>
       }
     </div>
-
   </div>
   }
-
 </div>
