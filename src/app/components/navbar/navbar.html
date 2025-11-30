@@ -2,12 +2,11 @@
 <nav class="navbar-futuristic" [class.scrolled]="isScrolled" dir="rtl">
   <div class="container">
     <div class="navbar-wrapper">
-      
       <!-- Logo Section -->
       <div class="navbar-brand" (click)="scrollToTop()">
         <div class="logo-container">
           <div class="logo-glow"></div>
-          <img src="assets/logo.png" alt="فلتره" class="logo-img">
+          <img src="assets/logo.png" alt="فلتره" class="logo-img" />
         </div>
         <div class="brand-text">
           <span class="brand-name">فلتره</span>
@@ -57,102 +56,90 @@
       </div>
 
       <!-- Mobile Menu Toggle -->
-      <button 
-        class="mobile-toggle"
-        (click)="toggleMobileMenu()"
-        [class.active]="mobileMenuOpen">
+      <button class="mobile-toggle" (click)="toggleMobileMenu()" [class.active]="mobileMenuOpen">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
       </button>
-
     </div>
   </div>
 
   <!-- Mobile Menu Overlay -->
   @if (mobileMenuOpen) {
-    <div class="mobile-overlay" (click)="closeMobileMenu()"></div>
-    
-    <!-- Mobile Sidebar -->
-    <div class="mobile-sidebar" [@slideIn]>
-      
-      <!-- Mobile Header -->
-      <div class="mobile-header">
-        <div class="mobile-logo">
-          <img src="assets/logo.png" alt="فلتره">
-          <span>فلتره</span>
-        </div>
-        <button class="mobile-close" (click)="closeMobileMenu()">
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>
+  <div class="mobile-overlay" (click)="closeMobileMenu()"></div>
 
-      <!-- Mobile Links -->
-      <div class="mobile-links">
-        <a href="#home" class="mobile-link" (click)="scrollToSection($event, 'home')">
-          <i class="bi bi-house-door"></i>
-          <span>الرئيسية</span>
-          <i class="bi bi-chevron-left link-arrow"></i>
-        </a>
-        <a href="#features" class="mobile-link" (click)="scrollToSection($event, 'features')">
-          <i class="bi bi-stars"></i>
-          <span>المميزات</span>
-          <i class="bi bi-chevron-left link-arrow"></i>
-        </a>
-        <a href="#how-it-works" class="mobile-link" (click)="scrollToSection($event, 'how-it-works')">
-          <i class="bi bi-lightbulb"></i>
-          <span>كيف يعمل</span>
-          <i class="bi bi-chevron-left link-arrow"></i>
-        </a>
-        <a href="#pricing" class="mobile-link" (click)="scrollToSection($event, 'pricing')">
-          <i class="bi bi-tag"></i>
-          <span>الأسعار</span>
-          <i class="bi bi-chevron-left link-arrow"></i>
-        </a>
-        <a href="#testimonials" class="mobile-link" (click)="scrollToSection($event, 'testimonials')">
-          <i class="bi bi-chat-quote"></i>
-          <span>آراء العملاء</span>
-          <i class="bi bi-chevron-left link-arrow"></i>
-        </a>
-        <a href="#contact" class="mobile-link" (click)="scrollToSection($event, 'contact')">
-          <i class="bi bi-envelope"></i>
-          <span>تواصل</span>
-          <i class="bi bi-chevron-left link-arrow"></i>
-        </a>
-      </div>
-
-      <!-- Mobile Actions -->
-      <div class="mobile-actions">
-        <button class="mobile-btn-login" (click)="login(); closeMobileMenu()">
-          <i class="bi bi-person"></i>
-          <span>تسجيل الدخول</span>
-        </button>
-        <button class="mobile-btn-cta" (click)="freeTrial(); closeMobileMenu()">
-          <span>ابدأ تجربتك المجانية</span>
-          <i class="bi bi-arrow-left"></i>
-        </button>
-      </div>
-
-      <!-- Mobile Footer -->
-      <div class="mobile-footer">
-        <div class="social-links">
-          <a href="#" class="social-link">
-            <i class="bi bi-facebook"></i>
-          </a>
-          <a href="#" class="social-link">
-            <i class="bi bi-twitter-x"></i>
-          </a>
-          <a href="#" class="social-link">
-            <i class="bi bi-instagram"></i>
-          </a>
-          <a href="#" class="social-link">
-            <i class="bi bi-linkedin"></i>
-          </a>
-        </div>
-        <p class="mobile-copyright">© 2025 فلتره - جميع الحقوق محفوظة</p>
-      </div>
-
+  <!-- Mobile Sidebar -->
+  <div class="mobile-sidebar" [@slideIn]>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+      <div class="mobile-logo"></div>
     </div>
+
+    <!-- Mobile Links -->
+    <div class="mobile-links">
+      <a href="#home" class="mobile-link" (click)="scrollToSection($event, 'home')">
+        <i class="bi bi-house-door"></i>
+        <span>الرئيسية</span>
+        <i class="bi bi-chevron-left link-arrow"></i>
+      </a>
+      <a href="#features" class="mobile-link" (click)="scrollToSection($event, 'features')">
+        <i class="bi bi-stars"></i>
+        <span>المميزات</span>
+        <i class="bi bi-chevron-left link-arrow"></i>
+      </a>
+      <a href="#how-it-works" class="mobile-link" (click)="scrollToSection($event, 'how-it-works')">
+        <i class="bi bi-lightbulb"></i>
+        <span>كيف يعمل</span>
+        <i class="bi bi-chevron-left link-arrow"></i>
+      </a>
+      <a href="#pricing" class="mobile-link" (click)="scrollToSection($event, 'pricing')">
+        <i class="bi bi-tag"></i>
+        <span>الأسعار</span>
+        <i class="bi bi-chevron-left link-arrow"></i>
+      </a>
+      <a href="#testimonials" class="mobile-link" (click)="scrollToSection($event, 'testimonials')">
+        <i class="bi bi-chat-quote"></i>
+        <span>آراء العملاء</span>
+        <i class="bi bi-chevron-left link-arrow"></i>
+      </a>
+      <a href="#contact" class="mobile-link" (click)="scrollToSection($event, 'contact')">
+        <i class="bi bi-envelope"></i>
+        <span>تواصل</span>
+        <i class="bi bi-chevron-left link-arrow"></i>
+      </a>
+    </div>
+
+    <!-- Mobile Actions -->
+    <div class="mobile-actions">
+      <button class="mobile-btn-login" (click)="login(); closeMobileMenu()">
+        <i class="bi bi-person"></i>
+        <span>تسجيل الدخول</span>
+      </button>
+      <button class="mobile-btn-cta" (click)="freeTrial(); closeMobileMenu()">
+        <span>ابدأ تجربتك المجانية</span>
+        <i class="bi bi-arrow-left"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Footer -->
+    <div class="mobile-footer">
+      <div class="social-links">
+        <a href="#" class="social-link">
+          <i class="bi bi-facebook"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="bi bi-twitter-x"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="bi bi-instagram"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="bi bi-linkedin"></i>
+        </a>
+      </div>
+      <p class="mobile-copyright">© 2025 فلتره - جميع الحقوق محفوظة</p>
+    </div>
+  </div>
   }
 </nav>
 
@@ -160,4 +147,3 @@
 <div class="scroll-progress">
   <div class="progress-bar" [style.width.%]="scrollProgress"></div>
 </div>
-
