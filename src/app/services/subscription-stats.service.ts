@@ -56,9 +56,9 @@ export interface SubscriptionStats {
     trial: number;
   };
   recent: Subscription[];
-  recentByPlan?: SubscriptionsByPlan; // ✅ NEW
-  expiringSoon: Subscription[]; // ✅ NEW
-  expiredNotRenewed: Subscription[]; // ✅ NEW
+  recentByPlan?: SubscriptionsByPlan; //  NEW
+  expiringSoon: Subscription[]; //  NEW
+  expiredNotRenewed: Subscription[]; //  NEW
   trialSubscriptions: Subscription[];
 }
 

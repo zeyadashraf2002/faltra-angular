@@ -41,7 +41,7 @@ export class Pricing implements OnInit {
 
     this.subscriptionService.getPlans().subscribe({
       next: (response) => {
-        console.log('✅ Plans loaded:', response);
+        console.log(' Plans loaded:', response);
         this.plans = response.data || [];
         this.isLoading = false;
       },

@@ -408,9 +408,9 @@ $warning-light: #FEF3C7;
 
 .btn-add-subscription {
   width: 100%;
-  min-height: 3rem; // ✅ Fixed height to prevent change
-  max-height: 48px;  // ✅ يمنع التمدد
-padding: 0 1rem;   // ✅ horizontal فقط
+  min-height: 3rem; //  Fixed height to prevent change
+  max-height: 48px;  //  يمنع التمدد
+padding: 0 1rem;   //  horizontal فقط
 overflow: hidden;
   background: linear-gradient(135deg, #10B981 0%, #059669 100%);
   border: none;
@@ -458,7 +458,7 @@ overflow: hidden;
   border-top-color: white;
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
-  flex-shrink: 0; // ✅ Prevent spinner from shrinking
+  flex-shrink: 0; //  Prevent spinner from shrinking
 }
 
 @keyframes spin {

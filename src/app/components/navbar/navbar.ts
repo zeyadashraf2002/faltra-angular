@@ -41,7 +41,7 @@ export class Navbar implements OnInit, OnDestroy {
     document.body.style.overflow = '';
   }
 
-  @HostListener('window:scroll') // ✅ إزالة ['$event']
+  @HostListener('window:scroll') //  إزالة ['$event']
   onWindowScroll(): void {
     this.isScrolled = window.scrollY > 50;
     const winScroll = document.documentElement.scrollTop;

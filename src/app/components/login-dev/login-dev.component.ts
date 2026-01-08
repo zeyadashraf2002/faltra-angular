@@ -33,7 +33,7 @@ export class LoginDevComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // ✅ Check if already logged in
+    //  Check if already logged in
     if (this.authService.isAuthenticated) {
       if (this.authService.isDeveloper) {
         this.router.navigate(['/dashboard/companies']);
@@ -45,7 +45,7 @@ export class LoginDevComponent implements OnInit {
       }
     }
 
-    // ✅ Get return URL from query params
+    //  Get return URL from query params
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/companies';
   }
 
@@ -89,10 +89,10 @@ export class LoginDevComponent implements OnInit {
             `أهلاً بك ${response.data.user.fullName}`
           );
 
-          // ✅ Navigate to return URL or default dashboard
+          //  Navigate to return URL or default dashboard
           setTimeout(() => {
             this.router.navigate([this.returnUrl]).then(() => {
-              console.log('✅ Navigation successful to:', this.returnUrl);
+              console.log(' Navigation successful to:', this.returnUrl);
             });
           }, 100);
         }

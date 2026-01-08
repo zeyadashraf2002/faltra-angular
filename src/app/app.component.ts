@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import AOS from 'aos'; // ✅ صح
+import AOS from 'aos'; //  صح
 
 // Import Standalone Components
 import { ToastComponent } from './components/toast/toast.component';
@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    // ✅ Initialize AOS
+    //  Initialize AOS
     AOS.init({
       duration: 800,
       easing: 'ease-in-out',
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
       
       this.showLandingPage = !isAuthRoute;
       
-      // ✅ Refresh AOS on route change
+      //  Refresh AOS on route change
       AOS.refresh();
     });
   }

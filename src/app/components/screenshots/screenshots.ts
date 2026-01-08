@@ -67,7 +67,7 @@ export class Screenshots implements OnInit {
   ];
 
   ngOnInit(): void {
-    // ✅ Parallax effect removed - images stay fixed
+    //  Parallax effect removed - images stay fixed
   }
 
   getAosAnimation(index: number): string {
@@ -90,13 +90,13 @@ export class Screenshots implements OnInit {
     this.hoveredIndex = null;
   }
 
-  // ✅ Open image in modal
+  //  Open image in modal
   openImageModal(screenshot: Screenshot): void {
     this.selectedImage = screenshot;
     document.body.style.overflow = 'hidden'; // Prevent scrolling
   }
 
-  // ✅ Close modal
+  //  Close modal
   closeImageModal(): void {
     this.selectedImage = null;
     document.body.style.overflow = 'auto'; // Re-enable scrolling

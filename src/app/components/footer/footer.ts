@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 export class Footer {
   showBackToTop = false;
 
-  @HostListener('window:scroll') // ✅ بدون ['$event']
+  @HostListener('window:scroll') //  بدون ['$event']
   onWindowScroll(): void {
     this.showBackToTop = window.scrollY > 500;
   }

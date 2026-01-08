@@ -27,7 +27,7 @@ export interface SubscriptionInvoice {
 }
 
 export interface SubscriptionStatus {
-  // ✅ FIXED: Company object now includes logo
+  //  FIXED: Company object now includes logo
   company: {
     id: number;
     name: string;

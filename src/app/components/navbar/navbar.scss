@@ -514,16 +514,16 @@
   bottom: 0;
   width: 320px;
   max-width: 85vw;
-  height: 100vh; // ✅ Full viewport height
+  height: 100vh; //  Full viewport height
   background: linear-gradient(180deg, #0f1629 0%, #1a1f3a 100%);
   box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  overflow-y: auto; // ✅ Scroll if content is too long
+  overflow-y: auto; //  Scroll if content is too long
   overflow-x: hidden;
 
-  // ✅ Custom scrollbar
+  //  Custom scrollbar
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -547,7 +547,7 @@
     justify-content: space-between;
     padding: 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    flex-shrink: 0; // ✅ Don't shrink
+    flex-shrink: 0; //  Don't shrink
 
     .mobile-logo {
       display: flex;
@@ -590,9 +590,9 @@
   }
 
   .mobile-links {
-    flex: 1; // ✅ Take remaining space
+    flex: 1; //  Take remaining space
     padding: 1rem;
-    overflow-y: auto; // ✅ Scroll if needed
+    overflow-y: auto; //  Scroll if needed
 
     .mobile-link {
       display: flex;
@@ -636,7 +636,7 @@
   .mobile-actions {
     padding: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    flex-shrink: 0; // ✅ Don't shrink
+    flex-shrink: 0; //  Don't shrink
 
     button {
       width: 100%;
@@ -683,7 +683,7 @@
   .mobile-footer {
     padding: 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    flex-shrink: 0; // ✅ Don't shrink
+    flex-shrink: 0; //  Don't shrink
 
     .social-links {
       display: flex;

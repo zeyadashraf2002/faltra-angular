@@ -123,7 +123,7 @@ export class CompanyDetailsComponent implements OnInit {
   ).subscribe({
     next: (response: any) => {
       this.toastService.success(
-        'تم بنجاح ✅',
+        'تم بنجاح ',
         `تم إضافة اشتراك كاش لشركة ${this.subscriptionStatus?.company.name}`
       );
       this.resetCashForm();
@@ -133,7 +133,7 @@ export class CompanyDetailsComponent implements OnInit {
     error: (error) => {
       console.error('Error adding cash subscription:', error);
       
-      // ✅ تجاهل خطأ logoPublicId
+      //  تجاهل خطأ logoPublicId
       if (error.error?.message?.includes('logoPublicId')) {
         this.toastService.info(
           'تنبيه',

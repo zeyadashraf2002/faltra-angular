@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { Router, CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-// ✅ AuthGuard - Redirects to /dev-login if not authenticated
+//  AuthGuard - Redirects to /dev-login if not authenticated
 export const AuthGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
@@ -27,11 +27,11 @@ export const AuthGuard: CanActivateFn = (
       return false;
     }
     
-    console.log('✅ AuthGuard: Access granted');
+    console.log(' AuthGuard: Access granted');
     return true;
   }
 
-  // ✅ Not logged in, redirect to /dev-login
+  //  Not logged in, redirect to /dev-login
   console.log('❌ AuthGuard: Not authenticated, redirecting to /dev-login');
   router.navigate(['/dev-login'], {
     queryParams: { returnUrl: state.url }
@@ -39,7 +39,7 @@ export const AuthGuard: CanActivateFn = (
   return false;
 };
 
-// ✅ DeveloperGuard - For developer-only routes
+//  DeveloperGuard - For developer-only routes
 export const DeveloperGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);

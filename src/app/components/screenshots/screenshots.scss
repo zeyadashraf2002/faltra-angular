@@ -160,7 +160,7 @@
       }
 
       .screenshot-image {
-        transform: scale(1.05); // ✅ Only scale on hover, no translateY
+        transform: scale(1.05); //  Only scale on hover, no translateY
       }
 
       .image-overlay {
@@ -205,13 +205,13 @@
   // Screenshot Image - FIXED SIZE
   .screenshot-image {
     width: 100%;
-    height: 220px; // ✅ Taller height to show full content
-    object-fit: contain; // ✅ Show full image without cropping
-    object-position: center; // ✅ Center the image
+    height: 220px; //  Taller height to show full content
+    object-fit: contain; //  Show full image without cropping
+    object-position: center; //  Center the image
     display: block;
-    background: #fff; // ✅ White background for better visibility
+    background: #fff; //  White background for better visibility
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    // ✅ Removed will-change to prevent scroll issues
+    //  Removed will-change to prevent scroll issues
   }
 
   // Image Overlay
@@ -426,7 +426,7 @@
   }
 }
 
-// ✅ IMAGE MODAL STYLES
+//  IMAGE MODAL STYLES
 .image-modal {
   position: fixed;
   top: 0;
@@ -601,7 +601,7 @@
     }
 
     .screenshot-image {
-      height: 400px; // ✅ Smaller on tablets
+      height: 400px; //  Smaller on tablets
     }
 
     .features-showcase {
@@ -623,7 +623,7 @@
     }
 
     .screenshot-image {
-      height: 350px; // ✅ Even smaller on mobile
+      height: 350px; //  Even smaller on mobile
     }
 
     .features-showcase {

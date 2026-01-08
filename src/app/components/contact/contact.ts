@@ -16,7 +16,7 @@ import { ToastService } from '../../services/toast.service';
 export class Contact {
   formData = { name: '', phone: '', message: '' };
   errors = { name: '', phone: '', message: '' };
-  isSubmitting = false; // ✅ أضفنا هذا
+  isSubmitting = false; //  أضفنا هذا
 
   constructor(private toastService: ToastService) {}
 
